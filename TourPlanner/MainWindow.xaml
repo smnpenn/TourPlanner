@@ -36,9 +36,15 @@
                     <ListBoxItem>Tour 3</ListBoxItem>
                 </ListBox>
 
-                <Button Grid.Row="2" Grid.Column="0" Height="40" Width="40">ADD</Button>
-                <Button Grid.Row="2" Grid.Column="1" Height="40" Width="40">EDIT</Button>
-                <Button Grid.Row="2" Grid.Column="2" Height="40" Width="40">DEL</Button>
+                <Button Grid.Row="2" Grid.Column="0" Height="40" Width="40" Background="Transparent" BorderThickness="0">
+                    <Image Source="/ressources/icons/icon_add.png"/>
+                </Button>
+                <Button Grid.Row="2" Grid.Column="1" Height="40" Width="40" Background="Transparent" BorderThickness="0">
+                    <Image Source="/ressources/icons/icon_edit.png"/>
+                </Button>
+                <Button Grid.Row="2" Grid.Column="2" Height="40" Width="40" Background="Transparent" BorderThickness="0">
+                    <Image Source="/ressources/icons/icon_delete.png"/>
+                </Button>
             </Grid>
             
         </Border>
