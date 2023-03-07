@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using TourPlanner.Model;
 
 namespace TourPlanner.UI.ViewModels
@@ -18,11 +19,12 @@ namespace TourPlanner.UI.ViewModels
             set { listTitle = value; }
         }
 
-        public ObservableCollection<TourLogs> Items { get; set; } = new ObservableCollection<TourLogs>()
+        public ObservableCollection<TourLog> Items { get; set; }
+
+        public void SideBar_SelectedItemChanged(object sender, EventArgs e)
         {
-            new TourLogs(){Name="Log 1", Comment= "Comment 1", Rating=5, Difficulty="Hard"},
-            new TourLogs(){Name="Log 2", Comment= "Comment 1", Rating=5, Difficulty="Hard"}
-        };
+            MessageBox.Show("Yooo");
+        }
 
         public void AddItem()
         {
