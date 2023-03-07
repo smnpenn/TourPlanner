@@ -8,9 +8,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ressources\icons\icon_add.png" />
+    <None Remove="ressources\icons\icon_delete.png" />
+    <None Remove="ressources\icons\icon_edit.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TourPlanner.BL\TourPlanner.BL.csproj" />
     <ProjectReference Include="..\TourPlanner.DAL\TourPlanner.DAL.csproj" />
     <ProjectReference Include="..\TourPlanner.Model\TourPlanner.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="ressources\icons\icon_add.png" />
+    <Resource Include="ressources\icons\icon_delete.png" />
+    <Resource Include="ressources\icons\icon_edit.png" />
   </ItemGroup>
 
 </Project>
