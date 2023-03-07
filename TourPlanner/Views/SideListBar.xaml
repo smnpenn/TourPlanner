@@ -19,9 +19,7 @@
                 <ColumnDefinition Width=".33*"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Grid.ColumnSpan="3" FontWeight="Bold" FontSize="24" Content="{Binding ListTitle}"></Label>
-            <ListBox Grid.Row="1" Grid.ColumnSpan="3" BorderThickness="0" Background="#C3ECBD" FontSize="24" DisplayMemberPath="Name" ItemsSource="{Binding Items}">
-                
-            </ListBox>
+            <ListBox Grid.Row="1" Grid.ColumnSpan="3" BorderThickness="0" Background="#C3ECBD" FontSize="24" DisplayMemberPath="Name" ItemsSource="{Binding Items}" SelectionChanged="SideBar_SelectedItemChanged"/>
 
             <Button Grid.Row="2" Grid.Column="0" Height="40" Width="40" Background="Transparent" BorderThickness="0">
                 <Image Source="/ressources/icons/icon_add.png"/>

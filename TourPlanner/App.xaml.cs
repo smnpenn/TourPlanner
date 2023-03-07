@@ -20,6 +20,8 @@ namespace TourPlanner
         {
             var tourSLBVM = new TourSideListBarViewModel();
             var tourLogsSLBVM = new TourLogsSideListBarViewModel();
+            tourLogsSLBVM.Items = tourSLBVM.Items[0].TourLogs;
+
             var wnd = new MainWindow
             {
                 DataContext = new MainViewModel(tourLogsSLBVM, tourSLBVM),

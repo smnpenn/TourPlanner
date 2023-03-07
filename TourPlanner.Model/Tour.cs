@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,5 +18,6 @@ namespace TourPlanner.Model
         public int EstimatedTime { get; set; }
         //Tour information (API Map)
         //Transport type (enum)
+        public ObservableCollection<TourLog> TourLogs { get; set; } = new ObservableCollection<TourLog>();
     }
 }
