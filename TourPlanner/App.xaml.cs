@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using TourPlanner.UI.ViewModels;
+using TourPlanner.UI.Views;
 
 namespace TourPlanner
 {
@@ -13,5 +15,18 @@ namespace TourPlanner
     /// </summary>
     public partial class App : Application
     {
+
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            var tourSLBVM = new TourSideListBarViewModel();
+            var tourLogsSLBVM = new TourLogsSideListBarViewModel();
+            var wnd = new MainWindow
+            {
+                DataContext = new MainViewModel(tourLogsSLBVM, tourSLBVM),
+                TourListBar = {DataContext = tourSLBVM},
+                TourLogsListBar = {DataContext= tourLogsSLBVM},
+            };
+            wnd.Show();
+        }
     }
 }
