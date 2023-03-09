@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="TourPlanner.UI.Views.AddNewTourForm"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TourPlanner.UI.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid  Height="350" Width="525" Background="#0C5D97">
+        <TextBlock Height="36" HorizontalAlignment="Left" Margin="10,10,0,0" Name="textBlockHeading" Text="Add New Tour" VerticalAlignment="Top" Width="160"  FontSize="23" FontStretch="ExtraCondensed" FontWeight="Bold" Foreground="white"/>
+        <Grid Margin="31,0,29,23" Background="#0C5D97" Height="264" VerticalAlignment="Bottom">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="252*" />
+            </Grid.RowDefinitions>
+            <TextBlock Height="23" HorizontalAlignment="Left" Margin="67,20,0,0" Name="textBlockName" Text="Name: " VerticalAlignment="Top" Width="110" FontWeight="Bold" Foreground="white"/>
+            <TextBlock Height="23" HorizontalAlignment="Left" Margin="67,50,0,0" Name="textBlockTourDesc" Text="Tour Description:" VerticalAlignment="Top" Width="110" FontWeight="Bold" Foreground="white"/>
+            <TextBlock Height="23" HorizontalAlignment="Left" Margin="67,125,0,0" Name="textBlockFrom" Text="From:" VerticalAlignment="Top" Width="110" FontWeight="Bold" Foreground="white"/>
+            <TextBlock Height="22" HorizontalAlignment="Left" Margin="67,154,0,0" Name="textBlockTo" Text="To:" VerticalAlignment="Top" Width="110"  FontWeight="Bold" Foreground="white"/>
+            <TextBlock Height="23" HorizontalAlignment="Left" Margin="67,183,0,0" Name="textBlockTransport" Text="Transport Type:" VerticalAlignment="Top" Width="110" FontWeight="Bold" Foreground="white"/>
+            <TextBlock Height="23" HorizontalAlignment="Left" Margin="67,209,0,0" Name="textBlockDistance" Text="Tour Distance:" VerticalAlignment="Top" Width="110" FontWeight="Bold" Foreground="white"/>
+
+            <TextBox Height="23" HorizontalAlignment="Left" Margin="183,20,0,0" Name="textBoxDate" VerticalAlignment="Top" Width="222" />
+            <TextBox Height="70" HorizontalAlignment="Left" Margin="183,50,0,0" Name="textBoxComment" VerticalAlignment="Top" Width="222" />
+            <TextBox Height="23" HorizontalAlignment="Left" Margin="183,125,0,0" Name="textBoxRating" VerticalAlignment="Top" Width="222" />
+            <TextBox Height="22" HorizontalAlignment="Left" Margin="183,154,0,0" Name="textBoxTime" VerticalAlignment="Top" Width="222" />
+
+            <TextBox Height="23" HorizontalAlignment="Left" Margin="183,183,0,0" Name="textBoxTransport" VerticalAlignment="Top" Width="222" />
+            <Button Content="Submit" Height="23" HorizontalAlignment="Left" Margin="395,241,0,0" Name="Submit" VerticalAlignment="Top" Width="70" Click="Submit_Click" />
+            <Button Content="Cancel" Height="23" HorizontalAlignment="Right" Margin="0,241,76,0" Name="Cancel" VerticalAlignment="Top" Width="70" Click="Cancel_Click" />
+            <TextBox Height="23" HorizontalAlignment="Left" Margin="183,211,0,0" x:Name="textBoxDifficultyDistance" VerticalAlignment="Top" Width="222" />
+        </Grid>
+    </Grid>
+</UserControl>
