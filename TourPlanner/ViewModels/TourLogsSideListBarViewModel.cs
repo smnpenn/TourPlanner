@@ -19,7 +19,7 @@ namespace TourPlanner.UI.ViewModels
             set { listTitle = value; }
         }
 
-        private ObservableCollection<TourLog> items;
+        private ObservableCollection<TourLog> items = new ObservableCollection<TourLog>();
         public ObservableCollection<TourLog> Items
         {
             get
@@ -30,10 +30,9 @@ namespace TourPlanner.UI.ViewModels
             set
             {
                 items = value;
-                //OnPropertyChanged(Items);
+                OnPropertyChanged(nameof(Items));
             }
         }
-
 
         public void AddItem()
         {

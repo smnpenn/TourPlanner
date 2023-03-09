@@ -25,9 +25,5 @@ namespace TourPlanner.UI.Views
             InitializeComponent();
         }
 
-        /*public void TourBar_SelectionChanged(object sender, EventArgs e)
-        {
-            MessageBox.Show("Yo Tours");
-        }*/
     }
 }
