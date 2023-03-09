@@ -18,17 +18,18 @@ namespace TourPlanner
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            var tourSLBVM = new TourSideListBarViewModel();
-            var tourLogsSLBVM = new TourLogsSideListBarViewModel();
-            tourLogsSLBVM.Items = tourSLBVM.Items[0].TourLogs;
+            var tourBarVM = new TourSideListBarViewModel();
+            var tourLogBarSLBVM = new TourLogsSideListBarViewModel();
+            tourLogBarSLBVM.Items = tourBarVM.Items[0].TourLogs;
 
             var wnd = new MainWindow
             {
-                DataContext = new MainViewModel(tourLogsSLBVM, tourSLBVM),
-                TourListBar = {DataContext = tourSLBVM},
-                TourLogsListBar = {DataContext= tourLogsSLBVM},
+                DataContext = new MainViewModel(tourLogBarSLBVM, tourBarVM),
+                TourListBar = {DataContext = tourBarVM },
+                TourLogsListBar = {DataContext= tourLogBarSLBVM },
             };
             wnd.Show();
         }
+        
     }
 }

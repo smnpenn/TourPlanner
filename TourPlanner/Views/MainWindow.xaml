@@ -20,7 +20,7 @@
         <local:SideListBar Grid.Column="0" Grid.Row="1" x:Name="TourListBar"/>
         <Grid Grid.Column="1" Grid.Row="1" MinWidth="500">
             <Grid.RowDefinitions>
-                <RowDefinition Height="60"/>
+                <RowDefinition Height="65"/>
                 <RowDefinition Height=".7*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>

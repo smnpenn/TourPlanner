@@ -9,7 +9,7 @@ using TourPlanner.Model;
 
 namespace TourPlanner.UI.ViewModels
 {
-    class TourLogsSideListBarViewModel : ISideListBarViewModel
+    class TourLogsSideListBarViewModel : BaseViewModel, ISideListBarViewModel
     {
         private String listTitle = "Tour Logs";
 
@@ -19,12 +19,21 @@ namespace TourPlanner.UI.ViewModels
             set { listTitle = value; }
         }
 
-        public ObservableCollection<TourLog> Items { get; set; }
-
-        public void SideBar_SelectedItemChanged(object sender, EventArgs e)
+        private ObservableCollection<TourLog> items;
+        public ObservableCollection<TourLog> Items
         {
-            MessageBox.Show("Yooo");
+            get
+            {
+                return items;
+            }
+
+            set
+            {
+                items = value;
+                //OnPropertyChanged(Items);
+            }
         }
+
 
         public void AddItem()
         {
