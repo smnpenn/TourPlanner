@@ -24,8 +24,8 @@
             <PasswordBox Height="22" HorizontalAlignment="Left" Margin="183,154,0,0" Name="textBoxTime" VerticalAlignment="Top" Width="222" />
             
             <PasswordBox Height="23" HorizontalAlignment="Left" Margin="183,183,0,0" Name="textBoxDifficulty" VerticalAlignment="Top" Width="222" />
-            <Button Content="Submit" Height="23" HorizontalAlignment="Left" Margin="335,232,0,0" Name="Submit" VerticalAlignment="Top" Width="70" Click="Submit_Click" />
-            <Button Content="Cancel" Height="23" HorizontalAlignment="Right" Margin="0,232,136,0" Name="Cancel" VerticalAlignment="Top" Width="70" Click="Cancel_Click" />
+            <Button Content="Submit" Height="23" HorizontalAlignment="Left" Margin="335,232,0,0" Name="Submit" VerticalAlignment="Top" Width="70"/>
+            <Button Content="Cancel" Height="23" HorizontalAlignment="Right" Margin="0,232,136,0" Name="Cancel" VerticalAlignment="Top" Width="70"/>
         </Grid>
     </Grid>
 </Window>

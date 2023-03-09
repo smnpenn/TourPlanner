@@ -21,7 +21,7 @@
             <Label Grid.Row="0" Grid.ColumnSpan="3" FontWeight="Bold" FontSize="24" Content="{Binding ListTitle}"></Label>
             <ListBox x:Name="myListBox" Grid.Row="1" Grid.ColumnSpan="3" BorderThickness="0" Background="#C3ECBD" FontSize="24" DisplayMemberPath="Name" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}"/>
 
-                <Button Grid.Row="2" Grid.Column="0" Height="40" Width="40" Background="Transparent" BorderThickness="0">
+            <Button Grid.Row="2" Grid.Column="0" Height="40" Width="40" Background="Transparent" BorderThickness="0" Command="{Binding AddCommand}">
                 <Image Source="/ressources/icons/icon_add.png"/>
             </Button>
             <Button Grid.Row="2" Grid.Column="1" Height="40" Width="40" Background="Transparent" BorderThickness="0">

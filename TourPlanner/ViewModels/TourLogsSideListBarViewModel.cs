@@ -5,7 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using TourPlanner.Model;
+using TourPlanner.UI.Views;
 
 namespace TourPlanner.UI.ViewModels
 {
@@ -34,17 +36,25 @@ namespace TourPlanner.UI.ViewModels
             }
         }
 
-        public void AddItem()
+        public ICommand AddCommand { get; }
+
+        public TourLogsSideListBarViewModel()
+        {
+            AddCommand = new RelayCommand(new Action<object>(AddItem));
+        }
+
+        public void AddItem(object obj)
+        {
+            AddTourLogForm addTourLogWindow = new AddTourLogForm();
+            addTourLogWindow.Show();
+        }
+
+        public void EditItem(object obj)
         {
             throw new NotImplementedException();
         }
 
-        public void EditItem()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveItem()
+        public void RemoveItem(object obj)
         {
             throw new NotImplementedException();
         }

@@ -25,8 +25,8 @@
             <TextBox Height="22" HorizontalAlignment="Left" Margin="183,154,0,0" Name="textBoxTime" VerticalAlignment="Top" Width="222" />
 
             <TextBox Height="23" HorizontalAlignment="Left" Margin="183,183,0,0" Name="textBoxTransport" VerticalAlignment="Top" Width="222" />
-            <Button Content="Submit" Height="23" HorizontalAlignment="Left" Margin="395,241,0,0" Name="Submit" VerticalAlignment="Top" Width="70" Click="Submit_Click" />
-            <Button Content="Cancel" Height="23" HorizontalAlignment="Right" Margin="0,241,76,0" Name="Cancel" VerticalAlignment="Top" Width="70" Click="Cancel_Click" />
+            <Button Content="Submit" Height="23" HorizontalAlignment="Left" Margin="395,241,0,0" Name="Submit" VerticalAlignment="Top" Width="70"/>
+            <Button Content="Cancel" Height="23" HorizontalAlignment="Right" Margin="0,241,76,0" Name="Cancel" VerticalAlignment="Top" Width="70"/>
             <TextBox Height="23" HorizontalAlignment="Left" Margin="183,211,0,0" x:Name="textBoxDifficultyDistance" VerticalAlignment="Top" Width="222" />
         </Grid>
     </Grid>
