@@ -4,11 +4,12 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using TourPlanner.Model;
 
 namespace TourPlanner.UI.ViewModels
 {
-    class TourLogsSideListBarViewModel : ISideListBarViewModel
+    class TourLogsSideListBarViewModel : BaseViewModel, ISideListBarViewModel
     {
         private String listTitle = "Tour Logs";
 
@@ -18,11 +19,20 @@ namespace TourPlanner.UI.ViewModels
             set { listTitle = value; }
         }
 
-        public ObservableCollection<TourLogs> Items { get; set; } = new ObservableCollection<TourLogs>()
+        private ObservableCollection<TourLog> items = new ObservableCollection<TourLog>();
+        public ObservableCollection<TourLog> Items
         {
-            new TourLogs(){Name="Log 1", Comment= "Comment 1", Rating=5, Difficulty="Hard"},
-            new TourLogs(){Name="Log 2", Comment= "Comment 1", Rating=5, Difficulty="Hard"}
-        };
+            get
+            {
+                return items;
+            }
+
+            set
+            {
+                items = value;
+                OnPropertyChanged(nameof(Items));
+            }
+        }
 
         public void AddItem()
         {
