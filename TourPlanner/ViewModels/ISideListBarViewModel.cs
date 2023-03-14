@@ -8,8 +8,8 @@ namespace TourPlanner.UI.ViewModels
 {
     interface ISideListBarViewModel
     {
-        public void AddItem(object obj);
-        public void RemoveItem(object obj);
-        public void EditItem(object obj);
+        public void AddItem();
+        public void DeleteItem();
+        public void EditItem();
     }
 }

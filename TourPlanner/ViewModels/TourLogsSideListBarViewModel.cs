@@ -37,26 +37,30 @@ namespace TourPlanner.UI.ViewModels
         }
 
         public ICommand AddCommand { get; }
+        public ICommand EditCommand { get; }
+        public ICommand DeleteCommand { get; }
 
         public TourLogsSideListBarViewModel()
         {
-            AddCommand = new RelayCommand(new Action<object>(AddItem));
+            AddCommand = new RelayCommand(_ => AddItem());
+            EditCommand = new RelayCommand(_ => EditItem());
+            DeleteCommand = new RelayCommand(_ => DeleteItem());
         }
 
-        public void AddItem(object obj)
+        public void AddItem()
         {
             AddTourLogForm addTourLogWindow = new AddTourLogForm();
             addTourLogWindow.Show();
         }
 
-        public void EditItem(object obj)
+        public void EditItem()
         {
-            throw new NotImplementedException();
+            MessageBox.Show("TourLogBar Edit");
         }
 
-        public void RemoveItem(object obj)
+        public void DeleteItem()
         {
-            throw new NotImplementedException();
+            MessageBox.Show("TourLogBar Delete");
         }
     }
 }

@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="350" d:DesignWidth="525">
 
-    <Grid  Height="350" Width="525" Background="#0C5D97">
+    <Grid Background="#0C5D97">
         <TextBlock Height="36" HorizontalAlignment="Left" Margin="10,10,0,0" Name="textBlockHeading" Text="Add new tour log" VerticalAlignment="Top" Width="194"  FontSize="23" FontStretch="ExtraCondensed" FontWeight="Bold" Foreground="white"/>
         <Grid Margin="31,0,29,23" Background="#0C5D97" Height="264" VerticalAlignment="Bottom">
             <Grid.RowDefinitions>
