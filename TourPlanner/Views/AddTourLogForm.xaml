@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="350" d:DesignWidth="525">
 
-    <Grid  Height="350" Width="525" Background="#0C5D97">
+    <Grid Background="#0C5D97">
         <TextBlock Height="36" HorizontalAlignment="Left" Margin="10,10,0,0" Name="textBlockHeading" Text="Add new tour log" VerticalAlignment="Top" Width="194"  FontSize="23" FontStretch="ExtraCondensed" FontWeight="Bold" Foreground="white"/>
         <Grid Margin="31,0,29,23" Background="#0C5D97" Height="264" VerticalAlignment="Bottom">
             <Grid.RowDefinitions>
@@ -24,8 +24,8 @@
             <PasswordBox Height="22" HorizontalAlignment="Left" Margin="183,154,0,0" Name="textBoxTime" VerticalAlignment="Top" Width="222" />
             
             <PasswordBox Height="23" HorizontalAlignment="Left" Margin="183,183,0,0" Name="textBoxDifficulty" VerticalAlignment="Top" Width="222" />
-            <Button Content="Submit" Height="23" HorizontalAlignment="Left" Margin="335,232,0,0" Name="Submit" VerticalAlignment="Top" Width="70" Click="Submit_Click" />
-            <Button Content="Cancel" Height="23" HorizontalAlignment="Right" Margin="0,232,136,0" Name="Cancel" VerticalAlignment="Top" Width="70" Click="Cancel_Click" />
+            <Button Content="Submit" Height="23" HorizontalAlignment="Left" Margin="335,232,0,0" Name="Submit" VerticalAlignment="Top" Width="70"/>
+            <Button Content="Cancel" Height="23" HorizontalAlignment="Right" Margin="0,232,136,0" Name="Cancel" VerticalAlignment="Top" Width="70"/>
         </Grid>
     </Grid>
 </Window>

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using TourPlanner.Model;
+using TourPlanner.UI.Views;
 
 namespace TourPlanner.UI.ViewModels
 {
@@ -46,19 +47,32 @@ namespace TourPlanner.UI.ViewModels
 
         public event EventHandler<Tour> TourBar_SelectionChanged;
 
+        public ICommand AddCommand { get; }
+        public ICommand EditCommand { get; }
+        public ICommand DeleteCommand { get; }
+
+
+        public TourSideListBarViewModel()
+        {
+            AddCommand = new RelayCommand(_ => AddItem());
+            EditCommand = new RelayCommand(_ => EditItem());
+            DeleteCommand = new RelayCommand(_ => DeleteItem());
+        }
+
         public void AddItem()
         {
-            throw new NotImplementedException();
+            AddNewTourForm addTourWindow = new AddNewTourForm();
+            addTourWindow.Show();
         }
 
         public void EditItem()
         {
-            throw new NotImplementedException();
+            MessageBox.Show("TourBar Edit");
         }
 
-        public void RemoveItem()
+        public void DeleteItem()
         {
-            throw new NotImplementedException();
+            MessageBox.Show("TourBar Delete");
         }
     }
 }
