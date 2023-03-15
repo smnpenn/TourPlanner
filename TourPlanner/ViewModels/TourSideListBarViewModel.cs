@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using TourPlanner.Model;
@@ -23,7 +18,7 @@ namespace TourPlanner.UI.ViewModels
         }
 
         private Tour selectedItem;
-        public Tour SelectedItem 
+        public Tour SelectedItem
         {
             get
             {
@@ -36,7 +31,7 @@ namespace TourPlanner.UI.ViewModels
 
                 selectedItem = value;
                 TourBar_SelectionChanged?.Invoke(this, SelectedItem);
-            } 
+            }
         }
 
         public ObservableCollection<Tour> Items { get; set; } = new ObservableCollection<Tour>()
@@ -61,7 +56,10 @@ namespace TourPlanner.UI.ViewModels
 
         public void AddItem()
         {
-            AddNewTourForm addTourWindow = new AddNewTourForm();
+            AddNewTourForm addTourWindow = new AddNewTourForm
+            {
+                DataContext = new AddTourViewModel()
+            };
             addTourWindow.Show();
         }
 

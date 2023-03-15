@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using TourPlanner.UI.ViewModels;
 using TourPlanner.UI.Views;
 
@@ -20,16 +14,17 @@ namespace TourPlanner
         {
             var tourBarVM = new TourSideListBarViewModel();
             var tourLogBarSLBVM = new TourLogsSideListBarViewModel();
+            var addTourLogVM = new AddTourLogViewModel();
             tourLogBarSLBVM.Items = tourBarVM.Items[0].TourLogs;
 
             var wnd = new MainWindow
             {
                 DataContext = new MainViewModel(tourLogBarSLBVM, tourBarVM),
-                TourListBar = {DataContext = tourBarVM },
-                TourLogsListBar = {DataContext= tourLogBarSLBVM },
+                TourListBar = { DataContext = tourBarVM },
+                TourLogsListBar = { DataContext = tourLogBarSLBVM },
             };
             wnd.Show();
         }
-        
+
     }
 }

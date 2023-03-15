@@ -1,4 +1,5 @@
 ﻿<Window x:Class="TourPlanner.UI.Views.AddTourLogForm"
+        x:Name="AddTourLogWindow"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -22,14 +23,13 @@
             <TextBlock Height="23" HorizontalAlignment="Left" Margin="55,125,0,0" Name="textBlockRating" Text="Rating:" VerticalAlignment="Top" Width="110" FontWeight="Bold" Foreground="white" Grid.ColumnSpan="2" Grid.Column="1"/>
             <TextBlock Height="22" HorizontalAlignment="Left" Margin="55,154,0,0" Name="textBlockTotalTime" Text="Total Time:" VerticalAlignment="Top" Width="110"  FontWeight="Bold" Foreground="white" Grid.ColumnSpan="2" Grid.Column="1"/>
             <TextBlock Margin="55,183,290,0" Name="textBlockDifficulty" Text="Difficulty:" FontWeight="Bold" Foreground="white" Grid.ColumnSpan="2" Grid.Column="1" Height="23" VerticalAlignment="Top"/>
-            <TextBox Height="23" HorizontalAlignment="Left" Margin="56,20,0,0" Name="textBoxDate" VerticalAlignment="Top" Width="222" Grid.Column="2" />
-            <TextBox Height="70" HorizontalAlignment="Left" Margin="56,50,0,0" Name="textBoxComment" VerticalAlignment="Top" Width="222" Grid.Column="2" />
-            <TextBox Height="23" HorizontalAlignment="Left" Margin="56,125,0,0" Name="textBoxRating" VerticalAlignment="Top" Width="222" Grid.Column="2" />
-            <PasswordBox Height="22" HorizontalAlignment="Left" Margin="56,154,0,0" Name="textBoxTime" VerticalAlignment="Top" Width="222" Grid.Column="2" />
-
-            <PasswordBox Margin="56,183,0,0" Name="textBoxDifficulty" Grid.Column="2" HorizontalAlignment="Left" Width="222" Height="23" VerticalAlignment="Top" />
-            <Button Content="Submit" Height="23" HorizontalAlignment="Left" Margin="208,232,0,0" Name="Submit" VerticalAlignment="Top" Width="70" Grid.Column="2"/>
-            <Button Content="Cancel" Height="23" HorizontalAlignment="Center" Margin="0,232,0,0" Name="Cancel" VerticalAlignment="Top" Width="70" Grid.Column="2"/>
+            <TextBox Text="{Binding Date}" Height="23" HorizontalAlignment="Left" Margin="56,20,0,0" Name="textBoxDate" VerticalAlignment="Top" Width="222" Grid.Column="2" />
+            <TextBox Text="{Binding Comment}" Height="70" HorizontalAlignment="Left" Margin="56,50,0,0" Name="textBoxComment" VerticalAlignment="Top" Width="222" Grid.Column="2" />
+            <TextBox Text="{Binding Rating}" Height="23" HorizontalAlignment="Left" Margin="56,125,0,0" Name="textBoxRating" VerticalAlignment="Top" Width="222" Grid.Column="2" />
+            <TextBox Text="{Binding Time}" Height="22" HorizontalAlignment="Left" Margin="56,154,0,0" Name="textBoxTime" VerticalAlignment="Top" Width="222" Grid.Column="2" />
+            <TextBox Text="{Binding Difficulty}" Margin="56,183,0,0" Name="textBoxDifficulty" Grid.Column="2" HorizontalAlignment="Left" Width="222" Height="23" VerticalAlignment="Top" />
+            <Button Content="Submit" Height="23" HorizontalAlignment="Left" Margin="208,232,0,0" Name="Submit" VerticalAlignment="Top" Width="70" Grid.Column="2" Command="{Binding AddTourLogCommand}"/>
+            <Button Content="Cancel" Height="23" HorizontalAlignment="Center" Margin="0,232,0,0" Name="Cancel" VerticalAlignment="Top" Width="70" Grid.Column="2" CommandParameter="{Binding ElementName=AddTourLogWindow}" Command="{Binding CloseWindowCommand}"/>
         </Grid>
     </Grid>
 </Window>
