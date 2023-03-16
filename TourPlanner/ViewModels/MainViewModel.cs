@@ -20,12 +20,14 @@ namespace TourPlanner.UI.ViewModels
         {
             this.tourLogBarVM = tourLogBarVM;
             this.tourBarVM = tourBarVM;
-            tourBarVM.TourBar_SelectionChanged += (_, selected_Tour) => DisplayTourLogs(selected_Tour.TourLogs);
+
+            tourBarVM.TourBar_SelectionChanged += (_, selected_Tour) => DisplayTourLogs(selected_Tour);
         }
 
-        private void DisplayTourLogs(ObservableCollection<Model.TourLog> tourLogs)
+        private void DisplayTourLogs(Model.Tour tour)
         {
-            tourLogBarVM.Items = tourLogs;
+
+            tourLogBarVM.SelectedTour = tour;
         }
     }
 }
