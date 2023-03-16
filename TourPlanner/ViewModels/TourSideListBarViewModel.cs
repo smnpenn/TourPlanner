@@ -72,7 +72,19 @@ namespace TourPlanner.UI.ViewModels
 
         public void DeleteItem()
         {
-            MessageBox.Show("TourBar Delete");
+            if (selectedItem == null)
+            {
+                MessageBox.Show("Please select the tour you want to delete.");
+                return;
+            }
+            MessageBoxResult result;
+            result = MessageBox.Show($"Are you sure you want to delete \"{selectedItem.Name}\"?", "Test", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.Yes);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                //delete in DB
+                Items.Remove(selectedItem);
+            }
         }
     }
 }

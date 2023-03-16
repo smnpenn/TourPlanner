@@ -21,6 +21,41 @@ namespace TourPlanner.UI.ViewModels
             set { listTitle = value; }
         }
 
+        private Tour selectedTour;
+        public Tour SelectedTour 
+        {
+            get
+            {
+                return selectedTour;
+            }
+            set
+            {
+                if(value == null)
+                {
+                    Items = null;
+                    return;
+                }
+                selectedTour = value;
+                Items = selectedTour.TourLogs;
+            } 
+        }
+
+        private TourLog selectedItem;
+        public TourLog SelectedItem
+        {
+            get
+            {
+                return selectedItem;
+            }
+            set
+            {
+                if (value == selectedItem)
+                    return;
+
+                selectedItem = value;
+            }
+        }
+
         private ObservableCollection<TourLog> items = new ObservableCollection<TourLog>();
         public ObservableCollection<TourLog> Items
         {
@@ -60,7 +95,19 @@ namespace TourPlanner.UI.ViewModels
 
         public void DeleteItem()
         {
-            MessageBox.Show("TourLogBar Delete");
+            if(selectedItem == null)
+            {
+                MessageBox.Show("Please select the log you want to delete.");
+                return;
+            }
+            MessageBoxResult result;
+            result = MessageBox.Show($"Are you sure you want to delete \"{selectedItem.Name}\"?", "Test", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.Yes);
+            
+            if(result == MessageBoxResult.Yes)
+            {
+                //delete in DB
+                Items.Remove(selectedItem);
+            }
         }
     }
 }
