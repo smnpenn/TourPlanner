@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using TourPlanner.BL;
 using TourPlanner.Model;
 using TourPlanner.UI.Views;
 
@@ -34,11 +35,7 @@ namespace TourPlanner.UI.ViewModels
             }
         }
 
-        public ObservableCollection<Tour> Items { get; set; } = new ObservableCollection<Tour>()
-        {
-            new Tour(){ Name="Tour 1", Description="Test 1", Distance=1.1, EstimatedTime=120, From="Wien", To="Südtirol", TourLogs={ new TourLog(){Name="Tour1Log1"}, new TourLog(){Name="Tour1Log2"}} },
-            new Tour(){ Name="Tour 2", Description="Test 2", Distance=2.1, EstimatedTime=120, From="Brixen", To="Bozen", TourLogs={ new TourLog(){Name="Tour2Log1"}, new TourLog(){Name="Tour2Log2"}} }
-        };
+        public ObservableCollection<Tour> Items { get; set; }
 
         public event EventHandler<Tour> TourBar_SelectionChanged;
 
@@ -46,12 +43,15 @@ namespace TourPlanner.UI.ViewModels
         public ICommand EditCommand { get; }
         public ICommand DeleteCommand { get; }
 
-
-        public TourSideListBarViewModel()
+        private ITourPlannerManager bl;
+        public TourSideListBarViewModel(ITourPlannerManager bl)
         {
+            this.bl = bl;
             AddCommand = new RelayCommand(_ => AddItem());
             EditCommand = new RelayCommand(_ => EditItem());
             DeleteCommand = new RelayCommand(_ => DeleteItem());
+
+            Items = bl.GetTours();
         }
 
         public void AddItem()
