@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using TourPlanner.BL;
 
 namespace TourPlanner.UI.ViewModels
 {
@@ -16,8 +17,10 @@ namespace TourPlanner.UI.ViewModels
 
         private TourLogsSideListBarViewModel tourLogBarVM;
         private TourSideListBarViewModel tourBarVM;
-        public MainViewModel(TourLogsSideListBarViewModel tourLogBarVM, TourSideListBarViewModel tourBarVM)
+        private ITourPlannerManager bl;
+        public MainViewModel(ITourPlannerManager bl, TourLogsSideListBarViewModel tourLogBarVM, TourSideListBarViewModel tourBarVM)
         {
+            this.bl = bl;
             this.tourLogBarVM = tourLogBarVM;
             this.tourBarVM = tourBarVM;
 
