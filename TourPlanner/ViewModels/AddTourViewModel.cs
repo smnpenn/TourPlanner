@@ -1,5 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using TourPlanner.BL;
+using TourPlanner.Model;
+using System.Collections.ObjectModel;
 
 namespace TourPlanner.UI.ViewModels
 {
@@ -15,12 +18,12 @@ namespace TourPlanner.UI.ViewModels
         public ICommand AddTourCommand { get; set; }
         public ICommand CloseWindowCommand { get; }
 
-
-        public AddTourViewModel()
+        private ITourPlannerManager bl;
+        public AddTourViewModel(ITourPlannerManager bl)
         {
             AddTourCommand = new RelayCommand(_ => AddNewTour());
 
-
+            this.bl = bl;
         }
 
 
@@ -28,7 +31,8 @@ namespace TourPlanner.UI.ViewModels
         {
             MessageBox.Show($"Name: {Name}, Description: {Description}, From: {From}, To: {To}, TransportType: {TransportType}, Distance: {Distance}");
 
-
+            Tour tour = new Tour(Name, Description, From, To, Distance, 100, new ObservableCollection<TourLog>());
+            bl.AddTour(tour);
         }
 
         public void CloseWindow(Window window)

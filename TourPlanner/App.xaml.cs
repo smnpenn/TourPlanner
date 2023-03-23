@@ -19,7 +19,7 @@ namespace TourPlanner
             var bl = new TourPlannerManagerImpl(dal);
 
             var tourBarVM = new TourSideListBarViewModel(bl);
-            var tourLogBarSLBVM = new TourLogsSideListBarViewModel();
+            var tourLogBarSLBVM = new TourLogsSideListBarViewModel(bl);
             tourLogBarSLBVM.Items = tourBarVM.Items[0].TourLogs;
 
             var wnd = new MainWindow

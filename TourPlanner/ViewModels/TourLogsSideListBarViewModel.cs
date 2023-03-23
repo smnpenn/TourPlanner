@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using TourPlanner.BL;
 using TourPlanner.Model;
 using TourPlanner.UI.Views;
 
@@ -71,16 +72,23 @@ namespace TourPlanner.UI.ViewModels
         public ICommand EditCommand { get; }
         public ICommand DeleteCommand { get; }
 
-        public TourLogsSideListBarViewModel()
+        private ITourPlannerManager bl;
+
+        public TourLogsSideListBarViewModel(ITourPlannerManager bl)
         {
             AddCommand = new RelayCommand(_ => AddItem());
             EditCommand = new RelayCommand(_ => EditItem());
             DeleteCommand = new RelayCommand(_ => DeleteItem());
+
+            this.bl = bl;
         }
 
         public void AddItem()
         {
-            AddTourLogForm addTourLogWindow = new AddTourLogForm { DataContext = new AddTourLogViewModel() };
+            AddTourLogForm addTourLogWindow = new AddTourLogForm 
+            { 
+                DataContext = new AddTourLogViewModel(bl, SelectedTour) 
+            };
             addTourLogWindow.Show();
         }
 
@@ -102,7 +110,7 @@ namespace TourPlanner.UI.ViewModels
             if(result == MessageBoxResult.Yes)
             {
                 //delete in DB
-                Items.Remove(selectedItem);
+                bl.DeleteTourLog(SelectedItem);
             }
         }
     }

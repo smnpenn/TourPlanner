@@ -19,5 +19,16 @@ namespace TourPlanner.Model
         //Tour information (API Map)
         //Transport type (enum)
         public ObservableCollection<TourLog> TourLogs { get; set; } = new ObservableCollection<TourLog>();
+
+        public Tour(string name, string description, string from, string to, double distance, int estimatedTime, ObservableCollection<TourLog> tourLogs)
+        {
+            Name = name;
+            Description = description;
+            From = from;
+            To = to;
+            Distance = distance;
+            EstimatedTime = estimatedTime;
+            TourLogs = tourLogs;
+        }
     }
 }

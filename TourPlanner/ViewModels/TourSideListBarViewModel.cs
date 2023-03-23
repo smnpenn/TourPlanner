@@ -58,7 +58,7 @@ namespace TourPlanner.UI.ViewModels
         {
             AddNewTourForm addTourWindow = new AddNewTourForm
             {
-                DataContext = new AddTourViewModel()
+                DataContext = new AddTourViewModel(bl)
             };
             addTourWindow.Show();
         }
@@ -81,7 +81,7 @@ namespace TourPlanner.UI.ViewModels
             if (result == MessageBoxResult.Yes)
             {
                 //delete in DB
-                Items.Remove(selectedItem);
+                bl.DeleteTour(SelectedItem);
             }
         }
     }

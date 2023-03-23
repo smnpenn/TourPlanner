@@ -21,22 +21,22 @@ namespace TourPlanner.BL
 
         public void AddTour(Tour tour)
         {
-            throw new NotImplementedException();
+            dal.AddTour(tour);
         }
 
         public void AddTourLog(TourLog log)
         {
-            throw new NotImplementedException();
+            dal.AddTourLog(log);
         }
 
         public void DeleteTour(Tour tour)
         {
-            throw new NotImplementedException();
+            dal.DeleteTour(tour);
         }
 
         public void DeleteTourLog(TourLog log)
         {
-            throw new NotImplementedException();
+            dal.DeleteTourLog(log);
         }
 
         public ObservableCollection<TourLog> GetTourLogs(Tour tour)
