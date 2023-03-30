@@ -26,12 +26,14 @@ namespace TourPlanner.UI.ViewModels
         private Tour relatedTour;
 
         private ITourPlannerManager bl;
-        public AddTourLogViewModel(ITourPlannerManager bl, Tour tour)
+        private TourLogsSideListBarViewModel vm;
+        public AddTourLogViewModel(ITourPlannerManager bl, TourLogsSideListBarViewModel vm)
         {
             AddTourLogCommand = new RelayCommand(_ => AddNewTourLog());
             // CloseWindowCommand = new RelayCommand(_ => CloseWindow(win)); --> closes windows below somehow
             this.bl = bl;
-            relatedTour = tour;
+            this.vm = vm;
+            relatedTour = vm.SelectedTour;
         }
 
 
@@ -41,6 +43,7 @@ namespace TourPlanner.UI.ViewModels
             MessageBox.Show($"Date: {Date}, Comment: {Comment}, Rating: {Rating}, Time: {Time}, Difficulty: {Difficulty}");
             TourLog log = new TourLog(Name, relatedTour, System.DateTime.Now, Comment, Difficulty, Time, Rating);
             bl.AddTourLog(log);
+            vm.Items.Add(log);
             // TO-DO: Add TourLog to Tour -> We need to pass the current tour as parameter to the addNewTourLog to add the TourLog to the respective Tour
 
         }
