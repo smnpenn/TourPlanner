@@ -32,6 +32,7 @@ bld/
 [Oo]ut/
 [Ll]og/
 [Ll]ogs/
+[Dd]ata/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
@@ -68,6 +69,9 @@ ScaffoldingReadMe.txt
 
 # StyleCop
 StyleCopReport.xml
+
+# Docker Compose
+docker-compose.yml
 
 # Files built by Visual Studio
 *_i.c

@@ -33,7 +33,7 @@ namespace TourPlanner.UI.ViewModels
                     return;
                 }
                 selectedTour = value;
-                Items = selectedTour.TourLogs;
+                Items = bl.GetTourLogs(selectedTour);
             } 
         }
 
@@ -87,7 +87,7 @@ namespace TourPlanner.UI.ViewModels
         {
             AddTourLogForm addTourLogWindow = new AddTourLogForm 
             { 
-                DataContext = new AddTourLogViewModel(bl, SelectedTour) 
+                DataContext = new AddTourLogViewModel(bl, this) 
             };
             addTourLogWindow.Show();
         }
@@ -111,6 +111,7 @@ namespace TourPlanner.UI.ViewModels
             {
                 //delete in DB
                 bl.DeleteTourLog(SelectedItem);
+                Items.Remove(SelectedItem);
             }
         }
     }

@@ -44,21 +44,24 @@ namespace TourPlanner.UI.ViewModels
         public ICommand DeleteCommand { get; }
 
         private ITourPlannerManager bl;
+        private AddTourViewModel addTourVM;
         public TourSideListBarViewModel(ITourPlannerManager bl)
         {
             this.bl = bl;
             AddCommand = new RelayCommand(_ => AddItem());
             EditCommand = new RelayCommand(_ => EditItem());
             DeleteCommand = new RelayCommand(_ => DeleteItem());
-
+            
             Items = bl.GetTours();
+            addTourVM = new AddTourViewModel(bl, this);
+
         }
 
         public void AddItem()
         {
             AddNewTourForm addTourWindow = new AddNewTourForm
             {
-                DataContext = new AddTourViewModel(bl)
+                DataContext = addTourVM
             };
             addTourWindow.Show();
         }
@@ -82,6 +85,7 @@ namespace TourPlanner.UI.ViewModels
             {
                 //delete in DB
                 bl.DeleteTour(SelectedItem);
+                Items.Remove(SelectedItem);
             }
         }
     }

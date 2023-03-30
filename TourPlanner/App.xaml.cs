@@ -15,12 +15,16 @@ namespace TourPlanner
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             //create all layers
-            var dal = new DataManagerMemoryImpl();
+            var dal = new DataManagerEFM();
             var bl = new TourPlannerManagerImpl(dal);
 
             var tourBarVM = new TourSideListBarViewModel(bl);
             var tourLogBarSLBVM = new TourLogsSideListBarViewModel(bl);
-            tourLogBarSLBVM.Items = tourBarVM.Items[0].TourLogs;
+            if(tourBarVM.Items.Count > 0)
+            {
+                tourLogBarSLBVM.Items = bl.GetTourLogs(tourBarVM.Items[0]);
+            }
+            //tourLogBarSLBVM.Items = new System.Collections.ObjectModel.ObservableCollection<Model.TourLog>(tourBarVM.Items[0].TourLogs);
 
             var wnd = new MainWindow
             {

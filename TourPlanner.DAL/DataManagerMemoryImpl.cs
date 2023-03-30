@@ -11,14 +11,14 @@ namespace TourPlanner.DAL
     public class DataManagerMemoryImpl : IDataManager
     {
 
-        private Tour tour1 = new Tour("Tour 1", "Test 1", "Wien", "Salzburg", 100, 100, new ObservableCollection<TourLog>());
-        private Tour tour2 = new Tour("Tour 2", "Test 2", "Brixen", "Raas", 200, 200, new ObservableCollection<TourLog>());
+        //private Tour tour1 = new Tour("Tour 1", "Test 1", "Wien", "Salzburg", 100, 100, new ObservableCollection<TourLog>());
+        //private Tour tour2 = new Tour("Tour 2", "Test 2", "Brixen", "Raas", 200, 200, new ObservableCollection<TourLog>());
 
         private ObservableCollection<Tour> _tours = new ObservableCollection<Tour>();
 
         public DataManagerMemoryImpl() 
         {
-            TourLog log11 = new TourLog("Tour1Log1", tour1);
+            /*TourLog log11 = new TourLog("Tour1Log1", tour1);
             TourLog log12 = new TourLog("Tour1Log2", tour1);
             TourLog log21 = new TourLog("Tour2Log1", tour2);
             TourLog log22 = new TourLog("Tour2Log2", tour2);
@@ -29,7 +29,7 @@ namespace TourPlanner.DAL
             tour2.TourLogs.Add(log22);
 
             _tours.Add(tour1);
-            _tours.Add(tour2);
+            _tours.Add(tour2);*/
         }
 
         public void AddTour(Tour tour)
@@ -41,7 +41,7 @@ namespace TourPlanner.DAL
         {
             if (_tours.Contains(log.RelatedTour))
             {
-                _tours.Where(X=> X == log.RelatedTour).First().TourLogs.Add(log);
+                //_tours.Where(X=> X == log.RelatedTour).First().TourLogs.Add(log);
             }
         }
 
@@ -54,7 +54,7 @@ namespace TourPlanner.DAL
         {
             if (_tours.Contains(log.RelatedTour))
             {
-                _tours.Where(X => X == log.RelatedTour).First().TourLogs.Remove(log);
+                //_tours.Where(X => X == log.RelatedTour).First().TourLogs.Remove(log);
             }
         }
 

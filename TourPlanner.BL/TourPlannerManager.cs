@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TourPlanner.DAL;
 using TourPlanner.Model;
 
@@ -41,7 +37,7 @@ namespace TourPlanner.BL
 
         public ObservableCollection<TourLog> GetTourLogs(Tour tour)
         {
-            throw new NotImplementedException();
+            return dal.GetTourLogs(tour);
         }
 
         public ObservableCollection<Tour> GetTours()
@@ -51,12 +47,12 @@ namespace TourPlanner.BL
 
         public void UpdateTour(Tour tour)
         {
-            throw new NotImplementedException();
+            dal.UpdateTour(tour);
         }
 
         public void UpdateTourLog(TourLog log)
         {
-            throw new NotImplementedException();
+            dal.UpdateTourLog(log);
         }
     }
 }

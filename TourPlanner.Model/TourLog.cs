@@ -8,6 +8,7 @@ namespace TourPlanner.Model
 {
     public class TourLog
     {
+        public int Id { get; private set; }
         public String Name { get; set; }
         public Tour RelatedTour { get; set; }
         public DateTime DateTime { get; set; } = DateTime.Now;
@@ -16,6 +17,8 @@ namespace TourPlanner.Model
         public int TotalTime { get; set; } = 0; //time in min
         public double Rating { get; set; } = 0; //0-5 stars
 
+
+        public TourLog() { }
         public TourLog(string name, Tour relatedTour, DateTime dateTime, string comment, double difficulty, int totalTime, double rating)
         {
             Name = name;
