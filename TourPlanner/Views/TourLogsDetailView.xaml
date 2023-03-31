@@ -1,0 +1,23 @@
+﻿<Window x:Class="TourPlanner.UI.Views.TourLogsDetailView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TourPlanner.UI.Views"
+        mc:Ignorable="d"
+        Title="TourLogsDetailView" Height="300" Width="600">
+    <Grid>
+        <ListView Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" ItemsSource="{Binding Path=Logs}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Logname" Width="100" DisplayMemberBinding="{Binding Path=Name}"/>
+                    <GridViewColumn Header="Date" Width="80" DisplayMemberBinding="{Binding Path=DateTime}"/>
+                    <GridViewColumn Header="Comment" Width="200" DisplayMemberBinding="{Binding Path=Comment}"/>
+                    <GridViewColumn Header="Difficulty" Width="60" DisplayMemberBinding="{Binding Path=Difficulty}"/>
+                    <GridViewColumn Header="TotalTime" Width="80" DisplayMemberBinding="{Binding Path=TotalTime}"/>
+                    <GridViewColumn Header="Rating" Width="80" DisplayMemberBinding="{Binding Path=Rating}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Window>

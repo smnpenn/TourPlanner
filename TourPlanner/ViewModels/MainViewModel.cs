@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Input;
 using TourPlanner.BL;
+using TourPlanner.UI.Views;
 
 namespace TourPlanner.UI.ViewModels
 {
@@ -20,6 +22,9 @@ namespace TourPlanner.UI.ViewModels
             }
         }
 
+        public ICommand ShowDetailsCommand { get; }
+        public ICommand ShowLogDetailsCommand { get; }
+
         private TourLogsSideListBarViewModel tourLogBarVM;
         private TourSideListBarViewModel tourBarVM;
         private ITourPlannerManager bl;
@@ -28,12 +33,13 @@ namespace TourPlanner.UI.ViewModels
             this.bl = bl;
             this.tourLogBarVM = tourLogBarVM;
             this.tourBarVM = tourBarVM;
+            ShowDetailsCommand = new RelayCommand(_ => ShowTourDetailView());
+            ShowLogDetailsCommand = new RelayCommand(_ => ShowTourLogsDetailView());
 
-            if (tourBarVM.Items.Count  > 0)
+            if(tourBarVM.SelectedItem != null ) 
             {
-                TourTitle = tourBarVM.Items[0].Name;
+                tourTitle = tourBarVM.SelectedItem.Name;
             }
-            
             tourBarVM.TourBar_SelectionChanged += (_, selected_Tour) => DisplayTourLogs(selected_Tour);
         }
 
@@ -42,6 +48,24 @@ namespace TourPlanner.UI.ViewModels
 
             tourLogBarVM.SelectedTour = tour;
             TourTitle = tour.Name;
+        }
+
+        public void ShowTourDetailView() 
+        {
+            TourDetailView tourDetailView = new TourDetailView
+            {
+                DataContext = new TourDetailViewModel(tourBarVM.SelectedItem)
+            };
+            tourDetailView.Show();
+        }
+
+        public void ShowTourLogsDetailView()
+        {
+            TourLogsDetailView tourLogsDetailView = new TourLogsDetailView
+            {
+                DataContext = new TourLogsDetailViewModel(tourLogBarVM.Items)
+            };
+            tourLogsDetailView.Show();
         }
     }
 }
