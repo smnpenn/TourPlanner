@@ -20,9 +20,9 @@ namespace TourPlanner
 
             var tourBarVM = new TourSideListBarViewModel(bl);
             var tourLogBarSLBVM = new TourLogsSideListBarViewModel(bl);
-            if(tourBarVM.Items.Count > 0)
+            if(tourBarVM.SelectedItem != null)
             {
-                tourLogBarSLBVM.Items = bl.GetTourLogs(tourBarVM.Items[0]);
+                tourLogBarSLBVM.Items = bl.GetTourLogs(tourBarVM.SelectedItem);
             }
             //tourLogBarSLBVM.Items = new System.Collections.ObjectModel.ObservableCollection<Model.TourLog>(tourBarVM.Items[0].TourLogs);
 

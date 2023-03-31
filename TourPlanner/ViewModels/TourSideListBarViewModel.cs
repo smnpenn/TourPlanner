@@ -53,6 +53,11 @@ namespace TourPlanner.UI.ViewModels
             DeleteCommand = new RelayCommand(_ => DeleteItem());
             
             Items = bl.GetTours();
+            if(Items.Count > 0)
+            {
+                SelectedItem = Items[0];
+            }
+
             addTourVM = new AddTourViewModel(bl, this);
 
         }
