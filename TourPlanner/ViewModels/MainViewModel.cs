@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using TourPlanner.BL;
 
 namespace TourPlanner.UI.ViewModels
@@ -7,12 +8,16 @@ namespace TourPlanner.UI.ViewModels
     class MainViewModel : BaseViewModel
     {
 
-        private String tourTitle = "Heftige Tour";
+        private String tourTitle;
 
         public String TourTitle
         {
             get { return tourTitle; }
-            set { tourTitle = value; }
+            set 
+            {
+                tourTitle = value;
+                OnPropertyChanged(nameof(tourTitle));
+            }
         }
 
         private TourLogsSideListBarViewModel tourLogBarVM;
@@ -24,6 +29,11 @@ namespace TourPlanner.UI.ViewModels
             this.tourLogBarVM = tourLogBarVM;
             this.tourBarVM = tourBarVM;
 
+            if (tourBarVM.Items.Count  > 0)
+            {
+                TourTitle = tourBarVM.Items[0].Name;
+            }
+            
             tourBarVM.TourBar_SelectionChanged += (_, selected_Tour) => DisplayTourLogs(selected_Tour);
         }
 
@@ -31,6 +41,7 @@ namespace TourPlanner.UI.ViewModels
         {
 
             tourLogBarVM.SelectedTour = tour;
+            TourTitle = tour.Name;
         }
     }
 }
