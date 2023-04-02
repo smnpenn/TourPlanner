@@ -16,7 +16,7 @@ namespace TourPlanner
         {
             //create all layers
             var dal = new DataManagerEFM();
-            var bl = new TourPlannerManagerImpl(dal);
+            var bl = new TourPlannerManager(dal);
 
             var tourBarVM = new TourSideListBarViewModel(bl);
             var tourLogBarSLBVM = new TourLogsSideListBarViewModel(bl);

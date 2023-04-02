@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using TourPlanner.BL;
+using TourPlanner.Model;
 using TourPlanner.UI.Views;
 
 namespace TourPlanner.UI.ViewModels
@@ -19,6 +22,17 @@ namespace TourPlanner.UI.ViewModels
             {
                 tourTitle = value;
                 OnPropertyChanged(nameof(tourTitle));
+            }
+        }
+
+        private BitmapImage tourImage;
+        public BitmapImage TourImage 
+        {
+            get { return tourImage; }
+            set
+            {
+                tourImage = value;
+                OnPropertyChanged(nameof(tourImage));
             }
         }
 
@@ -39,6 +53,7 @@ namespace TourPlanner.UI.ViewModels
             if(tourBarVM.SelectedItem != null ) 
             {
                 tourTitle = tourBarVM.SelectedItem.Name;
+                TourImage = LoadImage(tourBarVM.SelectedItem.StaticMap);
             }
             tourBarVM.TourBar_SelectionChanged += (_, selected_Tour) => DisplayTourLogs(selected_Tour);
         }
@@ -47,7 +62,17 @@ namespace TourPlanner.UI.ViewModels
         {
 
             tourLogBarVM.SelectedTour = tour;
-            TourTitle = tour.Name;
+
+            if(tour != null)
+            {
+               TourTitle = tour.Name;
+               TourImage = LoadImage(tour.StaticMap);
+            }
+            else
+            {
+                TourTitle = "";
+                TourImage = null;
+            }
         }
 
         public void ShowTourDetailView() 
@@ -66,6 +91,24 @@ namespace TourPlanner.UI.ViewModels
                 DataContext = new TourLogsDetailViewModel(tourLogBarVM.Items)
             };
             tourLogsDetailView.Show();
+        }
+
+        private static BitmapImage LoadImage(byte[] imageData)
+        {
+            if (imageData == null || imageData.Length == 0) return null;
+            var image = new BitmapImage();
+            using (var mem = new MemoryStream(imageData))
+            {
+                mem.Position = 0;
+                image.BeginInit();
+                image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.UriSource = null;
+                image.StreamSource = mem;
+                image.EndInit();
+            }
+            image.Freeze();
+            return image;
         }
     }
 }

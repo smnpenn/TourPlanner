@@ -22,5 +22,7 @@ namespace TourPlanner.BL
         public ObservableCollection<Tour> GetTours();
         public ObservableCollection<TourLog> GetTourLogs(Tour tour);
 
+        public Task<Tour> GetRoute(Tour tour);
+
     }
 }
