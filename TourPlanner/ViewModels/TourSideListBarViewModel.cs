@@ -73,7 +73,7 @@ namespace TourPlanner.UI.ViewModels
 
         public void EditItem()
         {
-            MessageBox.Show("TourBar Edit");
+            bl.GetRoute(selectedItem);
         }
 
         public void DeleteItem()

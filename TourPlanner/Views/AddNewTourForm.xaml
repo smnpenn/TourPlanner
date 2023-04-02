@@ -18,14 +18,12 @@
             <TextBlock Height="23" HorizontalAlignment="Left" Margin="67,125,0,0" Name="textBlockFrom" Text="From:" VerticalAlignment="Top" Width="110" FontWeight="Bold" Foreground="white"/>
             <TextBlock Height="22" HorizontalAlignment="Left" Margin="67,154,0,0" Name="textBlockTo" Text="To:" VerticalAlignment="Top" Width="110"  FontWeight="Bold" Foreground="white"/>
             <TextBlock Height="23" HorizontalAlignment="Left" Margin="67,183,0,0" Name="textBlockTransport" Text="Transport Type:" VerticalAlignment="Top" Width="110" FontWeight="Bold" Foreground="white"/>
-            <TextBlock Height="23" HorizontalAlignment="Left" Margin="67,209,0,0" Name="textBlockDistance" Text="Tour Distance:" VerticalAlignment="Top" Width="110" FontWeight="Bold" Foreground="white"/>
 
             <TextBox Text="{Binding Name}" Height="23" HorizontalAlignment="Left" Margin="183,20,0,0" Name="textBoxDate" VerticalAlignment="Top" Width="222" />
             <TextBox Text="{Binding Description}" Height="70" HorizontalAlignment="Left" Margin="183,50,0,0" Name="textBoxComment" VerticalAlignment="Top" Width="222" />
             <TextBox Text="{Binding From}" Height="23" HorizontalAlignment="Left" Margin="183,125,0,0" Name="textBoxRating" VerticalAlignment="Top" Width="222" />
             <TextBox Text="{Binding To}" Height="22" HorizontalAlignment="Left" Margin="183,154,0,0" Name="textBoxTime" VerticalAlignment="Top" Width="222" />
             <TextBox Text="{Binding TransportType}" Height="23" HorizontalAlignment="Left" Margin="183,183,0,0" Name="textBoxTransport" VerticalAlignment="Top" Width="222" />
-            <TextBox Text="{Binding Distance}" Height="23" HorizontalAlignment="Left" Margin="183,211,0,0" x:Name="textBoxDistance" VerticalAlignment="Top" Width="222" />
 
             <Button Content="Submit" HorizontalAlignment="Left" Margin="335,241,0,0" Name="Submit" Width="70" Height="23" VerticalAlignment="Top" Command="{Binding AddTourCommand}"/>
             <Button Content="Cancel" Margin="259,241,0,0" Name="Cancel" HorizontalAlignment="Left" Width="70" Height="23" VerticalAlignment="Top" Command="{Binding CloseCommand}"/>

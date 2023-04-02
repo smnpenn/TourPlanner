@@ -16,6 +16,7 @@ namespace TourPlanner.Model
         public String To { get; set; }
         public double Distance { get; set; }
         public int EstimatedTime { get; set; }
+        public byte[] StaticMap { get; set; }
         //Tour information (API Map)
         //Transport type (enum)
         
@@ -24,14 +25,12 @@ namespace TourPlanner.Model
 
         }
 
-        public Tour(string name, string description, string from, string to, double distance, int estimatedTime)
+        public Tour(string name, string description, string from, string to)
         {
             Name = name;
             Description = description;
             From = from;
             To = to;
-            Distance = distance;
-            EstimatedTime = estimatedTime;
         }
     }
 }

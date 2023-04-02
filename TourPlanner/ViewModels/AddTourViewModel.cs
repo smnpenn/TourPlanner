@@ -4,6 +4,8 @@ using TourPlanner.BL;
 using TourPlanner.Model;
 using System.Collections.ObjectModel;
 using System;
+using System.Windows.Documents;
+using System.Collections.Generic;
 
 namespace TourPlanner.UI.ViewModels
 {
@@ -31,13 +33,22 @@ namespace TourPlanner.UI.ViewModels
         }
 
 
-        public void AddNewTour()
+        public async void AddNewTour()
         {
-            MessageBox.Show($"Name: {Name}, Description: {Description}, From: {From}, To: {To}, TransportType: {TransportType}, Distance: {Distance}");
+            //MessageBox.Show($"Name: {Name}, Description: {Description}, From: {From}, To: {To}, TransportType: {TransportType}, Distance: {Distance}");
 
-            Tour tour = new Tour(Name, Description, From, To, Distance, 100);
-            bl.AddTour(tour);
-            vm.Items.Add(tour);
+            Tour tour = new Tour(Name, Description, From, To);
+            tour = await bl.GetRoute(tour);
+
+            if(tour != null)
+            {
+                bl.AddTour(tour);
+                vm.Items.Add(tour);
+            }
+            else
+            {
+                MessageBox.Show("Error creating Route!");
+            }
         }
 
         public void CloseWindow(Window window)

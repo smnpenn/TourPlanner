@@ -5,14 +5,16 @@ using TourPlanner.Model;
 
 namespace TourPlanner.BL
 {
-    public class TourPlannerManagerImpl : ITourPlannerManager
+    public class TourPlannerManager : ITourPlannerManager
     {
         
         private IDataManager dal;
+        private MapQuestAPIHandler apiHandler;
 
-        public TourPlannerManagerImpl(IDataManager dal)
+        public TourPlannerManager(IDataManager dal)
         {
             this.dal = dal;
+            apiHandler = new MapQuestAPIHandler();
         }
 
         public void AddTour(Tour tour)
@@ -53,6 +55,11 @@ namespace TourPlanner.BL
         public void UpdateTourLog(TourLog log)
         {
             dal.UpdateTourLog(log);
+        }
+
+        public async Task<Tour> GetRoute(Tour tour)
+        {
+            return await apiHandler.GetRoute(tour);
         }
     }
 }
