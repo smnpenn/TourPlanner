@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using TourPlanner.BL;
 using TourPlanner.Model;
+using TourPlanner.UI.Service;
 using TourPlanner.UI.Views;
 
 namespace TourPlanner.UI.ViewModels
@@ -74,8 +75,11 @@ namespace TourPlanner.UI.ViewModels
 
         private ITourPlannerManager bl;
 
+        private readonly DialogService _dialogService;
+
         public TourLogsSideListBarViewModel(ITourPlannerManager bl)
         {
+            _dialogService = new DialogService();
             AddCommand = new RelayCommand(_ => AddItem());
             EditCommand = new RelayCommand(_ => EditItem());
             DeleteCommand = new RelayCommand(_ => DeleteItem());
@@ -85,11 +89,17 @@ namespace TourPlanner.UI.ViewModels
 
         public void AddItem()
         {
+            /**
             AddTourLogForm addTourLogWindow = new AddTourLogForm 
             { 
                 DataContext = new AddTourLogViewModel(bl, this) 
-            };
+
+            
             addTourLogWindow.Show();
+            **/
+
+            _dialogService.ShowDialog<AddTourLogForm>(new AddTourLogViewModel(bl, this));
+
         }
 
         public void EditItem()

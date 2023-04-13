@@ -6,10 +6,11 @@ using System.Collections.ObjectModel;
 using System;
 using System.Windows.Documents;
 using System.Collections.Generic;
+using TourPlanner.UI.Service;
 
 namespace TourPlanner.UI.ViewModels
 {
-    class AddTourViewModel
+    class AddTourViewModel : BaseViewModel
     {
         public string Name { get; set; }
         public string Description { get; set; }
@@ -23,11 +24,12 @@ namespace TourPlanner.UI.ViewModels
 
         private ITourPlannerManager bl;
         private TourSideListBarViewModel vm;
-        
+        private readonly DialogService _dialogService;
         public AddTourViewModel(ITourPlannerManager bl, TourSideListBarViewModel vm)
         {
+            _dialogService = new DialogService();
             AddTourCommand = new RelayCommand(_ => AddNewTour());
-
+            CloseWindowCommand = new RelayCommand(_ => CloseWindow());
             this.bl = bl;
             this.vm = vm;
         }
@@ -51,9 +53,9 @@ namespace TourPlanner.UI.ViewModels
             }
         }
 
-        public void CloseWindow(Window window)
+        public void CloseWindow()
         {
-            window.Close();
+            _dialogService.CloseDialog(this);
         }
     }
 }

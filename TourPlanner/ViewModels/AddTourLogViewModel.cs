@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using TourPlanner.BL;
 using TourPlanner.Model;
+using TourPlanner.UI.Service;
 
 namespace TourPlanner.UI.ViewModels
 {
@@ -27,10 +28,13 @@ namespace TourPlanner.UI.ViewModels
 
         private ITourPlannerManager bl;
         private TourLogsSideListBarViewModel vm;
+
+        private readonly DialogService _dialogService;
         public AddTourLogViewModel(ITourPlannerManager bl, TourLogsSideListBarViewModel vm)
         {
+            _dialogService = new DialogService();
             AddTourLogCommand = new RelayCommand(_ => AddNewTourLog());
-            // CloseWindowCommand = new RelayCommand(_ => CloseWindow(win)); --> closes windows below somehow
+            CloseWindowCommand = new RelayCommand(_ => CloseWindow());
             this.bl = bl;
             this.vm = vm;
             relatedTour = vm.SelectedTour;
@@ -49,9 +53,9 @@ namespace TourPlanner.UI.ViewModels
         }
 
         // Experimental, dont know how to pass window yet. 
-        public void CloseWindow(Window window)
+        public void CloseWindow()
         {
-            window.Close();
+            _dialogService.CloseDialog(this);
         }
 
     }

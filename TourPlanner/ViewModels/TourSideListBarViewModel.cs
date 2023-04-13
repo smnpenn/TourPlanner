@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using TourPlanner.BL;
 using TourPlanner.Model;
+using TourPlanner.UI.Service;
 using TourPlanner.UI.Views;
 
 namespace TourPlanner.UI.ViewModels
@@ -45,9 +46,12 @@ namespace TourPlanner.UI.ViewModels
 
         private ITourPlannerManager bl;
         private AddTourViewModel addTourVM;
+
+        private readonly DialogService _dialogService;
         public TourSideListBarViewModel(ITourPlannerManager bl)
         {
             this.bl = bl;
+            _dialogService = new DialogService();
             AddCommand = new RelayCommand(_ => AddItem());
             EditCommand = new RelayCommand(_ => EditItem());
             DeleteCommand = new RelayCommand(_ => DeleteItem());
@@ -64,11 +68,16 @@ namespace TourPlanner.UI.ViewModels
 
         public void AddItem()
         {
+            /**
             AddNewTourForm addTourWindow = new AddNewTourForm
             {
                 DataContext = addTourVM
             };
             addTourWindow.Show();
+            **/
+
+            _dialogService.ShowDialog<AddNewTourForm>(addTourVM); // Hier muss halt immer das ViewModel dazugegeben werden, da ansonsten nur die nackte XAML geladen wird.
+           
         }
 
         public void EditItem()

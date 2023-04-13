@@ -26,7 +26,7 @@
             <TextBox Text="{Binding TransportType}" Height="23" HorizontalAlignment="Left" Margin="183,183,0,0" Name="textBoxTransport" VerticalAlignment="Top" Width="222" />
 
             <Button Content="Submit" HorizontalAlignment="Left" Margin="335,241,0,0" Name="Submit" Width="70" Height="23" VerticalAlignment="Top" Command="{Binding AddTourCommand}"/>
-            <Button Content="Cancel" Margin="259,241,0,0" Name="Cancel" HorizontalAlignment="Left" Width="70" Height="23" VerticalAlignment="Top" Command="{Binding CloseCommand}"/>
+            <Button Content="Cancel" Margin="259,241,0,0" Name="Cancel" HorizontalAlignment="Left" Width="70" Height="23" VerticalAlignment="Top" Command="{Binding CloseWindowCommand}"/>
         </Grid>
     </Grid>
 </Window>
