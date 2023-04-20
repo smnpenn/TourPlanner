@@ -17,6 +17,8 @@
         </Grid.RowDefinitions>
 
         <Rectangle Grid.ColumnSpan="2" Fill="#0C5D97"></Rectangle>
+        <Button Grid.Column="1" Grid.Row="0" Height="40" Width="40" HorizontalAlignment="Right" Margin="5 5 5 5" Command="{Binding MoreOptionsCommand}">
+        </Button>
         <local:SideListBar Grid.Column="0" Grid.Row="1" x:Name="TourListBar"/>
         <Grid Grid.Column="1" Grid.Row="1" MinWidth="500">
             <Grid.RowDefinitions>

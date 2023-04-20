@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.ObjectModel;
 using TourPlanner.DAL;
 using TourPlanner.Model;
@@ -10,11 +11,15 @@ namespace TourPlanner.BL
         
         private IDataManager dal;
         private MapQuestAPIHandler apiHandler;
+        private DataImporter dataImporter;
+        private DataExporter dataExporter;
 
         public TourPlannerManager(IDataManager dal)
         {
             this.dal = dal;
             apiHandler = new MapQuestAPIHandler();
+            dataImporter = new DataImporter();
+            dataExporter = new DataExporter();
         }
 
         public void AddTour(Tour tour)
@@ -60,6 +65,11 @@ namespace TourPlanner.BL
         public async Task<Tour> GetRoute(Tour tour)
         {
             return await apiHandler.GetRoute(tour);
+        }
+
+        public void ExportData(ObservableCollection<Tour> tours, string filename)
+        {
+            dataExporter.ExportData(tours, filename);
         }
     }
 }

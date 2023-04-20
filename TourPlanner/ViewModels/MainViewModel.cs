@@ -38,6 +38,7 @@ namespace TourPlanner.UI.ViewModels
 
         public ICommand ShowDetailsCommand { get; }
         public ICommand ShowLogDetailsCommand { get; }
+        public ICommand MoreOptionsCommand { get; }
 
         private TourLogsSideListBarViewModel tourLogBarVM;
         private TourSideListBarViewModel tourBarVM;
@@ -49,6 +50,7 @@ namespace TourPlanner.UI.ViewModels
             this.tourBarVM = tourBarVM;
             ShowDetailsCommand = new RelayCommand(_ => ShowTourDetailView());
             ShowLogDetailsCommand = new RelayCommand(_ => ShowTourLogsDetailView());
+            MoreOptionsCommand = new RelayCommand(_ => ExportData());
 
             if(tourBarVM.SelectedItem != null ) 
             {
@@ -58,7 +60,7 @@ namespace TourPlanner.UI.ViewModels
             tourBarVM.TourBar_SelectionChanged += (_, selected_Tour) => DisplayTourLogs(selected_Tour);
         }
 
-        private void DisplayTourLogs(Model.Tour tour)
+        private void DisplayTourLogs(Tour tour)
         {
 
             tourLogBarVM.SelectedTour = tour;
@@ -91,6 +93,11 @@ namespace TourPlanner.UI.ViewModels
                 DataContext = new TourLogsDetailViewModel(tourLogBarVM.Items)
             };
             tourLogsDetailView.Show();
+        }
+
+        public void ExportData()
+        {
+            
         }
 
         private static BitmapImage LoadImage(byte[] imageData)
