@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using TourPlanner.UI.ViewModels;
+using TourPlanner.Model;
+using System.Diagnostics;
+using System.IO.Enumeration;
+using System.ComponentModel;
 
 namespace TourPlanner.UI.Service
 {
@@ -28,6 +32,42 @@ namespace TourPlanner.UI.Service
         {
             var window = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.DataContext == viewModel);
             window?.Close();
+        }
+
+        public string? ShowSaveFileDialog(string defaultName, string ext)
+        {
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = defaultName; // Default file name
+            dlg.DefaultExt = $".{ext}"; // Default file extension
+            dlg.Filter = $"{ext} documents |*.{ext}"; // Filter files by extension
+
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process save file dialog box results
+            if (result == true)
+            {
+                // Save document
+                return dlg.FileName;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public void OpenFileExplorer(string filename)
+        {
+            try
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo("explorer");
+                startInfo.Arguments = filename;
+                Process.Start(startInfo);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Could not open given file", "Error");
+            }
+            
         }
     }
 }

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using TourPlanner.BL;
 using TourPlanner.Model;
+using TourPlanner.UI.Service;
 using TourPlanner.UI.Views;
 
 namespace TourPlanner.UI.ViewModels
@@ -43,16 +46,20 @@ namespace TourPlanner.UI.ViewModels
         private TourLogsSideListBarViewModel tourLogBarVM;
         private TourSideListBarViewModel tourBarVM;
         private ITourPlannerManager bl;
-        public MainViewModel(ITourPlannerManager bl, TourLogsSideListBarViewModel tourLogBarVM, TourSideListBarViewModel tourBarVM)
+        private DialogService dialogService;
+        
+        public MainViewModel(ITourPlannerManager bl, TourLogsSideListBarViewModel tourLogBarVM, TourSideListBarViewModel tourBarVM, DialogService dialogService)
         {
             this.bl = bl;
             this.tourLogBarVM = tourLogBarVM;
             this.tourBarVM = tourBarVM;
+            this.dialogService = dialogService;
             ShowDetailsCommand = new RelayCommand(_ => ShowTourDetailView());
             ShowLogDetailsCommand = new RelayCommand(_ => ShowTourLogsDetailView());
-            MoreOptionsCommand = new RelayCommand(_ => ExportData());
+            //MoreOptionsCommand = new RelayCommand(_ => ExportData());
+            MoreOptionsCommand = new RelayCommand(_ => GenerateTourReport());
 
-            if(tourBarVM.SelectedItem != null ) 
+            if (tourBarVM.SelectedItem != null ) 
             {
                 tourTitle = tourBarVM.SelectedItem.Name;
                 TourImage = LoadImage(tourBarVM.SelectedItem.StaticMap);
@@ -99,6 +106,24 @@ namespace TourPlanner.UI.ViewModels
         public void ExportData()
         {
             bl.ExportData(tourBarVM.Items, "test");
+        }
+
+        public void GenerateTourReport()
+        {
+            if (tourBarVM.SelectedItem == null)
+            {
+                MessageBox.Show("Please select the tour you want to create the report about.");
+                return;
+            }
+
+            string? filename = dialogService.ShowSaveFileDialog($"Tour{tourBarVM.SelectedItem.Id}_Report", "pdf");
+            
+            // Process save file dialog box results
+            if (filename != null)
+            {
+                bl.GenerateTourReport(tourBarVM.SelectedItem, filename);
+                dialogService.OpenFileExplorer(filename);
+            }
         }
 
         private static BitmapImage LoadImage(byte[] imageData)
