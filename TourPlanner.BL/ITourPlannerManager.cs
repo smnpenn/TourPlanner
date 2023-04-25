@@ -23,8 +23,7 @@ namespace TourPlanner.BL
         public ObservableCollection<TourLog> GetTourLogs(Tour tour);
 
         public Task<Tour> GetRoute(Tour tour);
-
+        public void ExportData(ObservableCollection<Tour> tours, string filename);
         public void GenerateTourReport(Tour tour, string path);
-
     }
 }

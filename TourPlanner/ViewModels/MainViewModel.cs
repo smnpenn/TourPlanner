@@ -71,6 +71,7 @@ namespace TourPlanner.UI.ViewModels
         {
 
             tourLogBarVM.SelectedTour = tour;
+            tour.Logs = tourLogBarVM.Items;
 
             if(tour != null)
             {
@@ -104,7 +105,7 @@ namespace TourPlanner.UI.ViewModels
 
         public void ExportData()
         {
-            
+            bl.ExportData(tourBarVM.Items, "test");
         }
 
         public void GenerateTourReport()

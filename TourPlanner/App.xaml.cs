@@ -25,6 +25,8 @@ namespace TourPlanner
             if(tourBarVM.SelectedItem != null)
             {
                 tourLogBarSLBVM.Items = bl.GetTourLogs(tourBarVM.SelectedItem);
+                tourLogBarSLBVM.SelectedTour = tourBarVM.SelectedItem;
+                tourBarVM.SelectedItem.Logs = tourLogBarSLBVM.Items;
             }
             //tourLogBarSLBVM.Items = new System.Collections.ObjectModel.ObservableCollection<Model.TourLog>(tourBarVM.Items[0].TourLogs);
 
