@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using TourPlanner.BL;
 using TourPlanner.DAL;
+using TourPlanner.UI.Service;
 using TourPlanner.UI.ViewModels;
 using TourPlanner.UI.Views;
 
@@ -17,6 +18,7 @@ namespace TourPlanner
             //create all layers
             var dal = new DataManagerEFM();
             var bl = new TourPlannerManager(dal);
+            var dialogService = new DialogService();
 
             var tourBarVM = new TourSideListBarViewModel(bl);
             var tourLogBarSLBVM = new TourLogsSideListBarViewModel(bl);
@@ -28,7 +30,7 @@ namespace TourPlanner
 
             var wnd = new MainWindow
             {
-                DataContext = new MainViewModel(bl, tourLogBarSLBVM, tourBarVM),
+                DataContext = new MainViewModel(bl, tourLogBarSLBVM, tourBarVM, dialogService),
                 TourListBar = { DataContext = tourBarVM },
                 TourLogsListBar = { DataContext = tourLogBarSLBVM },
             };

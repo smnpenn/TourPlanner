@@ -13,6 +13,7 @@ namespace TourPlanner.BL
         private MapQuestAPIHandler apiHandler;
         private DataImporter dataImporter;
         private DataExporter dataExporter;
+        private ReportGenerator reportGenerator;
 
         public TourPlannerManager(IDataManager dal)
         {
@@ -20,6 +21,7 @@ namespace TourPlanner.BL
             apiHandler = new MapQuestAPIHandler();
             dataImporter = new DataImporter();
             dataExporter = new DataExporter();
+            reportGenerator = new ReportGenerator();
         }
 
         public void AddTour(Tour tour)
@@ -70,6 +72,11 @@ namespace TourPlanner.BL
         public void ExportData(ObservableCollection<Tour> tours, string filename)
         {
             dataExporter.ExportData(tours, filename);
+        }
+
+        public void GenerateTourReport(Tour tour, string path)
+        {
+            reportGenerator.GenerateTourReport(tour, path);
         }
     }
 }
