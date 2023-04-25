@@ -24,5 +24,7 @@ namespace TourPlanner.BL
 
         public Task<Tour> GetRoute(Tour tour);
 
+        public void ExportData(ObservableCollection<Tour> tours, string filename);
+
     }
 }

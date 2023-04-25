@@ -89,17 +89,14 @@ namespace TourPlanner.UI.ViewModels
 
         public void AddItem()
         {
-            /**
-            AddTourLogForm addTourLogWindow = new AddTourLogForm 
-            { 
-                DataContext = new AddTourLogViewModel(bl, this) 
-
-            
-            addTourLogWindow.Show();
-            **/
-
-            _dialogService.ShowDialog<AddTourLogForm>(new AddTourLogViewModel(bl, this));
-
+            if(selectedTour != null)
+            {
+                _dialogService.ShowDialog<AddTourLogForm>(new AddTourLogViewModel(bl, this));
+            }
+            else
+            {
+                MessageBox.Show("Please select a tour you want to add your log to.");
+            }
         }
 
         public void EditItem()

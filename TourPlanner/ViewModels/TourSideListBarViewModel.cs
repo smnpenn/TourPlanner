@@ -68,16 +68,7 @@ namespace TourPlanner.UI.ViewModels
 
         public void AddItem()
         {
-            /**
-            AddNewTourForm addTourWindow = new AddNewTourForm
-            {
-                DataContext = addTourVM
-            };
-            addTourWindow.Show();
-            **/
-
             _dialogService.ShowDialog<AddNewTourForm>(addTourVM); // Hier muss halt immer das ViewModel dazugegeben werden, da ansonsten nur die nackte XAML geladen wird.
-           
         }
 
         public void EditItem()
