@@ -44,7 +44,6 @@ namespace TourPlanner.UI.ViewModels
         public void AddNewTourLog()
         {
 
-            MessageBox.Show($"Date: {Date}, Comment: {Comment}, Rating: {Rating}, Time: {Time}, Difficulty: {Difficulty}");
             TourLog log = new TourLog(Name, relatedTour, System.DateTime.Now, Comment, Difficulty, Time, Rating);
             bl.AddTourLog(log);
             vm.Items.Add(log);

@@ -8,8 +8,11 @@ namespace TourPlanner.Model
 {
     public class TourLog
     {
+        [Newtonsoft.Json.JsonIgnore]
         public int Id { get; private set; }
         public String Name { get; set; }
+
+        [Newtonsoft.Json.JsonIgnore]
         public Tour RelatedTour { get; set; }
         public DateTime DateTime { get; set; } = DateTime.Now;
         public String Comment { get; set; } = String.Empty;
