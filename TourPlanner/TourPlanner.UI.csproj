@@ -11,6 +11,7 @@
     <None Remove="ressources\icons\icon_add.png" />
     <None Remove="ressources\icons\icon_delete.png" />
     <None Remove="ressources\icons\icon_edit.png" />
+    <None Remove="ressources\icons\icon_more.png" />
     <None Remove="ressources\icons\icon_view.png" />
   </ItemGroup>
 
@@ -28,6 +29,7 @@
     <Resource Include="ressources\icons\icon_add.png" />
     <Resource Include="ressources\icons\icon_delete.png" />
     <Resource Include="ressources\icons\icon_edit.png" />
+    <Resource Include="ressources\icons\icon_more.png" />
     <Resource Include="ressources\icons\icon_view.png" />
   </ItemGroup>
 
