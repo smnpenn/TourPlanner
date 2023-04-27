@@ -22,19 +22,21 @@ namespace TourPlanner
 
             var tourBarVM = new TourSideListBarViewModel(bl);
             var tourLogBarSLBVM = new TourLogsSideListBarViewModel(bl);
+            var moreOptionsVM = new MoreOptionsViewModel();
             if(tourBarVM.SelectedItem != null)
             {
                 tourLogBarSLBVM.Items = bl.GetTourLogs(tourBarVM.SelectedItem);
                 tourLogBarSLBVM.SelectedTour = tourBarVM.SelectedItem;
                 tourBarVM.SelectedItem.Logs = tourLogBarSLBVM.Items;
             }
-            //tourLogBarSLBVM.Items = new System.Collections.ObjectModel.ObservableCollection<Model.TourLog>(tourBarVM.Items[0].TourLogs);
-
+           
             var wnd = new MainWindow
             {
                 DataContext = new MainViewModel(bl, tourLogBarSLBVM, tourBarVM, dialogService),
                 TourListBar = { DataContext = tourBarVM },
                 TourLogsListBar = { DataContext = tourLogBarSLBVM },
+                MoreOptionsButton = { DataContext = moreOptionsVM },
+                
             };
             wnd.Show();
         }
