@@ -12,7 +12,6 @@ namespace TourPlanner.UI.ViewModels
     {
         // Behavior notifications that UI should update
         public event PropertyChangedEventHandler? PropertyChanged;
-        private readonly DialogService _dialogService;
 
         protected void OnPropertyChanged(string propertyName = null)
         {
@@ -20,7 +19,7 @@ namespace TourPlanner.UI.ViewModels
         }
         public BaseViewModel()
         {
-            _dialogService = new DialogService();
+
         }
     }
 }

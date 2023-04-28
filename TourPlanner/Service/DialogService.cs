@@ -15,6 +15,20 @@ namespace TourPlanner.UI.Service
     public class DialogService
     {
 
+        private static DialogService instance = null;
+
+        public static DialogService Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new DialogService();
+                }
+                return instance;
+            }
+        }
+
         public void ShowDialog<T>(object dataContext, Action <T> onDialogClose = null) where T: Window, new()
         {
             var view = new T();
