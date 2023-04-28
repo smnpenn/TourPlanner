@@ -9,7 +9,7 @@ using TourPlanner.UI.Views;
 
 namespace TourPlanner.UI.ViewModels
 {
-    class TourSideListBarViewModel : BaseViewModel, ISideListBarViewModel
+    public class TourSideListBarViewModel : BaseViewModel, ISideListBarViewModel
     {
         private String listTitle = "Tours";
 

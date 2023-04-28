@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using TourPlanner.BL;
 
 namespace TourPlanner.UI.ViewModels
 {
@@ -15,8 +16,14 @@ namespace TourPlanner.UI.ViewModels
         public ICommand ExportCommand { get; }
         public ICommand SummaryReportCommand { get; }
         public ICommand SingleTourReportCommand { get; }
-        public MoreOptionsViewModel() 
+        private ITourPlannerManager bl;
+        private TourSideListBarViewModel tourVM;
+        private TourLogsSideListBarViewModel tourLogsVM;
+        public MoreOptionsViewModel(ITourPlannerManager bl, TourSideListBarViewModel tourVM, TourLogsSideListBarViewModel tourLogsVM) 
         {
+            this.tourVM = tourVM;
+            this.tourLogsVM = tourLogsVM;
+            this.bl = bl;
             ImportCommand = new RelayCommand(_ => Import());
             ExportCommand = new RelayCommand(_ => Export());
             SummaryReportCommand = new RelayCommand(_ => CreateSummaryReport());
@@ -30,7 +37,7 @@ namespace TourPlanner.UI.ViewModels
 
         public void Export()
         {
-            MessageBox.Show("Export");
+            bl.ExportData(tourVM.Items, )
         }
 
         public void CreateSummaryReport()
