@@ -75,11 +75,8 @@ namespace TourPlanner.UI.ViewModels
 
         private ITourPlannerManager bl;
 
-        private readonly DialogService _dialogService;
-
         public TourLogsSideListBarViewModel(ITourPlannerManager bl)
         {
-            _dialogService = new DialogService();
             AddCommand = new RelayCommand(_ => AddItem());
             EditCommand = new RelayCommand(_ => EditItem());
             DeleteCommand = new RelayCommand(_ => DeleteItem());
@@ -91,7 +88,7 @@ namespace TourPlanner.UI.ViewModels
         {
             if(selectedTour != null)
             {
-                _dialogService.ShowDialog<AddTourLogForm>(new AddTourLogViewModel(bl, this));
+                DialogService.Instance.ShowDialog<AddTourLogForm>(new AddTourLogViewModel(bl, this));
             }
             else
             {

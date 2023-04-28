@@ -29,10 +29,8 @@ namespace TourPlanner.UI.ViewModels
         private ITourPlannerManager bl;
         private TourLogsSideListBarViewModel vm;
 
-        private readonly DialogService _dialogService;
         public AddTourLogViewModel(ITourPlannerManager bl, TourLogsSideListBarViewModel vm)
         {
-            _dialogService = new DialogService();
             AddTourLogCommand = new RelayCommand(_ => AddNewTourLog());
             CloseWindowCommand = new RelayCommand(_ => CloseWindow());
             this.bl = bl;
@@ -54,7 +52,7 @@ namespace TourPlanner.UI.ViewModels
         // Experimental, dont know how to pass window yet. 
         public void CloseWindow()
         {
-            _dialogService.CloseDialog(this);
+            DialogService.Instance.CloseDialog(this);
         }
 
     }

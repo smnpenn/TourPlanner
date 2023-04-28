@@ -46,14 +46,12 @@ namespace TourPlanner.UI.ViewModels
         private TourLogsSideListBarViewModel tourLogBarVM;
         private TourSideListBarViewModel tourBarVM;
         private ITourPlannerManager bl;
-        private DialogService dialogService;
         
-        public MainViewModel(ITourPlannerManager bl, TourLogsSideListBarViewModel tourLogBarVM, TourSideListBarViewModel tourBarVM, DialogService dialogService)
+        public MainViewModel(ITourPlannerManager bl, TourLogsSideListBarViewModel tourLogBarVM, TourSideListBarViewModel tourBarVM)
         {
             this.bl = bl;
             this.tourLogBarVM = tourLogBarVM;
             this.tourBarVM = tourBarVM;
-            this.dialogService = dialogService;
             ShowDetailsCommand = new RelayCommand(_ => ShowTourDetailView());
             ShowLogDetailsCommand = new RelayCommand(_ => ShowTourLogsDetailView());
             //MoreOptionsCommand = new RelayCommand(_ => ExportData());
@@ -116,13 +114,13 @@ namespace TourPlanner.UI.ViewModels
                 return;
             }
 
-            string? filename = dialogService.ShowSaveFileDialog($"Tour{tourBarVM.SelectedItem.Id}_Report", "pdf");
+            string? filename = DialogService.Instance.ShowSaveFileDialog($"Tour{tourBarVM.SelectedItem.Id}_Report", "pdf");
             
             // Process save file dialog box results
             if (filename != null)
             {
                 bl.GenerateTourReport(tourBarVM.SelectedItem, filename);
-                dialogService.OpenFileExplorer(filename);
+                DialogService.Instance.OpenFileExplorer(filename);
             }
         }
 

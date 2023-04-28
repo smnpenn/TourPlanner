@@ -18,11 +18,10 @@ namespace TourPlanner
             //create all layers
             var dal = new DataManagerEFM();
             var bl = new TourPlannerManager(dal);
-            var dialogService = new DialogService();
 
             var tourBarVM = new TourSideListBarViewModel(bl);
             var tourLogsVM = new TourLogsSideListBarViewModel(bl);
-            var moreOptionsVM = new MoreOptionsViewModel(bl, tourBarVM, tourLogsVM);
+            var moreOptionsVM = new MoreOptionsViewModel();
             if(tourBarVM.SelectedItem != null)
             {
                 tourLogsVM.Items = bl.GetTourLogs(tourBarVM.SelectedItem);
@@ -32,7 +31,7 @@ namespace TourPlanner
            
             var wnd = new MainWindow
             {
-                DataContext = new MainViewModel(bl, tourLogBarSLBVM, tourBarVM, dialogService),
+                DataContext = new MainViewModel(bl, tourLogsVM, tourBarVM),
                 TourListBar = { DataContext = tourBarVM },
                 TourLogsListBar = { DataContext = tourLogsVM },
                 MoreOptionsButton = { DataContext = moreOptionsVM },

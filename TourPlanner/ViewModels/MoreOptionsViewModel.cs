@@ -19,11 +19,11 @@ namespace TourPlanner.UI.ViewModels
         private ITourPlannerManager bl;
         private TourSideListBarViewModel tourVM;
         private TourLogsSideListBarViewModel tourLogsVM;
-        public MoreOptionsViewModel(ITourPlannerManager bl, TourSideListBarViewModel tourVM, TourLogsSideListBarViewModel tourLogsVM) 
+        public MoreOptionsViewModel() 
         {
-            this.tourVM = tourVM;
-            this.tourLogsVM = tourLogsVM;
-            this.bl = bl;
+            //this.tourVM = tourVM;
+            //this.tourLogsVM = tourLogsVM;
+            //this.bl = bl;
             ImportCommand = new RelayCommand(_ => Import());
             ExportCommand = new RelayCommand(_ => Export());
             SummaryReportCommand = new RelayCommand(_ => CreateSummaryReport());
@@ -37,7 +37,7 @@ namespace TourPlanner.UI.ViewModels
 
         public void Export()
         {
-            bl.ExportData(tourVM.Items, )
+            //bl.ExportData(tourVM.Items, )
         }
 
         public void CreateSummaryReport()
