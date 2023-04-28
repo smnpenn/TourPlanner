@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 using TourPlanner.BL;
 using TourPlanner.DAL;
 using TourPlanner.UI.Service;
@@ -21,20 +21,20 @@ namespace TourPlanner
             var dialogService = new DialogService();
 
             var tourBarVM = new TourSideListBarViewModel(bl);
-            var tourLogBarSLBVM = new TourLogsSideListBarViewModel(bl);
-            var moreOptionsVM = new MoreOptionsViewModel();
+            var tourLogsVM = new TourLogsSideListBarViewModel(bl);
+            var moreOptionsVM = new MoreOptionsViewModel(bl, tourBarVM, tourLogsVM);
             if(tourBarVM.SelectedItem != null)
             {
-                tourLogBarSLBVM.Items = bl.GetTourLogs(tourBarVM.SelectedItem);
-                tourLogBarSLBVM.SelectedTour = tourBarVM.SelectedItem;
-                tourBarVM.SelectedItem.Logs = tourLogBarSLBVM.Items;
+                tourLogsVM.Items = bl.GetTourLogs(tourBarVM.SelectedItem);
+                tourLogsVM.SelectedTour = tourBarVM.SelectedItem;
+                tourBarVM.SelectedItem.Logs = tourLogsVM.Items;
             }
            
             var wnd = new MainWindow
             {
                 DataContext = new MainViewModel(bl, tourLogBarSLBVM, tourBarVM, dialogService),
                 TourListBar = { DataContext = tourBarVM },
-                TourLogsListBar = { DataContext = tourLogBarSLBVM },
+                TourLogsListBar = { DataContext = tourLogsVM },
                 MoreOptionsButton = { DataContext = moreOptionsVM },
                 
             };
