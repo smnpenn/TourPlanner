@@ -21,7 +21,7 @@ namespace TourPlanner
 
             var tourBarVM = new TourSideListBarViewModel(bl);
             var tourLogsVM = new TourLogsSideListBarViewModel(bl);
-            var moreOptionsVM = new MoreOptionsViewModel();
+            var moreOptionsVM = new MoreOptionsViewModel(bl, tourBarVM, tourLogsVM);
             if(tourBarVM.SelectedItem != null)
             {
                 tourLogsVM.Items = bl.GetTourLogs(tourBarVM.SelectedItem);
