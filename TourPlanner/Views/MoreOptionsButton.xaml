@@ -9,18 +9,18 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <vms:MoreOptionsViewModel x:Key="VM"></vms:MoreOptionsViewModel>
+        <vms:BindingProxy x:Key="proxy" Data="{Binding}" />
     </UserControl.Resources>
     <Grid>
         <Button Name="MainButton" Width="40" Height="40" Background="Transparent" BorderThickness="0">
             <Image Source="/ressources/icons/icon_more.png"/>
             <Button.ContextMenu>
                 <ContextMenu x:Name="MainContextMenu">
-                    <MenuItem Header="Import" Command="{Binding ImportCommand, Source={StaticResource VM}}"/>
-                    <MenuItem Header="Export" Command="{Binding ExportCommand, Source={StaticResource VM}}"/>
+                    <MenuItem Header="Import" Command="{Binding Data.ImportCommand, Source={StaticResource proxy}}"/>
+                    <MenuItem Header="Export" Command="{Binding Data.ExportCommand, Source={StaticResource proxy}}"/>
                     <MenuItem Header="Generate report">
-                        <MenuItem Header="Summary report" Command="{Binding SummaryReportCommand, Source={StaticResource VM}}"/>
-                        <MenuItem Header="Report of current tour" Command="{Binding SingleTourReportCommand, Source={StaticResource VM}}"></MenuItem>
+                        <MenuItem Header="Summary report" Command="{Binding Data.SummaryReportCommand, Source={StaticResource proxy}}"/>
+                        <MenuItem Header="Report of current tour" Command="{Binding Data.SingleTourReportCommand, Source={StaticResource proxy}}"></MenuItem>
                     </MenuItem>
                 </ContextMenu>
             </Button.ContextMenu>
