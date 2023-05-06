@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -23,7 +24,8 @@ namespace TourPlanner.BL
         public ObservableCollection<TourLog> GetTourLogs(Tour tour);
 
         public Task<Tour> GetRoute(Tour tour);
-        public void ExportData(ObservableCollection<Tour> tours, string filename);
+        public void ExportData(ObservableCollection<Tour> tours, string path);
+        public Task<List<Tour>> ImportData(Stream fileStream);
         public void GenerateTourReport(Tour tour, string path);
     }
 }

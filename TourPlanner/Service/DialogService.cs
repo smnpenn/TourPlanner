@@ -9,6 +9,7 @@ using TourPlanner.Model;
 using System.Diagnostics;
 using System.IO.Enumeration;
 using System.ComponentModel;
+using System.IO;
 
 namespace TourPlanner.UI.Service
 {
@@ -69,6 +70,23 @@ namespace TourPlanner.UI.Service
             }
         }
 
+        public Stream? ShowOpenFileDialog(string ext)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.Filter = $"{ext} documents |*.{ext}";
+
+            Nullable<bool> result = dlg.ShowDialog();
+
+            if(result == true)
+            {
+                return dlg.OpenFile();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public void OpenFileExplorer(string filename)
         {
             try
@@ -79,7 +97,7 @@ namespace TourPlanner.UI.Service
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Could not open given file", "Error");
+                System.Windows.MessageBox.Show("Could not open given file", "Error");
             }
             
         }

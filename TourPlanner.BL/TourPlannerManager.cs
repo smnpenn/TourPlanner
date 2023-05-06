@@ -69,9 +69,30 @@ namespace TourPlanner.BL
             return await apiHandler.GetRoute(tour);
         }
 
-        public void ExportData(ObservableCollection<Tour> tours, string filename)
+        public void ExportData(ObservableCollection<Tour> tours, string path)
         {
-            dataExporter.ExportData(tours, filename);
+            dataExporter.ExportData(tours, path);
+        }
+
+        public async Task<List<Tour>> ImportData(Stream fileStream)
+        {
+            List<Tour> data = dataImporter.ImportData(fileStream);
+
+            if(data != null)
+            {
+                foreach(Tour t in data)
+                {
+                    await apiHandler.GetRoute(t);
+                    dal.AddTour(t);
+                    foreach(TourLog log in t.Logs)
+                    {
+                        log.RelatedTour = t;
+                        dal.AddTourLog(log);
+                    }
+                }
+            }
+
+            return data;
         }
 
         public void GenerateTourReport(Tour tour, string path)
