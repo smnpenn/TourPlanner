@@ -69,11 +69,12 @@ namespace TourPlanner.UI.ViewModels
         {
 
             tourLogBarVM.SelectedTour = tour;
-            tour.Logs = tourLogBarVM.Items;
+            
 
             if(tour != null)
             {
                TourTitle = tour.Name;
+               tour.Logs = tourLogBarVM.Items;
                TourImage = LoadImage(tour.StaticMap);
             }
             else

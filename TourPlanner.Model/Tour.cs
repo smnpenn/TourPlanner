@@ -13,7 +13,7 @@ namespace TourPlanner.Model
         [Newtonsoft.Json.JsonIgnore]
         public int Id { get; private set; }
         public String Name { get; set; }
-        public String Description { get; set; }
+        public String? Description { get; set; }
         public String From { get; set; }
         public String To { get; set; }
 
@@ -41,6 +41,7 @@ namespace TourPlanner.Model
             Description = description;
             From = from;
             To = to;
+            Logs = new ObservableCollection<TourLog>();
         }
     }
 }
