@@ -81,7 +81,7 @@ namespace TourPlanner.UI.ViewModels
             CloseWindowCommand = new RelayCommand(_ => CloseWindow());
             UpdateRatingCommand = new RelayCommand(ChangeStar);
             NewRating = 0;
-
+            Date = DateTime.Now;
             this.bl = bl;
             this.vm = vm;
             relatedTour = vm.SelectedTour;
