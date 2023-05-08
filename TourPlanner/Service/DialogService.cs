@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using TourPlanner.UI.ViewModels;
-using TourPlanner.Model;
-using System.Diagnostics;
-using System.IO.Enumeration;
-using System.ComponentModel;
-using System.IO;
 
 namespace TourPlanner.UI.Service
 {
@@ -30,13 +24,13 @@ namespace TourPlanner.UI.Service
             }
         }
 
-        public void ShowDialog<T>(object dataContext, Action <T> onDialogClose = null) where T: Window, new()
+        public void ShowDialog<T>(object dataContext, Action<T> onDialogClose = null) where T : Window, new()
         {
             var view = new T();
             view.DataContext = dataContext;
             view.Owner = Application.Current.MainWindow;
             view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            if(onDialogClose != null)
+            if (onDialogClose != null)
             {
                 view.Closed += (sender, args) => onDialogClose(view as T);
             }
@@ -77,7 +71,7 @@ namespace TourPlanner.UI.Service
 
             Nullable<bool> result = dlg.ShowDialog();
 
-            if(result == true)
+            if (result == true)
             {
                 return dlg.OpenFile();
             }
@@ -95,11 +89,11 @@ namespace TourPlanner.UI.Service
                 startInfo.Arguments = filename;
                 Process.Start(startInfo);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 System.Windows.MessageBox.Show("Could not open given file", "Error");
             }
-            
+
         }
     }
 }

@@ -4,9 +4,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:TourPlanner.UI.Views"
-             mc:Ignorable="d" 
+             xmlns:local="clr-namespace:TourPlanner.UI.Views" xmlns:local1="clr-namespace:TourPlanner.UI.Service"
+        mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="525" MaxWidth="525" MaxHeight="400">
+    <Window.Resources>
+        <local1:StarColorConverter x:Key="StarColorConverter" />
+    </Window.Resources>
     <Grid Background="#0C5D97">
         <TextBlock Margin="10,10,0,0" Name="textBlockHeading" Text="Add new tour log"  FontSize="23" FontStretch="ExtraCondensed" FontWeight="Bold" Foreground="white" Height="36" VerticalAlignment="Top" HorizontalAlignment="Left" Width="194"/>
         <Grid Margin="29,80,29,0" Background="#0C5D97" Height="264" VerticalAlignment="Top">
@@ -18,18 +21,38 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="252*" />
             </Grid.RowDefinitions>
-            <TextBlock Height="23" Margin="55,20,290,0" Name="textBlockDate" Text="Date / Time: " VerticalAlignment="Top" FontWeight="Bold" Foreground="white" Grid.ColumnSpan="2" Grid.Column="1"/>
+            <TextBlock Height="23" Margin="55,-8,290,0" Name="textBlockName" Text="Name: " VerticalAlignment="Top" FontWeight="Bold" Foreground="white" Grid.ColumnSpan="2" Grid.Column="1"/>
+            <TextBlock Height="22" Margin="55,21,290,0" Name="textBlockDate" Text="Date / Time: " VerticalAlignment="Top" FontWeight="Bold" Foreground="white" Grid.ColumnSpan="2" Grid.Column="1"/>
             <TextBlock Height="23" HorizontalAlignment="Left" Margin="55,50,0,0" Name="textBlockComment" Text="Comment:" VerticalAlignment="Top" Width="110" FontWeight="Bold" Foreground="white" Grid.ColumnSpan="2" Grid.Column="1"/>
-            <TextBlock Height="23" HorizontalAlignment="Left" Margin="55,125,0,0" Name="textBlockRating" Text="Rating:" VerticalAlignment="Top" Width="110" FontWeight="Bold" Foreground="white" Grid.ColumnSpan="2" Grid.Column="1"/>
-            <TextBlock Height="22" HorizontalAlignment="Left" Margin="55,154,0,0" Name="textBlockTotalTime" Text="Total Time:" VerticalAlignment="Top" Width="110"  FontWeight="Bold" Foreground="white" Grid.ColumnSpan="2" Grid.Column="1"/>
-            <TextBlock Margin="55,183,290,0" Name="textBlockDifficulty" Text="Difficulty:" FontWeight="Bold" Foreground="white" Grid.ColumnSpan="2" Grid.Column="1" Height="23" VerticalAlignment="Top"/>
-            <TextBox Text="{Binding Date}" Height="23" HorizontalAlignment="Left" Margin="56,20,0,0" Name="textBoxDate" VerticalAlignment="Top" Width="222" Grid.Column="2" />
+            <TextBlock Height="23" HorizontalAlignment="Left" Margin="55,133,0,0" Name="textBlockRating" Text="Rating:" VerticalAlignment="Top" Width="110" FontWeight="Bold" Foreground="white" Grid.ColumnSpan="2" Grid.Column="1"/>
+            <TextBlock Height="22" HorizontalAlignment="Left" Margin="55,170,0,0" Name="textBlockTotalTime" Text="Total Time:" VerticalAlignment="Top" Width="110"  FontWeight="Bold" Foreground="white" Grid.ColumnSpan="2" Grid.Column="1"/>
+            <TextBlock Margin="55,199,290,0" Name="textBlockDifficulty" Text="Difficulty:" FontWeight="Bold" Foreground="white" Grid.ColumnSpan="2" Grid.Column="1" Height="23" VerticalAlignment="Top"/>
+            <TextBox Text="{Binding Name}" Height="23" HorizontalAlignment="Left" Margin="56,-8,0,0" Name="textBoxName" VerticalAlignment="Top" Width="222" Grid.Column="2" />
+            <DatePicker Height="23" SelectedDate="{Binding Date}" HorizontalAlignment="Left" Margin="56,20,0,0" Name="textBoxDate" VerticalAlignment="Top" Width="222" Grid.Column="2" IsTodayHighlighted="True"/>
             <TextBox Text="{Binding Comment}" Height="70" HorizontalAlignment="Left" Margin="56,50,0,0" Name="textBoxComment" VerticalAlignment="Top" Width="222" Grid.Column="2" />
-            <TextBox Text="{Binding Rating}" Height="23" HorizontalAlignment="Left" Margin="56,125,0,0" Name="textBoxRating" VerticalAlignment="Top" Width="222" Grid.Column="2" />
-            <TextBox Text="{Binding Time}" Height="22" HorizontalAlignment="Left" Margin="56,154,0,0" Name="textBoxTime" VerticalAlignment="Top" Width="222" Grid.Column="2" />
-            <TextBox Text="{Binding Difficulty}" Margin="56,183,0,0" Name="textBoxDifficulty" Grid.Column="2" HorizontalAlignment="Left" Width="222" Height="23" VerticalAlignment="Top" />
+            <TextBox Text="{Binding Time}" Height="22" HorizontalAlignment="Left" Margin="56,170,0,0" Name="textBoxTime" VerticalAlignment="Top" Width="222" Grid.Column="2" />
+            <TextBox Text="{Binding Difficulty}" Margin="56,199,0,0" Name="textBoxDifficulty" Grid.Column="2" HorizontalAlignment="Left" Width="222" Height="23" VerticalAlignment="Top" />
+
             <Button Content="Submit" Height="23" HorizontalAlignment="Left" Margin="208,232,0,0" Name="Submit" VerticalAlignment="Top" Width="70" Grid.Column="2" Command="{Binding AddTourLogCommand}"/>
             <Button Content="Cancel" Height="23" HorizontalAlignment="Center" Margin="0,232,0,0" Name="Cancel" VerticalAlignment="Top" Width="70" Grid.Column="2" CommandParameter="{Binding ElementName=AddTourLogWindow}" Command="{Binding CloseWindowCommand}"/>
+            <StackPanel Orientation="Horizontal" Height="38" VerticalAlignment="Top" Grid.Column="2" HorizontalAlignment="Left" Width="222" Margin="56,125,0,0">
+                <Button Content="&#x2606;" Width="30" Height="30" Margin="2"
+            Background="{Binding NewRating, Converter={StaticResource StarColorConverter}, ConverterParameter=1}"
+            Command="{Binding UpdateRatingCommand}" CommandParameter="1" />
+                <Button Content="&#x2606;" Width="30" Height="30" Margin="2"
+            Background="{Binding NewRating, Converter={StaticResource StarColorConverter}, ConverterParameter=2}"
+            Command="{Binding UpdateRatingCommand}" CommandParameter="2" />
+                <Button Content="&#x2606;" Width="30" Height="30" Margin="2"
+            Background="{Binding NewRating, Converter={StaticResource StarColorConverter}, ConverterParameter=3}"
+            Command="{Binding UpdateRatingCommand}" CommandParameter="3" />
+                <Button Content="&#x2606;" Width="30" Height="30" Margin="2"
+            Background="{Binding NewRating, Converter={StaticResource StarColorConverter}, ConverterParameter=4}"
+            Command="{Binding UpdateRatingCommand}" CommandParameter="4" />
+                <Button Content="&#x2606;" Width="30" Height="30" Margin="2"
+            Background="{Binding NewRating, Converter={StaticResource StarColorConverter}, ConverterParameter=5}"
+            Command="{Binding UpdateRatingCommand}" CommandParameter="5" />
+            </StackPanel>
+
         </Grid>
     </Grid>
 </Window>

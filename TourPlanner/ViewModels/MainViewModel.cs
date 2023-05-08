@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
@@ -21,7 +18,7 @@ namespace TourPlanner.UI.ViewModels
         public String TourTitle
         {
             get { return tourTitle; }
-            set 
+            set
             {
                 tourTitle = value;
                 OnPropertyChanged(nameof(tourTitle));
@@ -29,7 +26,7 @@ namespace TourPlanner.UI.ViewModels
         }
 
         private BitmapImage tourImage;
-        public BitmapImage TourImage 
+        public BitmapImage TourImage
         {
             get { return tourImage; }
             set
@@ -46,7 +43,7 @@ namespace TourPlanner.UI.ViewModels
         private TourLogsSideListBarViewModel tourLogBarVM;
         private TourSideListBarViewModel tourBarVM;
         private ITourPlannerManager bl;
-        
+
         public MainViewModel(ITourPlannerManager bl, TourLogsSideListBarViewModel tourLogBarVM, TourSideListBarViewModel tourBarVM)
         {
             this.bl = bl;
@@ -57,7 +54,7 @@ namespace TourPlanner.UI.ViewModels
             //MoreOptionsCommand = new RelayCommand(_ => ExportData());
             MoreOptionsCommand = new RelayCommand(_ => GenerateTourReport());
 
-            if (tourBarVM.SelectedItem != null ) 
+            if (tourBarVM.SelectedItem != null)
             {
                 tourTitle = tourBarVM.SelectedItem.Name;
                 TourImage = LoadImage(tourBarVM.SelectedItem.StaticMap);
@@ -69,13 +66,13 @@ namespace TourPlanner.UI.ViewModels
         {
 
             tourLogBarVM.SelectedTour = tour;
-            
 
-            if(tour != null)
+
+            if (tour != null)
             {
-               TourTitle = tour.Name;
-               tour.Logs = tourLogBarVM.Items;
-               TourImage = LoadImage(tour.StaticMap);
+                TourTitle = tour.Name;
+                tour.Logs = tourLogBarVM.Items;
+                TourImage = LoadImage(tour.StaticMap);
             }
             else
             {
@@ -84,7 +81,7 @@ namespace TourPlanner.UI.ViewModels
             }
         }
 
-        public void ShowTourDetailView() 
+        public void ShowTourDetailView()
         {
             TourDetailView tourDetailView = new TourDetailView
             {
@@ -116,7 +113,7 @@ namespace TourPlanner.UI.ViewModels
             }
 
             string? filename = DialogService.Instance.ShowSaveFileDialog($"Tour{tourBarVM.SelectedItem.Id}_Report", "pdf");
-            
+
             // Process save file dialog box results
             if (filename != null)
             {
