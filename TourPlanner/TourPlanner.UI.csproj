@@ -13,7 +13,6 @@
     <None Remove="ressources\icons\icon_edit.png" />
     <None Remove="ressources\icons\icon_more.png" />
     <None Remove="ressources\icons\icon_view.png" />
-    <None Remove="Views\icon_star.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,7 +31,6 @@
     <Resource Include="ressources\icons\icon_edit.png" />
     <Resource Include="ressources\icons\icon_more.png" />
     <Resource Include="ressources\icons\icon_view.png" />
-    <Resource Include="Views\icon_star.png" />
   </ItemGroup>
 
 </Project>
