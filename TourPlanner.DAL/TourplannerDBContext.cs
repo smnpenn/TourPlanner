@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +18,31 @@ namespace TourPlanner.DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Include Error Detail=True;Host=localhost;Database=tourplanner;Username=postgres;Password=admin");
+            string? config = GetDBConfig();
+
+            if(config == null)
+            {
+                throw new IOException("Database config is missing or invalid.");
+            }
+            optionsBuilder.UseNpgsql(config);
         }
 
+        private string? GetDBConfig()
+        {
+            string path = AppDomain.CurrentDomain.BaseDirectory + "/dbconfig.json";
+
+            if (File.Exists(path))
+            {
+                var pConfig = JsonConvert.DeserializeObject<Dictionary<string, object>>(File.ReadAllText(path));
+
+                if (pConfig == null || pConfig["host"] == null || pConfig["username"] == null || pConfig["password"] == null || pConfig["database"] == null)
+                {
+                    return null;
+                }
+
+                return $"Include Error Detail=True;Host={pConfig["host"]};Username={pConfig["username"]};Password={pConfig["password"]};Database={pConfig["database"]}";
+            }
+            return null;
+        }
     }
 }
