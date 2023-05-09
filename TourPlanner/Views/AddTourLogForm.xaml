@@ -4,7 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:TourPlanner.UI.Views" xmlns:local1="clr-namespace:TourPlanner.UI.Service"
+             xmlns:local="clr-namespace:TourPlanner.UI.Views" xmlns:local1="clr-namespace:TourPlanner.UI.Service" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="525" MaxWidth="525" MaxHeight="400">
     <Window.Resources>
@@ -28,7 +28,7 @@
             <TextBlock Height="22" HorizontalAlignment="Left" Margin="55,170,0,0" Name="textBlockTotalTime" Text="Total Time:" VerticalAlignment="Top" Width="110"  FontWeight="Bold" Foreground="white" Grid.ColumnSpan="2" Grid.Column="1"/>
             <TextBlock Margin="55,199,290,0" Name="textBlockDifficulty" Text="Difficulty:" FontWeight="Bold" Foreground="white" Grid.ColumnSpan="2" Grid.Column="1" Height="23" VerticalAlignment="Top"/>
             <TextBox Text="{Binding Name}" Height="23" HorizontalAlignment="Left" Margin="56,-8,0,0" Name="textBoxName" VerticalAlignment="Top" Width="222" Grid.Column="2" />
-            <DatePicker Height="23" SelectedDate="{Binding Date}" HorizontalAlignment="Left" Margin="56,20,0,0" Name="textBoxDate" VerticalAlignment="Top" Width="222" Grid.Column="2" IsTodayHighlighted="True"/>
+            <xctk:DateTimePicker Value="{Binding Date}" Height="23" HorizontalAlignment="Left" Margin="56,20,0,0" Name="textBoxDate" VerticalAlignment="Top" Width="222" Grid.Column="2"/>
             <TextBox Text="{Binding Comment}" Height="70" HorizontalAlignment="Left" Margin="56,50,0,0" Name="textBoxComment" VerticalAlignment="Top" Width="222" Grid.Column="2" />
             <TextBox Text="{Binding Time}" Height="22" HorizontalAlignment="Left" Margin="56,170,0,0" Name="textBoxTime" VerticalAlignment="Top" Width="222" Grid.Column="2" />
             <TextBox Text="{Binding Difficulty}" Margin="56,199,0,0" Name="textBoxDifficulty" Grid.Column="2" HorizontalAlignment="Left" Width="222" Height="23" VerticalAlignment="Top" />
