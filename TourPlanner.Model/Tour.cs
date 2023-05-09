@@ -25,7 +25,6 @@ namespace TourPlanner.Model
 
         [Newtonsoft.Json.JsonIgnore]
         public byte[] StaticMap { get; set; }
-        //Tour information (API Map)
         //Transport type (enum)
         [NotMapped]
         public ObservableCollection<TourLog> Logs { get; set; }

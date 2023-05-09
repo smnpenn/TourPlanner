@@ -86,12 +86,32 @@ namespace TourPlanner.UI.ViewModels
 
         public void CreateSummaryReport()
         {
-            MessageBox.Show("Summary report");
+            string? filename = DialogService.Instance.ShowSaveFileDialog($"SummaryReport", "pdf");
+
+            // Process save file dialog box results
+            if (filename != null)
+            {
+                bl.GenerateSummaryReport(tourVM.Items, filename);
+                DialogService.Instance.OpenFileExplorer(filename);
+            }
         }
 
         public void CreateSingleTourReport()
         {
-            MessageBox.Show("Single tour report");
+            if (tourVM.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a tour first.");
+                return;
+            }
+
+            string? filename = DialogService.Instance.ShowSaveFileDialog($"Tour{tourVM.SelectedItem.Id}_Report", "pdf");
+
+            // Process save file dialog box results
+            if (filename != null)
+            {
+                bl.GenerateTourReport(tourVM.SelectedItem, filename);
+                DialogService.Instance.OpenFileExplorer(filename);
+            }
         }
     }
 }
