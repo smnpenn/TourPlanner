@@ -99,5 +99,10 @@ namespace TourPlanner.BL
         {
             reportGenerator.GenerateTourReport(tour, path);
         }
+
+        public void GenerateSummaryReport(ObservableCollection<Tour> tours, string path)
+        {
+            reportGenerator.GenerateSummaryReport(tours, path);
+        }
     }
 }
