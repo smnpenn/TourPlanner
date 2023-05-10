@@ -57,7 +57,6 @@ namespace TourPlanner.UI.ViewModels
             logger = TourPlanner.DAL.Logging.LoggerFactory.GetLogger();
             ShowDetailsCommand = new RelayCommand(_ => ShowTourDetailView());
             ShowLogDetailsCommand = new RelayCommand(_ => ShowTourLogsDetailView());
-            MoreOptionsCommand = new RelayCommand(_ => GenerateTourReport());
 
             if (tourBarVM.SelectedItem != null)
             {
@@ -104,30 +103,6 @@ namespace TourPlanner.UI.ViewModels
                 DataContext = new TourLogsDetailViewModel(tourLogBarVM.Items)
             };
             tourLogsDetailView.Show();
-        }
-
-        public void ExportData()
-        {
-            bl.ExportData(tourBarVM.Items, "test");
-        }
-
-        public void GenerateTourReport()
-        {
-            if (tourBarVM.SelectedItem == null)
-            {
-                MessageBox.Show("Please select the tour you want to create the report about.");
-                logger.Error("Generate Single-Tour report: no tour selected");
-                return;
-            }
-
-            string? filename = DialogService.Instance.ShowSaveFileDialog($"Tour{tourBarVM.SelectedItem.Id}_Report", "pdf");
-
-            // Process save file dialog box results
-            if (filename != null)
-            {
-                bl.GenerateTourReport(tourBarVM.SelectedItem, filename);
-                DialogService.Instance.OpenFileExplorer(filename);
-            }
         }
 
         private static BitmapImage LoadImage(byte[] imageData)

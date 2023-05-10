@@ -27,9 +27,6 @@ namespace TourPlanner.UI.ViewModels
             }
         }
 
-
-
-
         public string Comment { get; set; }
 
 
@@ -37,11 +34,7 @@ namespace TourPlanner.UI.ViewModels
 
         public double Rating { get; set; }
 
-
         // Rating New
-
-
-
         public int _rating;
         public int NewRating
         {
@@ -57,8 +50,6 @@ namespace TourPlanner.UI.ViewModels
 
         public ObservableCollection<Brush> Stars { get; set; }
 
-
-
         public int Time { get; set; }
 
         public double Difficulty { get; set; }
@@ -72,8 +63,6 @@ namespace TourPlanner.UI.ViewModels
 
         private ITourPlannerManager bl;
         private TourLogsSideListBarViewModel vm;
-
-
 
         public AddTourLogViewModel(ITourPlannerManager bl, TourLogsSideListBarViewModel vm)
         {
@@ -98,20 +87,12 @@ namespace TourPlanner.UI.ViewModels
             }
         }
 
-
-
-
-
-
         public void AddNewTourLog()
         {
-
-
             TourLog log = new TourLog(Name, relatedTour, Date, Comment, Difficulty, Time, Convert.ToDouble(NewRating));
             bl.AddTourLog(log);
             vm.Items.Add(log);
             // TO-DO: Add TourLog to Tour -> We need to pass the current tour as parameter to the addNewTourLog to add the TourLog to the respective Tour
-
         }
 
         // Experimental, dont know how to pass window yet. 
@@ -119,8 +100,5 @@ namespace TourPlanner.UI.ViewModels
         {
             DialogService.Instance.CloseDialog(this);
         }
-
-
-
     }
 }

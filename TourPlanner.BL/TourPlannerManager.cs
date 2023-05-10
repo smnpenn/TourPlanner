@@ -24,7 +24,7 @@ namespace TourPlanner.BL
             dataImporter = new DataImporter();
             dataExporter = new DataExporter();
             reportGenerator = new ReportGenerator();
-            this.logger = TourPlanner.DAL.Logging.LoggerFactory.GetLogger();
+            logger = TourPlanner.DAL.Logging.LoggerFactory.GetLogger();
         }
 
         public void AddTour(Tour tour)

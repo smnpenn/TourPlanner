@@ -29,7 +29,7 @@ namespace TourPlanner.UI.ViewModels
             this.tourVM = tourVM;
             this.tourLogsVM = tourLogsVM;
             this.bl = bl;
-            this.logger = TourPlanner.DAL.Logging.LoggerFactory.GetLogger();
+            logger = TourPlanner.DAL.Logging.LoggerFactory.GetLogger();
             ImportCommand = new RelayCommand(_ => Import());
             ExportCommand = new RelayCommand(_ => Export());
             SummaryReportCommand = new RelayCommand(_ => CreateSummaryReport());
@@ -59,13 +59,14 @@ namespace TourPlanner.UI.ViewModels
                 catch (FileNotFoundException)
                 {
                     MessageBox.Show("File not found.");
+                    logger.Error("Import: file not found");
                 }
                 catch (Exception)
                 {
                     MessageBox.Show("Could not import data from given file.");
+                    logger.Error("Import: could not import data");
                 }
             }
-            
         }
 
         public void Export()
@@ -82,8 +83,8 @@ namespace TourPlanner.UI.ViewModels
                 catch(Exception)
                 {
                     MessageBox.Show("Error while exporting data!");
+                    logger.Error("Export: could not export data");
                 }
-                
             }
         }
 
@@ -97,16 +98,20 @@ namespace TourPlanner.UI.ViewModels
                 bl.GenerateSummaryReport(tourVM.Items, filename);
                 DialogService.Instance.OpenFileExplorer(filename);
             }
+            else
+            {
+                logger.Error("Summary report: no file declared");
+            }
         }
 
         public void CreateSingleTourReport()
         {
             if (tourVM.SelectedItem == null)
             {
+                logger.Info("Single-tour report: No tour selected");
                 MessageBox.Show("Please select a tour first.");
                 return;
             }
-
             string? filename = DialogService.Instance.ShowSaveFileDialog($"Tour{tourVM.SelectedItem.Id}_Report", "pdf");
 
             // Process save file dialog box results
@@ -114,6 +119,10 @@ namespace TourPlanner.UI.ViewModels
             {
                 bl.GenerateTourReport(tourVM.SelectedItem, filename);
                 DialogService.Instance.OpenFileExplorer(filename);
+            }
+            else
+            {
+                logger.Error("Single-tour report: no file declared");
             }
         }
     }
