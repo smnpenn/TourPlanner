@@ -1,4 +1,7 @@
-﻿using System;
+﻿using log4net.Core;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
@@ -44,14 +47,16 @@ namespace TourPlanner.UI.ViewModels
         private TourSideListBarViewModel tourBarVM;
         private ITourPlannerManager bl;
 
+        private static TourPlanner.DAL.Logging.ILoggerWrapper logger;
+
         public MainViewModel(ITourPlannerManager bl, TourLogsSideListBarViewModel tourLogBarVM, TourSideListBarViewModel tourBarVM)
         {
             this.bl = bl;
             this.tourLogBarVM = tourLogBarVM;
             this.tourBarVM = tourBarVM;
+            logger = TourPlanner.DAL.Logging.LoggerFactory.GetLogger();
             ShowDetailsCommand = new RelayCommand(_ => ShowTourDetailView());
             ShowLogDetailsCommand = new RelayCommand(_ => ShowTourLogsDetailView());
-            //MoreOptionsCommand = new RelayCommand(_ => ExportData());
             MoreOptionsCommand = new RelayCommand(_ => GenerateTourReport());
 
             if (tourBarVM.SelectedItem != null)
@@ -64,9 +69,8 @@ namespace TourPlanner.UI.ViewModels
 
         private void DisplayTourLogs(Tour tour)
         {
-
+            logger.Debug("New logs get displayed");
             tourLogBarVM.SelectedTour = tour;
-
 
             if (tour != null)
             {
@@ -76,6 +80,7 @@ namespace TourPlanner.UI.ViewModels
             }
             else
             {
+                logger.Warn("No tour selected");
                 TourTitle = "";
                 TourImage = null;
             }
@@ -83,6 +88,7 @@ namespace TourPlanner.UI.ViewModels
 
         public void ShowTourDetailView()
         {
+            logger.Info($"{tourBarVM.SelectedItem.Name} detail view opened");
             TourDetailView tourDetailView = new TourDetailView
             {
                 DataContext = new TourDetailViewModel(tourBarVM.SelectedItem)
@@ -92,6 +98,7 @@ namespace TourPlanner.UI.ViewModels
 
         public void ShowTourLogsDetailView()
         {
+            logger.Info("Log detail view opened");
             TourLogsDetailView tourLogsDetailView = new TourLogsDetailView
             {
                 DataContext = new TourLogsDetailViewModel(tourLogBarVM.Items)
@@ -109,6 +116,7 @@ namespace TourPlanner.UI.ViewModels
             if (tourBarVM.SelectedItem == null)
             {
                 MessageBox.Show("Please select the tour you want to create the report about.");
+                logger.Error("Generate Single-Tour report: no tour selected");
                 return;
             }
 
@@ -124,6 +132,7 @@ namespace TourPlanner.UI.ViewModels
 
         private static BitmapImage LoadImage(byte[] imageData)
         {
+            logger.Debug("Loading image");
             if (imageData == null || imageData.Length == 0) return null;
             var image = new BitmapImage();
             using (var mem = new MemoryStream(imageData))

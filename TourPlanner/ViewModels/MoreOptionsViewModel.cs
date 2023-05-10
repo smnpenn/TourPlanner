@@ -22,11 +22,14 @@ namespace TourPlanner.UI.ViewModels
         private ITourPlannerManager bl;
         private TourSideListBarViewModel tourVM;
         private TourLogsSideListBarViewModel tourLogsVM;
+
+        private static TourPlanner.DAL.Logging.ILoggerWrapper logger;
         public MoreOptionsViewModel(ITourPlannerManager bl, TourSideListBarViewModel tourVM, TourLogsSideListBarViewModel tourLogsVM) 
         {
             this.tourVM = tourVM;
             this.tourLogsVM = tourLogsVM;
             this.bl = bl;
+            this.logger = TourPlanner.DAL.Logging.LoggerFactory.GetLogger();
             ImportCommand = new RelayCommand(_ => Import());
             ExportCommand = new RelayCommand(_ => Export());
             SummaryReportCommand = new RelayCommand(_ => CreateSummaryReport());
