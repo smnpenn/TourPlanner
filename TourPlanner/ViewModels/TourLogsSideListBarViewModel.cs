@@ -72,8 +72,8 @@ namespace TourPlanner.UI.ViewModels
         public ICommand AddCommand { get; }
         public ICommand EditCommand { get; }
         public ICommand DeleteCommand { get; }
-
         private ITourPlannerManager bl;
+        private DAL.Logging.ILoggerWrapper logger;
 
         public TourLogsSideListBarViewModel(ITourPlannerManager bl)
         {
@@ -82,6 +82,7 @@ namespace TourPlanner.UI.ViewModels
             DeleteCommand = new RelayCommand(_ => DeleteItem());
 
             this.bl = bl;
+            logger = DAL.Logging.LoggerFactory.GetLogger();
         }
 
         public void AddItem()
@@ -92,6 +93,7 @@ namespace TourPlanner.UI.ViewModels
             }
             else
             {
+                logger.Warn("AddLog: no tour selected");
                 MessageBox.Show("Please select a tour you want to add your log to.");
             }
         }
@@ -106,6 +108,7 @@ namespace TourPlanner.UI.ViewModels
             if(selectedItem == null)
             {
                 MessageBox.Show("Please select the log you want to delete.");
+                logger.Warn("DeleteLog: no log selected");
                 return;
             }
             MessageBoxResult result;

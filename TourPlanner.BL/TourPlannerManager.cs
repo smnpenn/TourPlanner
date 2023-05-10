@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using TourPlanner.DAL;
@@ -14,6 +15,7 @@ namespace TourPlanner.BL
         private DataImporter dataImporter;
         private DataExporter dataExporter;
         private ReportGenerator reportGenerator;
+        private static TourPlanner.DAL.Logging.ILoggerWrapper logger;
 
         public TourPlannerManager(IDataManager dal)
         {
@@ -22,6 +24,7 @@ namespace TourPlanner.BL
             dataImporter = new DataImporter();
             dataExporter = new DataExporter();
             reportGenerator = new ReportGenerator();
+            logger = TourPlanner.DAL.Logging.LoggerFactory.GetLogger();
         }
 
         public void AddTour(Tour tour)

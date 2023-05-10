@@ -24,19 +24,18 @@ namespace TourPlanner.UI.ViewModels
 
         private ITourPlannerManager bl;
         private TourSideListBarViewModel vm;
+        private DAL.Logging.ILoggerWrapper logger;
         public AddTourViewModel(ITourPlannerManager bl, TourSideListBarViewModel vm)
         {
             AddTourCommand = new RelayCommand(_ => AddNewTour());
             CloseWindowCommand = new RelayCommand(_ => CloseWindow());
             this.bl = bl;
             this.vm = vm;
+            logger = DAL.Logging.LoggerFactory.GetLogger();
         }
-
-
         public async void AddNewTour()
         {
-            //MessageBox.Show($"Name: {Name}, Description: {Description}, From: {From}, To: {To}, TransportType: {TransportType}, Distance: {Distance}");
-
+            
             Tour tour = new Tour(Name, Description, From, To);
             tour = await bl.GetRoute(tour);
 
@@ -44,9 +43,11 @@ namespace TourPlanner.UI.ViewModels
             {
                 bl.AddTour(tour);
                 vm.Items.Add(tour);
+                logger.Debug("AddTour: add tour");
             }
             else
             {
+                logger.Error("AddTour: could not create route");
                 MessageBox.Show("Error creating Route!");
             }
         }
