@@ -33,13 +33,15 @@ namespace TourPlanner.BL
             Paragraph fromto = new Paragraph("Route: From " + tour.From + " to " + tour.To).SetFontSize(16);
             Paragraph distance = new Paragraph("Distance: " + tour.Distance).SetFontSize(16);
             Paragraph estTime = new Paragraph("Estimated Time: " + tour.EstimatedTime + " min").SetFontSize(16);
+            Paragraph transportType = new Paragraph("Transport type: " + tour.TransportType).SetFontSize(16);
             document.Add(fromto);
             document.Add(distance);
             document.Add(estTime);
+            document.Add(transportType);
             document.Add(new Paragraph("\n"));
-            
-            AddLogsToDocument(document, tour.Logs);
 
+            AddLogsToDocument(document, tour.Logs);
+            
             document.Close();
         }
 
@@ -104,26 +106,39 @@ namespace TourPlanner.BL
         private void AddLogsToDocument(Document document, ObservableCollection<TourLog> logs)
         {
             document.Add(new Paragraph("Logs").SetFontSize(18).SetBold());
-            Table table = new Table(UnitValue.CreatePercentArray(6)).UseAllAvailableWidth();
-            table.AddHeaderCell("Name");
-            table.AddHeaderCell("Comment");
-            table.AddHeaderCell("Date");
-            table.AddHeaderCell("Difficulty");
-            table.AddHeaderCell("Time");
-            table.AddHeaderCell("Rating");
-
-            foreach (TourLog log in logs)
+            if (logs != null)
             {
-                table.AddCell(log.Name);
-                table.AddCell(log.Comment);
-                table.AddCell(log.DateTime.ToString());
-                table.AddCell(log.Difficulty.ToString());
-                table.AddCell(log.TotalTime.ToString());
-                table.AddCell(log.Rating.ToString());
+                if(logs.Count > 0)
+                {
+                    Table table = new Table(UnitValue.CreatePercentArray(6)).UseAllAvailableWidth();
+                    table.AddHeaderCell("Name");
+                    table.AddHeaderCell("Comment");
+                    table.AddHeaderCell("Date");
+                    table.AddHeaderCell("Difficulty");
+                    table.AddHeaderCell("Time");
+                    table.AddHeaderCell("Rating");
+
+                    foreach (TourLog log in logs)
+                    {
+                        table.AddCell(log.Name);
+                        table.AddCell(log.Comment);
+                        table.AddCell(log.DateTime.ToString());
+                        table.AddCell(log.Difficulty.ToString());
+                        table.AddCell(log.TotalTime.ToString());
+                        table.AddCell(log.Rating.ToString());
+                    }
+
+                    document.Add(table);
+                }
+                else
+                {
+                    document.Add(new Paragraph("No logs available!").SetFontSize(16));
+                }
             }
-
-            document.Add(table);
-
+            else
+            {
+                document.Add(new Paragraph("No logs available!").SetFontSize(16));
+            }
         }
     }
 }

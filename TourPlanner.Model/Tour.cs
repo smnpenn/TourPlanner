@@ -8,6 +8,13 @@ using System.Threading.Tasks;
 
 namespace TourPlanner.Model
 {
+    public enum TransportType
+    {
+        Car = 0,
+        Pedestrian = 1,
+        Bike = 2
+    }
+
     public class Tour
     {
         [Newtonsoft.Json.JsonIgnore]
@@ -26,6 +33,8 @@ namespace TourPlanner.Model
         [Newtonsoft.Json.JsonIgnore]
         public byte[] StaticMap { get; set; }
         //Transport type (enum)
+        public TransportType TransportType { get; set; }
+
         [NotMapped]
         public ObservableCollection<TourLog> Logs { get; set; }
         
@@ -34,13 +43,14 @@ namespace TourPlanner.Model
 
         }
 
-        public Tour(string name, string description, string from, string to)
+        public Tour(string name, string description, string from, string to, TransportType transportType)
         {
             Name = name;
             Description = description;
             From = from;
             To = to;
             Logs = new ObservableCollection<TourLog>();
+            TransportType = transportType;
         }
     }
 }
