@@ -7,6 +7,7 @@
              mc:Ignorable="d" 
         x:Name="AddTourWindow"
              d:DesignHeight="400" d:DesignWidth="525" MaxHeight="400" MaxWidth="525">
+    
     <Grid Background="#0C5D97">
         <TextBlock Height="36" HorizontalAlignment="Left" Margin="10,10,0,0" Name="textBlockHeading" Text="Add New Tour" VerticalAlignment="Top" Width="160"  FontSize="23" FontStretch="ExtraCondensed" FontWeight="Bold" Foreground="white"/>
         <Grid Margin="29,65,29,0" Background="#0C5D97" Height="264" VerticalAlignment="Top">
@@ -23,7 +24,7 @@
             <TextBox Text="{Binding Description}" Height="70" HorizontalAlignment="Left" Margin="183,50,0,0" Name="textBoxComment" VerticalAlignment="Top" Width="222" />
             <TextBox Text="{Binding From}" Height="23" HorizontalAlignment="Left" Margin="183,125,0,0" Name="textBoxRating" VerticalAlignment="Top" Width="222" />
             <TextBox Text="{Binding To}" Height="22" HorizontalAlignment="Left" Margin="183,154,0,0" Name="textBoxTime" VerticalAlignment="Top" Width="222" />
-            <TextBox Text="{Binding TransportType}" Height="23" HorizontalAlignment="Left" Margin="183,183,0,0" Name="textBoxTransport" VerticalAlignment="Top" Width="222" />
+            <ComboBox SelectedItem="{Binding TransportType}" ItemsSource="{Binding TransportValues}" Height="23" HorizontalAlignment="Left" Margin="183,183,0,0" Name="comboBoxTransport" VerticalAlignment="Top" Width="222" />
 
             <Button Content="Submit" HorizontalAlignment="Left" Margin="335,241,0,0" Name="Submit" Width="70" Height="23" VerticalAlignment="Top" Command="{Binding AddTourCommand}"/>
             <Button Content="Cancel" Margin="259,241,0,0" Name="Cancel" HorizontalAlignment="Left" Width="70" Height="23" VerticalAlignment="Top" Command="{Binding CloseWindowCommand}"/>

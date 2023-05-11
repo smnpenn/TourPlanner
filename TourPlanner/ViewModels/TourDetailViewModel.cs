@@ -17,7 +17,7 @@ namespace TourPlanner.UI.ViewModels
         public String ToText { get; set; }
         public String DistanceText { get; set; }
         public String EstimatedTimeText { get; set; }
-        public String TransportType { get; set; }
+        public TransportType TransportType { get; set; }
 
         public TourDetailViewModel(Tour tour) 
         { 
@@ -28,7 +28,7 @@ namespace TourPlanner.UI.ViewModels
             ToText = tour.To;
             DistanceText = $"{tour.Distance} km";
             EstimatedTimeText = $"{tour.EstimatedTime} min";
-            TransportType = "Transport Type";
+            TransportType = tour.TransportType;
         }
     }
 }

@@ -7,6 +7,7 @@ using System;
 using System.Windows.Documents;
 using System.Collections.Generic;
 using TourPlanner.UI.Service;
+using System.Linq;
 
 namespace TourPlanner.UI.ViewModels
 {
@@ -16,9 +17,15 @@ namespace TourPlanner.UI.ViewModels
         public string Description { get; set; }
         public string From { get; set; }
         public string To { get; set; }
-        public string TransportType { get; set; }
+        public TransportType TransportType { get; set; }
+        public IEnumerable<TransportType> TransportValues
+        {
+            get
+            {
+                return Enum.GetValues(typeof(TransportType)).Cast<TransportType>();
+            }
+        }
 
-        public double Distance { get; set; }
         public ICommand AddTourCommand { get; set; }
         public ICommand CloseWindowCommand { get; }
 
@@ -32,11 +39,17 @@ namespace TourPlanner.UI.ViewModels
             this.bl = bl;
             this.vm = vm;
             logger = DAL.Logging.LoggerFactory.GetLogger();
+
+            Name = "";
+            Description = "";
+            From = "";
+            To = "";
+            TransportType = 0;
         }
         public async void AddNewTour()
         {
             
-            Tour tour = new Tour(Name, Description, From, To);
+            Tour tour = new Tour(Name, Description, From, To, TransportType);
             tour = await bl.GetRoute(tour);
 
             if(tour != null)

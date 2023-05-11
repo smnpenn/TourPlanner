@@ -12,7 +12,6 @@ namespace TourPlanner.BL
 {
     public class DataExporter
     {
-        
         public DataExporter() { }
 
         public void ExportData(ObservableCollection<Tour> data, string path)
