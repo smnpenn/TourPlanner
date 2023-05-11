@@ -87,11 +87,19 @@ namespace TourPlanner.BL
                 {
                     await apiHandler.GetRoute(t);
                     dal.AddTour(t);
-                    foreach(TourLog log in t.Logs)
+                    if(t.Logs != null)
                     {
-                        log.RelatedTour = t;
-                        dal.AddTourLog(log);
+                        foreach (TourLog log in t.Logs)
+                        {
+                            log.RelatedTour = t;
+                            dal.AddTourLog(log);
+                        }
                     }
+                    else
+                    {
+                        t.Logs = new ObservableCollection<TourLog>();
+                    }
+                    
                 }
             }
 
