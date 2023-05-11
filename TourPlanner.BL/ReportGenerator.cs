@@ -60,31 +60,38 @@ namespace TourPlanner.BL
 
                 if(tour.Logs != null)
                 {
-                    Paragraph logCount = new Paragraph("Amount of logs: " + tour.Logs.Count).SetFontSize(16);
-                    document.Add(logCount);
-
-                    Table table = new Table(UnitValue.CreatePercentArray(6)).UseAllAvailableWidth();
-                    table.AddHeaderCell("Average time");
-                    table.AddHeaderCell("Average difficulty");
-                    table.AddHeaderCell("Average rating");
-                    double sumTime = 0;
-                    double sumDifficulty = 0;
-                    double sumRating = 0;
-                    foreach (TourLog log in tour.Logs)
+                    if(tour.Logs.Count > 0)
                     {
-                        sumTime += log.TotalTime;
-                        sumDifficulty += log.Difficulty;
-                        sumRating += log.Rating;
+                        Paragraph logCount = new Paragraph("Amount of logs: " + tour.Logs.Count).SetFontSize(16);
+                        document.Add(logCount);
+
+                        Table table = new Table(UnitValue.CreatePercentArray(6)).UseAllAvailableWidth();
+                        table.AddHeaderCell("Average time");
+                        table.AddHeaderCell("Average difficulty");
+                        table.AddHeaderCell("Average rating");
+                        double sumTime = 0;
+                        double sumDifficulty = 0;
+                        double sumRating = 0;
+                        foreach (TourLog log in tour.Logs)
+                        {
+                            sumTime += log.TotalTime;
+                            sumDifficulty += log.Difficulty;
+                            sumRating += log.Rating;
+                        }
+                        double avgTime = Math.Round(sumTime / tour.Logs.Count, 2);
+                        double avgDifficulty = Math.Round(sumDifficulty / tour.Logs.Count, 2);
+                        double avgRating = Math.Round(sumRating / tour.Logs.Count, 2);
+
+                        table.AddCell(avgTime.ToString() + " min");
+                        table.AddCell(avgDifficulty.ToString());
+                        table.AddCell(avgRating.ToString());
+
+                        document.Add(table);
                     }
-                    double avgTime = Math.Round(sumTime / tour.Logs.Count, 2);
-                    double avgDifficulty = Math.Round(sumDifficulty / tour.Logs.Count, 2);
-                    double avgRating = Math.Round(sumRating / tour.Logs.Count, 2);
-
-                    table.AddCell(avgTime.ToString() + " min");
-                    table.AddCell(avgDifficulty.ToString());
-                    table.AddCell(avgRating.ToString());
-
-                    document.Add(table);
+                    else
+                    {
+                        document.Add(new Paragraph("No logs available for this tour!").SetFontSize(16));
+                    }
                 }
                 else
                 {
