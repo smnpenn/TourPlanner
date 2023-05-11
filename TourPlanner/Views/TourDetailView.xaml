@@ -5,24 +5,63 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TourPlanner.UI.Views"
         mc:Ignorable="d"
-        Title="TourDetailView" Height="200" Width="300" MinHeight="200" MinWidth="300">
-    <Grid Background="#C3ECBD">
+        Title="TourDetailView" Height="540" Width="800" MinHeight="540" MinWidth="800">
+    <!-- 
+        Binding Properties:
+        
+        Description -> Description Text
+        Name -> Name of Tour
+        FromToText -> Text From and To combined
+        DistanceText -> Text displayed for Distance
+        TransportType -> Displays the Transport Type
+        EstimatedTime -> Estimated Time of the tour.
+    
+        -->
+
+    <Grid Background="#DCDEDE">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width=".7*"/>
-            <ColumnDefinition Width=".3*"/>
+            <ColumnDefinition Width="181"/>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="260*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height=".5*"/>
-            <RowDefinition Height="35"/>
-            <RowDefinition Height="35"/>
+            <RowDefinition Height=".128*" MaxHeight="64"/>
+            <RowDefinition Height=".102*"/>
+            <RowDefinition Height=".234*"/>
+            <RowDefinition Height=".044*"/>
+            <RowDefinition Height=".064*"/>
+            <RowDefinition Height=".044*"/>
+            <RowDefinition Height=".064*"/>
+            <RowDefinition Height=".044*"/>
+            <RowDefinition Height=".064*"/>
+            <RowDefinition Height=".044*"/>
+            <RowDefinition Height=".064*"/>
+            <RowDefinition Height=".044*"/>
+            <RowDefinition Height=".064*"/>
+            <RowDefinition Height=".044*"/>
         </Grid.RowDefinitions>
-
-        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding Name}"></Label>
-        <TextBlock FontSize="14" Margin="3 3 3 3"  Grid.Row="1" Grid.ColumnSpan="2" TextWrapping="WrapWithOverflow" Text="{Binding Description}"></TextBlock>
-        <Label Grid.Row="2" Grid.Column="0" FontSize="16" Content="{Binding FromToText}"></Label>
-        <Label Grid.Row="2" Grid.Column="1" FontSize="16" Content="{Binding DistanceText}"></Label>
-        <Label Grid.Row="3" Grid.Column="0" FontSize="16" Content="{Binding TransportType}"></Label>
-        <Label Grid.Row="3" Grid.Column="1" FontSize="16" Content="{Binding EstimatedTimeText}"></Label>
+        <Rectangle Fill="#0c5d97" Grid.ColumnSpan="3" Stretch="UniformToFill" VerticalAlignment="Center"/>
+        <Rectangle Fill="#c3ecbd"  Grid.Row="1" Grid.RowSpan="13"/>
+        <Label Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" Foreground="White" FontWeight="Bold" Content="{Binding Name}"></Label>
+        <Label Grid.Row="2" HorizontalAlignment="Center" FontWeight="Bold" FontSize="16" Content="Tour Details"></Label>
+        <Label Grid.Row="4" HorizontalAlignment="Center" FontWeight="Bold" FontSize="16" Content="From"></Label>
+        <Label Grid.Row="6" HorizontalAlignment="Center" FontWeight="Bold" FontSize="16" Content="To"></Label>
+        <Label Grid.Row="8" HorizontalAlignment="Center" FontWeight="Bold" FontSize="16" Content="Travel Distance"></Label>
+        <Label Grid.Row="10" HorizontalAlignment="Center" FontWeight="Bold" FontSize="16" Content="Travel Time"></Label>
+        <Label Grid.Row="12" HorizontalAlignment="Center" FontWeight="Bold" FontSize="16" Content="Travel Type"></Label>
+        <Label Grid.Row="2" Grid.Column="3" FontSize="16" Content="{Binding Description}"></Label>
+        <Label Grid.Row="4" Grid.Column="3" FontSize="16" Content="{Binding FromToText}"></Label>
+        <Label Grid.Row="6" Grid.Column="3" FontSize="16" Content="{Binding FromToText}"></Label>
+        <Label Grid.Row="8" Grid.Column="3" FontSize="16" Content="{Binding DistanceText}"></Label>
+        <Label Grid.Row="10" Grid.Column="3" FontSize="16" Content="{Binding EstimatedTimeText}"></Label>
+        <Label Grid.Row="12" Grid.Column="3" FontSize="16" Content="{Binding TransportType}"></Label>
+        <!-- 
+        <TextBlock FontSize="14" Margin="0,5,3,3"  Grid.Row="1" TextWrapping="WrapWithOverflow" Text="{Binding Description}" Grid.Column="1"/>
+        <Label Grid.Column="1" FontWeight="Bold" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Center" Content="{Binding Name}" Height="24" Width="22" Margin="8,0,0,0"/>
+        <Label Grid.Row="2" Grid.Column="0" FontSize="16" Content="{Binding FromToText}" Margin="0,9,0,0"/>
+        <Label Grid.Row="2" Grid.Column="1" FontSize="16" Content="{Binding DistanceText}" Margin="0,9,0,0"/>
+        <Label Grid.Row="2" Grid.Column="0" FontSize="16" Content="{Binding TransportType}" Margin="0,35,0,0" Grid.RowSpan="2"/>
+        <Label Grid.Row="2" Grid.Column="1" FontSize="16" Content="{Binding EstimatedTimeText}" Margin="0,35,0,0" Grid.RowSpan="2"/>
+    -->
     </Grid>
 </Window>
