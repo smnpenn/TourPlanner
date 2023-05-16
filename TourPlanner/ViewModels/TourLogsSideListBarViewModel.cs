@@ -100,7 +100,14 @@ namespace TourPlanner.UI.ViewModels
 
         public void EditItem()
         {
-            MessageBox.Show("TourLogBar Edit");
+            if (selectedItem == null)
+            {
+                MessageBox.Show("Please select the log you want to edit.");
+                return;
+            }
+
+            EditLogViewModel editLogVM = new EditLogViewModel(selectedItem, bl, this);
+            DialogService.Instance.ShowDialog<EditLogForm>(editLogVM);
         }
 
         public void DeleteItem()

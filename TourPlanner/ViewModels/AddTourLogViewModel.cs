@@ -92,10 +92,8 @@ namespace TourPlanner.UI.ViewModels
             TourLog log = new TourLog(Name, relatedTour, Date, Comment, Difficulty, Time, Convert.ToDouble(NewRating));
             bl.AddTourLog(log);
             vm.Items.Add(log);
-            // TO-DO: Add TourLog to Tour -> We need to pass the current tour as parameter to the addNewTourLog to add the TourLog to the respective Tour
         }
 
-        // Experimental, dont know how to pass window yet. 
         public void CloseWindow()
         {
             DialogService.Instance.CloseDialog(this);

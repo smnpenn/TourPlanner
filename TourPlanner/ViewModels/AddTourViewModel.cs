@@ -57,6 +57,7 @@ namespace TourPlanner.UI.ViewModels
                 bl.AddTour(tour);
                 vm.Items.Add(tour);
                 logger.Debug("AddTour: add tour");
+                CloseWindow();
             }
             else
             {
