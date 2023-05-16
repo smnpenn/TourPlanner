@@ -62,11 +62,13 @@ namespace TourPlanner.DAL
             Tour currentTour = dbContext.Tours.Where(X => X.Id == tour.Id).First();
 
             currentTour.Name = tour.Name;
+            currentTour.Description = tour.Description;
             currentTour.From = tour.From;
             currentTour.To = tour.To;
             currentTour.Distance = tour.Distance;
-            currentTour.Description = tour.Description;
+            currentTour.TransportType = tour.TransportType;
             currentTour.EstimatedTime = tour.EstimatedTime;
+            currentTour.StaticMap = tour.StaticMap;
 
             dbContext.SaveChanges();
         }
@@ -79,7 +81,6 @@ namespace TourPlanner.DAL
             currentLog.Comment = log.Comment;
             currentLog.DateTime = log.DateTime;
             currentLog.Rating = log.Rating;
-            currentLog.RelatedTour = log.RelatedTour;
             currentLog.Difficulty = log.Difficulty;
             currentLog.TotalTime = log.TotalTime;
 

@@ -70,7 +70,15 @@ namespace TourPlanner.UI.ViewModels
 
         public void EditItem()
         {
-            bl.GetRoute(selectedItem);
+
+            if (selectedItem == null)
+            {
+                MessageBox.Show("Please select the tour you want to edit.");
+                return;
+            }
+
+            EditTourViewModel editTourVM = new EditTourViewModel(selectedItem, bl, this);
+            DialogService.Instance.ShowDialog<EditTourForm>(editTourVM);
         }
 
         public void DeleteItem()
