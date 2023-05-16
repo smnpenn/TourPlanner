@@ -9,5 +9,6 @@ namespace TourPlanner.DAL.Configuration
     public interface IConfigManager
     {
         public string? GetDBConfig();
+        public string? GetAPIKey();
     }
 }

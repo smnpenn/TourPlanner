@@ -11,7 +11,7 @@ namespace TourPlanner.DAL.Configuration
     {
         public string? GetDBConfig()
         {
-            string path = AppDomain.CurrentDomain.BaseDirectory + "/dbconfig.json";
+            string path = AppDomain.CurrentDomain.BaseDirectory + "/config.json";
 
             if (File.Exists(path))
             {
@@ -23,6 +23,24 @@ namespace TourPlanner.DAL.Configuration
                 }
 
                 return $"Include Error Detail=True;Host={pConfig["host"]};Username={pConfig["username"]};Password={pConfig["password"]};Database={pConfig["database"]}";
+            }
+            return null;
+        }
+
+        public string? GetAPIKey()
+        {
+            string path = AppDomain.CurrentDomain.BaseDirectory + "/config.json";
+
+            if (File.Exists(path))
+            {
+                var pConfig = JsonConvert.DeserializeObject<Dictionary<string, object>>(File.ReadAllText(path));
+
+                if (pConfig == null || pConfig["apikey"] == null)
+                {
+                    return null;
+                }
+
+                return pConfig["apikey"].ToString();
             }
             return null;
         }

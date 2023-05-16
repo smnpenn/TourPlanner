@@ -12,20 +12,31 @@ using System.Text.Json.Nodes;
 using Newtonsoft.Json;
 using System.ComponentModel;
 using System.Collections.Specialized;
+using TourPlanner.DAL.Configuration;
 
 namespace TourPlanner.BL
 {
     public class MapQuestAPIHandler
     {
-        public String APIKey = "Ow4N92lkSVhzev2Mp2Km2HIcR5jysxP0";
+        public String APIKey = String.Empty;
 
         private HttpClient client = new HttpClient();
+        private IConfigManager configManager = new ConfigManager();
+        private DAL.Logging.ILoggerWrapper logger;
 
         public MapQuestAPIHandler()
         {
+            APIKey = configManager.GetAPIKey();
             client.BaseAddress = new Uri("https://www.mapquestapi.com");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            logger = DAL.Logging.LoggerFactory.GetLogger();
+
+            if(APIKey == null)
+            {
+                logger.Fatal("API Key invalid");
+                throw new NullReferenceException("API Key invalid");
+            }
         }
 
         public async Task<Tour> GetRoute(Tour tour)
@@ -34,7 +45,19 @@ namespace TourPlanner.BL
             query["key"] = APIKey;
             query["from"] = tour.From;
             query["to"] = tour.To;
-            query["routeType"] = "car";
+            
+            if(tour.TransportType == TransportType.Car)
+            {
+                query["routeType"] = "fastest";
+            }
+            else if(tour.TransportType == TransportType.Bike)
+            {
+                query["routeType"] = "bicycle";
+            }
+            else if(tour.TransportType == TransportType.Pedestrian)
+            {
+                query["routeType"] = "pedestrian";
+            }
 
             HttpResponseMessage response = await client.GetAsync("/directions/v2/route?" + query.ToString());
             if (response.IsSuccessStatusCode)
