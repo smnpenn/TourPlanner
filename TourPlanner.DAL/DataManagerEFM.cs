@@ -18,6 +18,7 @@ namespace TourPlanner.DAL
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             //dbContext.Database.EnsureDeleted();
             dbContext.Database.EnsureCreated();
+            //IOException
         }
 
         public void AddTour(Tour tour)
