@@ -16,7 +16,7 @@ namespace TourPlanner
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             //create all layers
-            var dal = new DataManagerEFM();
+            var dal = new DataManagerEFM(false);
             var bl = new TourPlannerManager(dal);
 
             var tourBarVM = new TourSideListBarViewModel(bl);

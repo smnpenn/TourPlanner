@@ -23,4 +23,8 @@
     <ProjectReference Include="..\TourPlanner\TourPlanner.UI.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
 </Project>

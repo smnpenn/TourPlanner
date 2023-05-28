@@ -13,9 +13,13 @@ namespace TourPlanner.DAL
     {
         private readonly TourplannerDBContext dbContext = new TourplannerDBContext();
 
-        public DataManagerEFM()
+        public DataManagerEFM(bool wipeData)
         {
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+            if(wipeData)
+            {
+                dbContext.Database.EnsureDeleted();
+            }
             //dbContext.Database.EnsureDeleted();
             dbContext.Database.EnsureCreated();
             //IOException

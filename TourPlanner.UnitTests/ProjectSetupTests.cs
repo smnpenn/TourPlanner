@@ -15,13 +15,13 @@ namespace TourPlanner.UnitTests
         [Test]
         public void ProjectSetup_DatabaseConnection()
         {
-            dataManager = new DataManagerEFM();
+            dataManager = new DataManagerEFM(true);
         }
 
         [Test]
         public void ProjectSetup_Log4NetConfig()
         {
-            ILoggerWrapper logger = TourPlanner.DAL.Logging.LoggerFactory.GetLogger();
+            ILoggerWrapper logger = LoggerFactory.GetLogger();
         }
 
         [Test]
