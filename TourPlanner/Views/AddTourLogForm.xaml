@@ -31,7 +31,7 @@
             <xctk:DateTimePicker Value="{Binding Date}" Height="23" HorizontalAlignment="Left" Margin="56,20,0,0" Name="textBoxDate" VerticalAlignment="Top" Width="222" Grid.Column="2"/>
             <TextBox Text="{Binding Comment}" Height="70" HorizontalAlignment="Left" Margin="56,50,0,0" Name="textBoxComment" VerticalAlignment="Top" Width="222" Grid.Column="2" />
             <TextBox Text="{Binding Time}" Height="22" HorizontalAlignment="Left" Margin="56,170,0,0" Name="textBoxTime" VerticalAlignment="Top" Width="63" Grid.Column="2" />
-            <Label Grid.Column="2" Margin="119,168,164,72" Foreground="white" FontWeight="Bold">minutes</Label>
+            <Label Grid.Column="2" Margin="119,168,135,72" Foreground="white" FontWeight="Bold">minutes</Label>
             <TextBox Text="{Binding Difficulty}" Margin="56,199,0,0" Name="textBoxDifficulty" Grid.Column="2" HorizontalAlignment="Left" Width="222" Height="23" VerticalAlignment="Top" />
 
             <Button Content="Submit" Height="23" HorizontalAlignment="Left" Margin="208,232,0,0" Name="Submit" VerticalAlignment="Top" Width="70" Grid.Column="2" Command="{Binding AddTourLogCommand}"/>

@@ -29,22 +29,40 @@ namespace TourPlanner.BL
 
         public void AddTour(Tour tour)
         {
-            dal.AddTour(tour);
+            if(tour != null)
+            {
+                dal.AddTour(tour);
+            }
         }
 
         public void AddTourLog(TourLog log)
         {
-            dal.AddTourLog(log);
+            if(log != null)
+            {
+                if(log.RelatedTour != null)
+                {
+                    if (GetTours().Contains(log.RelatedTour))
+                    {
+                        dal.AddTourLog(log);
+                    }
+                }
+            }
         }
 
         public void DeleteTour(Tour tour)
         {
-            dal.DeleteTour(tour);
+            if(tour != null)
+            {
+                dal.DeleteTour(tour);
+            }
         }
 
         public void DeleteTourLog(TourLog log)
         {
-            dal.DeleteTourLog(log);
+            if(log != null)
+            {
+                dal.DeleteTourLog(log);
+            }
         }
 
         public ObservableCollection<TourLog> GetTourLogs(Tour tour)
@@ -59,7 +77,10 @@ namespace TourPlanner.BL
 
         public void UpdateTour(Tour tour)
         {
-            dal.UpdateTour(tour);
+            if(tour != null) 
+            {
+                dal.UpdateTour(tour);
+            }
         }
 
         public void UpdateTourLog(TourLog log)

@@ -13,7 +13,7 @@ using TourPlanner.UI.Views;
 
 namespace TourPlanner.UI.ViewModels
 {
-    class MainViewModel : BaseViewModel
+    public class MainViewModel : BaseViewModel
     {
 
         private String tourTitle;
