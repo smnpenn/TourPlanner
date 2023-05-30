@@ -12,7 +12,7 @@ namespace TourPlanner.Model
 
         public ObservableCollection<TourLog> Logs { get; set; }
 
-        public ElasticTourDocument(int id, string name, string description, string from, string to, ObservableCollection<TourLog> logs)
+        public ElasticTourDocument(int id, string name, string description, string from, string to, ObservableCollection<ElasticTourLog> logs)
         {
             Id = id;
             Name = name;

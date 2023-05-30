@@ -12,7 +12,7 @@ namespace TourPlanner.DAL.ElasticSearch
         {
             var pool = new SingleNodeConnectionPool(new Uri("https://localhost:9200"));
             var settings = new ConnectionSettings(pool)
-                .CertificateFingerprint("54:44:ec:01:47:37:9d:9f:58:dd:1a:be:54:bf:3b:4c:72:0e:a6:c7:19:67:60:ab:63:19:fc:0f:00:ee:53:ce")
+                .CertificateFingerprint("54:44:ec:01:47:37:9d:9f:58:dd:1a:be:54:bf:3b:4c:72:0e:a6:c7:19:67:60:ab:63:19:fc:0f:00:ee:53:ce") // fuck this
                 .BasicAuthentication("elastic", "elastic")
                 .DefaultIndex("testindex-001")
                 .DefaultMappingFor<ElasticTourDocument>(i => i.IndexName("tours-v1"))
@@ -23,7 +23,7 @@ namespace TourPlanner.DAL.ElasticSearch
         }
 
 
-        public async Task<string> IndexTourDocument(int doc_id, string name, string description, string from, string to, int index, ObservableCollection<TourLog> logs)
+        public async Task<string> IndexTourDocument(int doc_id, string name, string description, string from, string to, int index, ObservableCollection<ElasticTourLog> logs)
         {
 
             var data = new ElasticTourDocument(doc_id, name, description, from, to, logs);
@@ -76,7 +76,7 @@ namespace TourPlanner.DAL.ElasticSearch
         }
 
         // Update documents
-        public async Task<string> UpdateTourDocument(string id, int doc_id, string name, string description, string from, string to, ObservableCollection<TourLog> logs)
+        public async Task<string> UpdateTourDocument(string id, int doc_id, string name, string description, string from, string to, ObservableCollection<ElasticTourLog> logs)
         {
             var updateRequest = new UpdateRequest<ElasticTourDocument, ElasticTourDocument>(id)
             {
@@ -117,19 +117,19 @@ namespace TourPlanner.DAL.ElasticSearch
          * 
          * 
          * 
-         * Aufrufen von Sachen
-         * var indexRequest = new IndexRequest<DOCUTYPE>
-         * {
+         * 
+         * Suchen via FuzzySearch
+         * ElasticSearchService searchService = new ElasticSearchService();
+         * searchService.FuzzySearch(TERM);
          * 
          * 
-         * };
-         * 
-         * var indexResponse = ElasticSearchService.Index(indexRequest);
-         * 
-         * var deleteRequest = new DeleteRequest("my-index-001", id)
+         * INDEX documents
+         * var res = await searchService..IndexTourDocument(7, "test tour 5", "test description", "brixen", "wien", 7, new System.Collections.ObjectModel.ObservableCollection<ElasticTourLog> { new ElasticTourLog("tour log 1", DateTime.Now, "comment", 2, 120, 5) });
          * 
          * 
-         * var deleteResponse = elasticSearchService.Delete<DOCUTYPE>(deleteRequest);
+         * 
+         * 
+         * 
          * 
          * 
          * 
