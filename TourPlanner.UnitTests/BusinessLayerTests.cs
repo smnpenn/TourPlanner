@@ -10,6 +10,7 @@ using TourPlanner.Model;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.DirectoryServices.ActiveDirectory;
+using System.Windows;
 
 namespace TourPlanner.UnitTests
 {
@@ -205,27 +206,121 @@ namespace TourPlanner.UnitTests
 
             Tour tour = new Tour("Name", "Description", "Wien", "Salzburg", TransportType.Car);
             tour = await bl.GetRoute(tour);
-            bl.AddTour(tour);
             TourLog log = new TourLog("Log", tour, DateTime.Now, "Comment", 3.0, 120, 4);
-            bl.AddTourLog(log);
+            tour.Logs.Add(log);
+            bl.AddTour(tour);
 
             //Act
             bl.ExportData(bl.GetTours(), path);
             Assert.That(File.Exists(path));
         }
 
-        /*[Test]
-        public void BusinessLayer_ImportValid() 
+        [Test]
+        public async Task BusinessLayer_ImportValid()
         {
-            string json = "[{{\"Name\":\"Tour2\",\"Description\":\"sdw\",\"From\":\"Bozen\",\"To\":\"Brixen\",\"Logs\":[{{\"Name\":\"Log\",\"DateTime\":\"2023-04-20T10:25:01.789898\",\"Comment\":\"wdwd\",\"Difficulty\":0.0,\"TotalTime\":0,\"Rating\":0.0}},{{\"Name\":\"Log\",\"DateTime\":\"2023-04-20T11:04:24.891694\",\"Comment\":\"dwwd\",\"Difficulty\":2.0,\"TotalTime\":2,\"Rating\":2.0}}]}}]";
+            //Arrange
+            string json = "[{\"Name\":\"Tour2\",\"Description\":\"sdw\",\"From\":\"Bozen\",\"To\":\"Brixen\",\"Logs\":[{\"Name\":\"Log\",\"DateTime\":\"2023-04-20T10:25:01.789898\",\"Comment\":\"wdwd\",\"Difficulty\":3.0,\"TotalTime\":120,\"Rating\":3.0},{\"Name\":\"Log\",\"DateTime\":\"2023-04-20T11:04:24.891694\",\"Comment\":\"dwwd\",\"Difficulty\":2.0,\"TotalTime\":2,\"Rating\":2.0}]}]";
+            string path = AppDomain.CurrentDomain.BaseDirectory + "/importTest_valid.json";
 
-        }*/
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            using (StreamWriter writer = new StreamWriter(path))
+            {
+                writer.WriteLine(json);
+            }
 
-        /*
-         Import_Valid
-         Import_Invalid
-         (Import_NoLogs_ListGetsInitialized)
-         Tour_Report_FileExists
-         SummaryReport_FileExists*/
+            //Act
+            await bl.ImportData(File.Open(path, FileMode.Open));
+            Tour tour = bl.GetTours()[0];
+            Assert.That(bl.GetTours().Count(), Is.EqualTo(1));
+            Assert.That(bl.GetTourLogs(tour).Count(), Is.EqualTo(2));
+            Assert.That(tour.Name, Is.EqualTo("Tour2"));
+        }
+
+        [Test]
+        public void BusinessLayer_Import_Invalid()
+        {
+            //Arrange
+            string json = "[{\"what\": \"invalid\"}]";
+            string path = AppDomain.CurrentDomain.BaseDirectory + "/importTest_invalid.json";
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            using (StreamWriter writer = new StreamWriter(path))
+            {
+                writer.WriteLine(json);
+            }
+
+            //Act
+            Assert.That(async () => await bl.ImportData(File.Open(path, FileMode.Open)), Throws.Exception.TypeOf<InvalidDataException>());
+        }
+
+        [Test]
+        public async Task BusinessLayer_Import_NoLogs_ListGetsInitialized()
+        {
+            //Arrange
+            string json = "[{\"Name\":\"Tour2\",\"Description\":\"sdw\",\"From\":\"Bozen\",\"To\":\"Brixen\",\"Logs\":null}]";
+            string path = AppDomain.CurrentDomain.BaseDirectory + "/importTest_valid_nologs.json";
+
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            using (StreamWriter writer = new StreamWriter(path))
+            {
+                writer.WriteLine(json);
+            }
+
+            //Act
+            await bl.ImportData(File.Open(path, FileMode.Open));
+            Assert.NotNull(bl.GetTours()[0].Logs);
+        }
+
+        [Test]
+        public async Task BusinessLayer_TourReport_FileGetsCreated()
+        {
+            //Arrange
+            string path = AppDomain.CurrentDomain.BaseDirectory + "/TourReportTest.pdf";
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            Tour tour = new Tour("Name", "Description", "Wien", "Salzburg", TransportType.Car);
+            tour = await bl.GetRoute(tour);
+            TourLog log = new TourLog("Log", tour, DateTime.Now, "Comment", 3.0, 120, 4);
+            tour.Logs.Add(log);
+            bl.AddTour(tour);
+
+            //Act
+            bl.GenerateTourReport(bl.GetTours()[0], path);
+
+            Assert.That(File.Exists(path));
+        }
+
+        [Test]
+        public async Task BusinessLayer_SummaryReport_FileGetsCreated()
+        {
+            //Arrange
+            string path = AppDomain.CurrentDomain.BaseDirectory + "/SummaryReportTest.pdf";
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            Tour tour = new Tour("Name", "Description", "Wien", "Salzburg", TransportType.Car);
+            tour = await bl.GetRoute(tour);
+            TourLog log = new TourLog("Log", tour, DateTime.Now, "Comment", 3.0, 120, 4);
+            tour.Logs.Add(log);
+            bl.AddTour(tour);
+
+            //Act
+            bl.GenerateSummaryReport(bl.GetTours(), path);
+
+            Assert.That(File.Exists(path));
+        }
+
     }
 }
