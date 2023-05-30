@@ -7,6 +7,21 @@ namespace TourPlanner.DAL.ElasticSearch
 {
     public class ElasticSearchService
     {
+
+        private static ElasticSearchService instance = null;
+
+        public static ElasticSearchService Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new ElasticSearchService();
+                }
+                return instance;
+            }
+        }
+
         private readonly ElasticClient _client;
         public ElasticSearchService()
         {
@@ -46,24 +61,36 @@ namespace TourPlanner.DAL.ElasticSearch
         }
 
 
-        // Search 
-        // TO-DO: Search in Logs?
 
-        public void FuzzySearchLogs(string givenString)
+        public List<ElasticTourDocument> FuzzySearchLogs(string givenString)
         {
-
+            List<ElasticTourDocument> tourDocs = new List<ElasticTourDocument>();
             var response = _client.Search<ElasticTourDocument>(s => s
             .Query(q => q
-            .MultiMatch(c => c
-            .Fields(f => f
-                .Field(p => p.Name)
-                .Field(p => p.From)
-                .Field(p => p.To)
-                .Field(p => p.Description)
-             )
-            .Query(givenString)
-            .Fuzziness(Fuzziness.Auto)
-            )));
+                .Bool(b => b
+                    .Should(s => s
+                        .MultiMatch(x => x
+                            .Fields(f => f
+                                .Field(p => p.Name)
+                                .Field(p => p.Description)
+                                .Field(p => p.From)
+                                .Field(p => p.To)
+                            )
+                            .Query(givenString)
+                            .Fuzziness(Fuzziness.Auto)
+                         ),
+                         s => s
+                         .Nested(n => n
+                         .Path(p => p.Logs)
+                         .Query(nq => nq
+                         .MultiMatch(mm => mm
+                         .Fields(f => f
+                         .Field(p => p.Logs[0].Name)
+                         .Field(p => p.Logs[0].Comment)
+                         )
+                         .Query(givenString)
+                         .Fuzziness(Fuzziness.Auto)
+            )))))));
 
             var docs = response.Documents;
 
@@ -71,7 +98,37 @@ namespace TourPlanner.DAL.ElasticSearch
 
             foreach (var doc in docs)
             {
-                Console.WriteLine($" Name: {doc.Name} Bio: {doc.Description} ");
+                tourDocs.Add(doc);
+            }
+
+            return tourDocs;
+        }
+
+        public ElasticTourDocument GetElasticTourDocumentById(int id)
+        {
+            var response = _client.Get<ElasticTourDocument>(id, g => g.Index("tours-v1"));
+
+            if (response.IsValid && response.Found)
+            {
+                return response.Source;
+            }
+
+            return null;
+        }
+
+        public bool AddTourLog(ElasticTourDocument tour)
+        {
+            var updateResponse = _client.Update<ElasticTourDocument>(tour.Id, u => u
+                .Doc(tour)
+                .Refresh(Refresh.True)
+            );
+            if (updateResponse.IsValid)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -110,29 +167,5 @@ namespace TourPlanner.DAL.ElasticSearch
                 return "Failed to delete the document";
             }
         }
-
-
-        /**
-         * 
-         * 
-         * 
-         * 
-         * 
-         * Suchen via FuzzySearch
-         * ElasticSearchService searchService = new ElasticSearchService();
-         * searchService.FuzzySearch(TERM);
-         * 
-         * 
-         * INDEX documents
-         * var res = await searchService..IndexTourDocument(7, "test tour 5", "test description", "brixen", "wien", 7, new System.Collections.ObjectModel.ObservableCollection<ElasticTourLog> { new ElasticTourLog("tour log 1", DateTime.Now, "comment", 2, 120, 5) });
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         * */
     }
 }

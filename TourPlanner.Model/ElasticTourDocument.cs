@@ -10,7 +10,7 @@ namespace TourPlanner.Model
         public String From { get; set; }
         public String To { get; set; }
 
-        public ObservableCollection<TourLog> Logs { get; set; }
+        public ObservableCollection<ElasticTourLog> Logs { get; set; }
 
         public ElasticTourDocument(int id, string name, string description, string from, string to, ObservableCollection<ElasticTourLog> logs)
         {
