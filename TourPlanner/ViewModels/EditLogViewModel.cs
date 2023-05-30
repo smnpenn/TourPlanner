@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using TourPlanner.BL;
+using TourPlanner.DAL.ElasticSearch;
 using TourPlanner.Model;
 using TourPlanner.UI.Service;
-using System.Windows;
 
 namespace TourPlanner.UI.ViewModels
 {
@@ -92,7 +90,7 @@ namespace TourPlanner.UI.ViewModels
 
         public void UpdateLog()
         {
-            if(currentLog != null)
+            if (currentLog != null)
             {
                 currentLog.Name = Name;
                 currentLog.Comment = Comment;
@@ -107,7 +105,16 @@ namespace TourPlanner.UI.ViewModels
                     vm.Items[index] = currentLog;
                     bl.UpdateTourLog(currentLog);
 
-                    MessageBox.Show("Update successful");
+                    var res = ElasticSearchService.Instance.UpdateTourLog(currentLog.RelatedTour.Id, currentLog.Id, Name, Comment, Rating, Time, Date, Difficulty);
+                    if (res == true)
+                    {
+                        MessageBox.Show("Update successful");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error while updating data in elastic");
+
+                    }
                     CloseWindow();
                 }
                 else

@@ -37,15 +37,16 @@ namespace TourPlanner.DAL.ElasticSearch
 
         }
 
-
-        public async Task<string> IndexTourDocument(int doc_id, string name, string description, string from, string to, int index, ObservableCollection<ElasticTourLog> logs)
+        // Index new Tour
+        public async Task<string> IndexTourDocument(Tour tour)
         {
+            ObservableCollection<ElasticTourLog> logs = new ObservableCollection<ElasticTourLog>();
 
-            var data = new ElasticTourDocument(doc_id, name, description, from, to, logs);
+            var data = new ElasticTourDocument(tour.Id, tour.Name, tour.Description, tour.From, tour.To, logs);
 
             var response = await _client.IndexAsync(
                 data, idx => idx
-                .Id(index)
+                .Id(tour.Id)
             );
 
             if (response.Result == Result.Created)
@@ -60,7 +61,7 @@ namespace TourPlanner.DAL.ElasticSearch
             }
         }
 
-
+        // Search Function
 
         public List<ElasticTourDocument> FuzzySearchLogs(string givenString)
         {
@@ -104,6 +105,7 @@ namespace TourPlanner.DAL.ElasticSearch
             return tourDocs;
         }
 
+        // Get TourDocument based on id
         public ElasticTourDocument GetElasticTourDocumentById(int id)
         {
             var response = _client.Get<ElasticTourDocument>(id, g => g.Index("tours-v1"));
@@ -116,6 +118,7 @@ namespace TourPlanner.DAL.ElasticSearch
             return null;
         }
 
+        // add new tourlog to Tour
         public bool AddTourLog(ElasticTourDocument tour)
         {
             var updateResponse = _client.Update<ElasticTourDocument>(tour.Id, u => u
@@ -132,26 +135,85 @@ namespace TourPlanner.DAL.ElasticSearch
             }
         }
 
-        // Update documents
-        public async Task<string> UpdateTourDocument(string id, int doc_id, string name, string description, string from, string to, ObservableCollection<ElasticTourLog> logs)
+        // Update Tour
+        public bool UpdateTour(int tourid, string newName, string newDescription)
         {
-            var updateRequest = new UpdateRequest<ElasticTourDocument, ElasticTourDocument>(id)
+            ElasticTourDocument existingTour = GetElasticTourDocumentById(tourid);
+            if (existingTour != null)
             {
-                Doc = new ElasticTourDocument(doc_id, name, description, from, to, logs)
+                existingTour.Name = newName;
+                existingTour.Description = newDescription;
 
-            };
+                var updateResponse = _client.Update<ElasticTourDocument, object>(existingTour.Id, u => u
+                    .Script(s => s
+                        .Source("ctx._source.name = params.newName; ctx._source.description = params.newDescription")
+                        .Params(p => p
+                            .Add("newName", newName)
+                            .Add("newDescription", newDescription)
+                            )
+                        )
+                    .Refresh(Refresh.True));
 
-            var updateResponse = await _client.UpdateAsync(updateRequest);
-
-            if (updateResponse.IsValid)
-            {
-                return "Document successfully updated";
+                if (updateResponse.IsValid)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
-                return "There was an error updating the document";
+                return false;
             }
         }
+
+        // Update Tour Logs
+        public bool UpdateTourLog(int tourid, int logId, string newName, string newComment, double newRating, int newTotalTime, DateTime newDate, double newDifficulty)
+        {
+            ElasticTourDocument existingTour = GetElasticTourDocumentById(tourid);
+
+            if (existingTour != null)
+            {
+
+                ElasticTourLog exisitingLog = existingTour.Logs.FirstOrDefault(log => log.Id == logId);
+                if (exisitingLog != null)
+                {
+                    exisitingLog.Name = newName;
+                    exisitingLog.Comment = newComment;
+                    exisitingLog.Rating = newRating;
+                    exisitingLog.DateTime = newDate;
+                    exisitingLog.Difficulty = newDifficulty;
+                    exisitingLog.TotalTime = newTotalTime;
+
+                    var updateResponse = _client.Update<ElasticTourDocument>(existingTour.Id, u => u
+                        .Doc(existingTour)
+                        .Refresh(Refresh.True));
+
+                    if (updateResponse.IsValid)
+                    {
+                        Console.WriteLine("Updating tour was successful!");
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
 
         // Delete Documents
         public string DeleteTourDocument(string id)

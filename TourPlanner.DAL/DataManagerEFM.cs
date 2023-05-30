@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TourPlanner.Model;
 
 namespace TourPlanner.DAL
@@ -16,11 +11,11 @@ namespace TourPlanner.DAL
         public DataManagerEFM(bool wipeData)
         {
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-            if(wipeData)
+            if (wipeData)
             {
                 dbContext.Database.EnsureDeleted();
             }
-            //dbContext.Database.EnsureDeleted();
+            // dbContext.Database.EnsureDeleted();
             dbContext.Database.EnsureCreated();
             //IOException
         }

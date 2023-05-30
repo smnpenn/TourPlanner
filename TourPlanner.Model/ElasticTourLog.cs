@@ -12,8 +12,9 @@
         public double Rating { get; set; } = 0; //0-5 stars
 
 
-        public ElasticTourLog(string name, DateTime dateTime, string? comment, double difficulty, int totalTime, double rating)
+        public ElasticTourLog(int id, string name, DateTime dateTime, string? comment, double difficulty, int totalTime, double rating)
         {
+            Id = id;
             Name = name;
             DateTime = dateTime;
             Comment = comment;

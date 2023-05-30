@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using TourPlanner.UI.Service;
-using TourPlanner.Model;
-using TourPlanner.BL;
-using System.Diagnostics;
+﻿using System.Linq;
 using System.Windows;
+using System.Windows.Input;
+using TourPlanner.BL;
+using TourPlanner.DAL.ElasticSearch;
+using TourPlanner.Model;
+using TourPlanner.UI.Service;
 
 namespace TourPlanner.UI.ViewModels
 {
@@ -44,7 +40,7 @@ namespace TourPlanner.UI.ViewModels
                 currentTour = tour;
                 Name = currentTour.Name;
 
-                if(currentTour.Description == null)
+                if (currentTour.Description == null)
                     Description = "";
                 else
                     Description = currentTour.Description;
@@ -53,7 +49,7 @@ namespace TourPlanner.UI.ViewModels
 
         public void EditNewTour()
         {
-            if(currentTour != null)
+            if (currentTour != null)
             {
                 currentTour.Name = Name;
                 currentTour.Description = Description;
@@ -63,8 +59,18 @@ namespace TourPlanner.UI.ViewModels
                     vm.Items[index] = currentTour;
                     bl.UpdateTour(currentTour);
 
-                    MessageBox.Show("Update successful");
-                    CloseWindow();
+                    var res = ElasticSearchService.Instance.UpdateTour(currentTour.Id, Name, Description);
+                    if (res == true)
+                    {
+                        MessageBox.Show("Update successful");
+                        CloseWindow();
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error updating tour!");
+                    }
+
                 }
                 else
                 {

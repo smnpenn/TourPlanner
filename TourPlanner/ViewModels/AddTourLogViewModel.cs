@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Windows.Media;
 using TourPlanner.BL;
+using TourPlanner.DAL.ElasticSearch;
 using TourPlanner.Model;
 using TourPlanner.UI.Service;
 
@@ -91,7 +92,25 @@ namespace TourPlanner.UI.ViewModels
         {
             TourLog log = new TourLog(Name, relatedTour, Date, Comment, Difficulty, Time, Convert.ToDouble(NewRating));
             bl.AddTourLog(log);
-            vm.Items.Add(log);
+
+            // ElasticSearch Add TourLog to tour 
+            ElasticTourDocument doc = ElasticSearchService.Instance.GetElasticTourDocumentById(relatedTour.Id);
+            if (doc != null)
+            {
+                doc.Logs.Add(new ElasticTourLog(log.Id, Name, Date, Comment, Difficulty, Time, Convert.ToDouble(NewRating)));
+
+                var res = ElasticSearchService.Instance.AddTourLog(doc);
+                if (res == true)
+                {
+                    Console.WriteLine("Updating Tours in Elastic was successful");
+                    vm.Items.Add(log);
+                }
+                else
+                {
+                    Console.WriteLine("Error when updating Log in ElasticSearch");
+                }
+
+            }
         }
 
         public void CloseWindow()

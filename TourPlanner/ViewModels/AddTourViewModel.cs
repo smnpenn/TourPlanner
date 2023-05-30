@@ -1,13 +1,12 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using TourPlanner.BL;
+using TourPlanner.DAL.ElasticSearch;
 using TourPlanner.Model;
-using System.Collections.ObjectModel;
-using System;
-using System.Windows.Documents;
-using System.Collections.Generic;
 using TourPlanner.UI.Service;
-using System.Linq;
 
 namespace TourPlanner.UI.ViewModels
 {
@@ -48,16 +47,25 @@ namespace TourPlanner.UI.ViewModels
         }
         public async void AddNewTour()
         {
-            
+
             Tour tour = new Tour(Name, Description, From, To, TransportType);
             tour = await bl.GetRoute(tour);
 
-            if(tour != null)
+            if (tour != null)
             {
                 bl.AddTour(tour);
-                vm.Items.Add(tour);
-                logger.Debug("AddTour: add tour");
-                CloseWindow();
+
+                var res = await ElasticSearchService.Instance.IndexTourDocument(tour);
+                if (res != null)
+                {
+                    logger.Debug("AddTour: add tour");
+                    vm.Items.Add(tour);
+                    CloseWindow();
+                }
+                else
+                {
+                    Console.WriteLine("An error occured when adding the document");
+                }
             }
             else
             {
