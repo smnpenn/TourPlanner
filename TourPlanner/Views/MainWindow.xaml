@@ -44,9 +44,44 @@
                     <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*" />
                     <DataGridTextColumn Header="From" Binding="{Binding From}" Width="*" />
                     <DataGridTextColumn Header="To" Binding="{Binding To}" Width="*" />
-                    <!-- Add more columns for other properties as needed -->
-                    <DataGridTextColumn Header="Log Name" Binding="{Binding Logs[0].Name}" Width="*" />
-                    <DataGridTextColumn Header="Log Comment" Binding="{Binding Logs[0].Comment}" Width="*" />
+
+                    <DataGridTemplateColumn Header="Log Names">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ItemsControl ItemsSource="{Binding Logs}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}" Margin="2"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Logs.Count}" Value="0">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="Log Comments">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ItemsControl ItemsSource="{Binding Logs}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Comment}" Margin="2"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Logs.Count}" Value="0">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
             <Label Grid.Column="0" Grid.Row="0" FontSize="40" Content="{Binding TourTitle}" ></Label>

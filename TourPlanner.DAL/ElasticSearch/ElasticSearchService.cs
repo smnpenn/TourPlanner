@@ -29,7 +29,7 @@ namespace TourPlanner.DAL.ElasticSearch
             var settings = new ConnectionSettings(pool)
                 .CertificateFingerprint("54:44:ec:01:47:37:9d:9f:58:dd:1a:be:54:bf:3b:4c:72:0e:a6:c7:19:67:60:ab:63:19:fc:0f:00:ee:53:ce") // fuck this
                 .BasicAuthentication("elastic", "elastic")
-                .DefaultIndex("testindex-001")
+                .DefaultIndex("tours-v1")
                 .DefaultMappingFor<ElasticTourDocument>(i => i.IndexName("tours-v1"))
                 // .DefaultMappingFor<ElasticTourLogDocument>(i => i.IndexName("tourlogs-v1"))
                 .EnableApiVersioningHeader();
