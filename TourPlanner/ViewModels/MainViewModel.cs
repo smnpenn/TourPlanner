@@ -1,14 +1,12 @@
-﻿using log4net.Core;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using TourPlanner.BL;
+using TourPlanner.DAL.ElasticSearch;
 using TourPlanner.Model;
-using TourPlanner.UI.Service;
 using TourPlanner.UI.Views;
 
 namespace TourPlanner.UI.ViewModels
@@ -39,9 +37,55 @@ namespace TourPlanner.UI.ViewModels
             }
         }
 
+        private bool _isImageEnabled = true;
+        public bool IsImageEnabled
+        {
+            get { return _isImageEnabled; }
+            set
+            {
+                _isImageEnabled = value;
+                OnPropertyChanged(nameof(IsImageEnabled));
+            }
+        }
+
+        private bool _isDataGridVisible;
+        public bool IsDataGridVisible
+        {
+            get { return _isDataGridVisible; }
+            set
+            {
+                _isDataGridVisible = value;
+                OnPropertyChanged(nameof(IsDataGridVisible));
+            }
+        }
+
+        private string searchText;
+        public string SearchText
+        {
+            get { return searchText; }
+            set
+            {
+                searchText = value;
+                OnPropertyChanged(nameof(SearchText));
+                Search();
+            }
+        }
+
+        private ObservableCollection<ElasticTourDocument> _searchResults;
+        public ObservableCollection<ElasticTourDocument> SearchResults
+        {
+            get { return _searchResults; }
+            set
+            {
+                _searchResults = value;
+                OnPropertyChanged(nameof(SearchResults));
+            }
+        }
         public ICommand ShowDetailsCommand { get; }
         public ICommand ShowLogDetailsCommand { get; }
         public ICommand MoreOptionsCommand { get; }
+
+        public ICommand SearchCommand { get; }
 
         private TourLogsSideListBarViewModel tourLogBarVM;
         private TourSideListBarViewModel tourBarVM;
@@ -57,12 +101,13 @@ namespace TourPlanner.UI.ViewModels
             logger = TourPlanner.DAL.Logging.LoggerFactory.GetLogger();
             ShowDetailsCommand = new RelayCommand(_ => ShowTourDetailView());
             ShowLogDetailsCommand = new RelayCommand(_ => ShowTourLogsDetailView());
-
+            SearchCommand = new RelayCommand(_ => Search());
             if (tourBarVM.SelectedItem != null)
             {
                 tourTitle = tourBarVM.SelectedItem.Name;
                 TourImage = LoadImage(tourBarVM.SelectedItem.StaticMap);
             }
+            IsDataGridVisible = false;
             tourBarVM.TourBar_SelectionChanged += (_, selected_Tour) => DisplayTourLogs(selected_Tour);
         }
 
@@ -84,6 +129,8 @@ namespace TourPlanner.UI.ViewModels
                 TourImage = null;
             }
         }
+
+
 
         public void ShowTourDetailView()
         {
@@ -123,5 +170,31 @@ namespace TourPlanner.UI.ViewModels
             image.Freeze();
             return image;
         }
+
+        private void Search()
+        {
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                // Clear the search results and show the TourImage
+                SearchResults = null;
+                IsImageEnabled = true;
+                IsDataGridVisible = false;
+                TourImage = LoadImage(tourBarVM.SelectedItem.StaticMap);
+                TourTitle = tourBarVM.SelectedItem.Name;
+
+            }
+            else
+            {
+
+                List<ElasticTourDocument> results = ElasticSearchService.Instance.FuzzySearch(searchText);
+                TourTitle = "";
+                TourImage = null;
+                IsDataGridVisible = true;
+                IsImageEnabled = false;
+
+                SearchResults = new ObservableCollection<ElasticTourDocument>(results);
+            }
+        }
+
     }
 }

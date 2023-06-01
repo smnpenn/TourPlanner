@@ -63,7 +63,7 @@ namespace TourPlanner.DAL.ElasticSearch
 
         // Search Function
 
-        public List<ElasticTourDocument> FuzzySearchLogs(string givenString)
+        public List<ElasticTourDocument> FuzzySearch(string givenString)
         {
             List<ElasticTourDocument> tourDocs = new List<ElasticTourDocument>();
             var response = _client.Search<ElasticTourDocument>(s => s
