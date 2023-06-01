@@ -25,6 +25,53 @@ namespace TourPlanner.UI.ViewModels
             }
         }
 
+
+
+        // input validation
+        private string? _errors;
+        public string? Errors
+        {
+            get { return _errors; }
+            set
+            {
+                _errors = value;
+                OnPropertyChanged(nameof(Errors));
+            }
+        }
+
+        private string GetValidationErrors()
+        {
+            List<string> errors = new List<string>();
+
+            if (string.IsNullOrEmpty(Name))
+            {
+                errors.Add("Name");
+            }
+
+            if (string.IsNullOrEmpty(Description))
+            {
+                errors.Add("Description");
+            }
+            if (string.IsNullOrEmpty(From))
+            {
+                errors.Add("From");
+            }
+            if (string.IsNullOrEmpty(To))
+            {
+                errors.Add("To");
+            }
+
+            if (errors.Count > 0)
+            {
+                string errorFormat = "The following field(s) are empty: {0}";
+                return string.Format(errorFormat, string.Join(", ", errors));
+
+            }
+            // Add validation checks for other properties as needed
+
+            return string.Empty;
+        }
+
         public ICommand AddTourCommand { get; set; }
         public ICommand CloseWindowCommand { get; }
 
@@ -47,30 +94,34 @@ namespace TourPlanner.UI.ViewModels
         }
         public async void AddNewTour()
         {
+            Errors = GetValidationErrors();
 
-            Tour tour = new Tour(Name, Description, From, To, TransportType);
-            tour = await bl.GetRoute(tour);
-
-            if (tour != null)
+            if (string.IsNullOrEmpty(Errors))
             {
-                bl.AddTour(tour);
+                Tour tour = new Tour(Name, Description, From, To, TransportType);
+                tour = await bl.GetRoute(tour);
 
-                var res = await ElasticSearchService.Instance.IndexTourDocument(tour);
-                if (res != null)
+                if (tour != null)
                 {
-                    logger.Debug("AddTour: add tour");
-                    vm.Items.Add(tour);
-                    CloseWindow();
+                    bl.AddTour(tour);
+
+                    var res = await ElasticSearchService.Instance.IndexTourDocument(tour);
+                    if (res != null)
+                    {
+                        logger.Debug("AddTour: add tour");
+                        vm.Items.Add(tour);
+                        CloseWindow();
+                    }
+                    else
+                    {
+                        Console.WriteLine("An error occured when adding the document");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("An error occured when adding the document");
+                    logger.Error("AddTour: could not create route");
+                    MessageBox.Show("Error creating Route!");
                 }
-            }
-            else
-            {
-                logger.Error("AddTour: could not create route");
-                MessageBox.Show("Error creating Route!");
             }
         }
 

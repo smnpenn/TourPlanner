@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
         x:Name="AddTourWindow"
              d:DesignHeight="400" d:DesignWidth="525" MaxHeight="400" MaxWidth="525">
-    
+
     <Grid Background="#0C5D97">
         <TextBlock Height="36" HorizontalAlignment="Left" Margin="10,10,0,0" Name="textBlockHeading" Text="Add New Tour" VerticalAlignment="Top" Width="160"  FontSize="23" FontStretch="ExtraCondensed" FontWeight="Bold" Foreground="white"/>
         <Grid Margin="29,65,29,0" Background="#0C5D97" Height="264" VerticalAlignment="Top">
@@ -28,6 +28,16 @@
 
             <Button Content="Submit" HorizontalAlignment="Left" Margin="335,241,0,0" Name="Submit" Width="70" Height="23" VerticalAlignment="Top" Command="{Binding AddTourCommand}"/>
             <Button Content="Cancel" Margin="259,241,0,0" Name="Cancel" HorizontalAlignment="Left" Width="70" Height="23" VerticalAlignment="Top" Command="{Binding CloseWindowCommand}"/>
+            <TextBlock Text="{Binding Errors}" Foreground="Red" Margin="-1,211,0,36" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" TextAlignment="Center" >
+                <TextBlock.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </TextBlock.RenderTransform>
+            </TextBlock>
         </Grid>
     </Grid>
 </Window>

@@ -27,7 +27,12 @@
             <TextBlock Height="23" HorizontalAlignment="Left" Margin="55,133,0,0" Name="textBlockRating" Text="Rating:" VerticalAlignment="Top" Width="110" FontWeight="Bold" Foreground="white" Grid.ColumnSpan="2" Grid.Column="1"/>
             <TextBlock Height="22" HorizontalAlignment="Left" Margin="55,170,0,0" Name="textBlockTotalTime" Text="Total Time:" VerticalAlignment="Top" Width="110"  FontWeight="Bold" Foreground="white" Grid.ColumnSpan="2" Grid.Column="1"/>
             <TextBlock Margin="55,199,290,0" Name="textBlockDifficulty" Text="Difficulty:" FontWeight="Bold" Foreground="white" Grid.ColumnSpan="2" Grid.Column="1" Height="23" VerticalAlignment="Top"/>
-            <TextBox Text="{Binding Name}" Height="23" HorizontalAlignment="Left" Margin="56,-8,0,0" Name="textBoxName" VerticalAlignment="Top" Width="222" Grid.Column="2" />
+
+
+            <TextBox Text="{Binding Name}" Height="23" HorizontalAlignment="Left" Margin="56,-8,0,0" Name="textBoxName" VerticalAlignment="Top" Width="222" Grid.Column="2">
+
+            </TextBox>
+
             <xctk:DateTimePicker Value="{Binding Date}" Height="23" HorizontalAlignment="Left" Margin="56,20,0,0" Name="textBoxDate" VerticalAlignment="Top" Width="222" Grid.Column="2"/>
             <TextBox Text="{Binding Comment}" Height="70" HorizontalAlignment="Left" Margin="56,50,0,0" Name="textBoxComment" VerticalAlignment="Top" Width="222" Grid.Column="2" />
             <TextBox Text="{Binding Time}" Height="22" HorizontalAlignment="Left" Margin="56,170,0,0" Name="textBoxTime" VerticalAlignment="Top" Width="63" Grid.Column="2" />
@@ -53,6 +58,17 @@
             Background="{Binding NewRating, Converter={StaticResource StarColorConverter}, ConverterParameter=5}"
             Command="{Binding UpdateRatingCommand}" CommandParameter="5" />
             </StackPanel>
+            <TextBlock Text="{Binding Errors}" Foreground="Red" Margin="0,260,-1,-13" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="3" TextAlignment="Center" >
+                <TextBlock.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </TextBlock.RenderTransform>
+            </TextBlock>
+
 
         </Grid>
     </Grid>

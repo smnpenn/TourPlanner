@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -28,7 +29,7 @@ namespace TourPlanner.UI.ViewModels
             }
         }
 
-        public string Comment { get; set; }
+        public string? Comment { get; set; }
 
 
         // Rating
@@ -49,7 +50,24 @@ namespace TourPlanner.UI.ViewModels
             }
         }
 
-        public ObservableCollection<Brush> Stars { get; set; }
+        // inpur validation
+
+        private string? _errors;
+        public string? Errors
+        {
+            get { return _errors; }
+            set
+            {
+                _errors = value;
+                OnPropertyChanged(nameof(Errors));
+            }
+        }
+
+
+
+
+        public ObservableCollection<Brush>? Stars { get; set; }
+
 
         public int Time { get; set; }
 
@@ -64,6 +82,38 @@ namespace TourPlanner.UI.ViewModels
 
         private ITourPlannerManager bl;
         private TourLogsSideListBarViewModel vm;
+
+        private List<string> GetValidationErrors()
+        {
+            List<string> errors = new List<string>();
+
+            if (string.IsNullOrEmpty(Name))
+            {
+                errors.Add("Name cannot be empty.");
+            }
+
+            if (string.IsNullOrEmpty(Comment))
+            {
+                errors.Add("Comment cannot be empty.");
+            }
+            if (Rating < 1)
+            {
+                errors.Add("Rating cannot be lower than 1 star");
+            }
+            if (Difficulty < 1)
+            {
+                errors.Add("Difficulty must be greater than 0");
+            }
+            if (Time < 1)
+            {
+                errors.Add("Total time must be greater than 0");
+            }
+
+            // Add validation checks for other properties as needed
+
+            return errors;
+        }
+
 
         public AddTourLogViewModel(ITourPlannerManager bl, TourLogsSideListBarViewModel vm)
         {
@@ -90,26 +140,30 @@ namespace TourPlanner.UI.ViewModels
 
         public void AddNewTourLog()
         {
-            TourLog log = new TourLog(Name, relatedTour, Date, Comment, Difficulty, Time, Convert.ToDouble(NewRating));
-            bl.AddTourLog(log);
-
-            // ElasticSearch Add TourLog to tour 
-            ElasticTourDocument doc = ElasticSearchService.Instance.GetElasticTourDocumentById(relatedTour.Id);
-            if (doc != null)
+            Errors = string.Join(Environment.NewLine, GetValidationErrors());
+            if (string.IsNullOrEmpty(Errors))
             {
-                doc.Logs.Add(new ElasticTourLog(log.Id, Name, Date, Comment, Difficulty, Time, Convert.ToDouble(NewRating)));
+                TourLog log = new TourLog(Name, relatedTour, Date, Comment, Difficulty, Time, Convert.ToDouble(NewRating));
+                bl.AddTourLog(log);
 
-                var res = ElasticSearchService.Instance.AddTourLog(doc);
-                if (res == true)
+                // ElasticSearch Add TourLog to tour 
+                ElasticTourDocument doc = ElasticSearchService.Instance.GetElasticTourDocumentById(relatedTour.Id);
+                if (doc != null)
                 {
-                    Console.WriteLine("Updating Tours in Elastic was successful");
-                    vm.Items.Add(log);
-                }
-                else
-                {
-                    Console.WriteLine("Error when updating Log in ElasticSearch");
-                }
+                    doc.Logs.Add(new ElasticTourLog(log.Id, Name, Date, Comment, Difficulty, Time, Convert.ToDouble(NewRating)));
 
+                    var res = ElasticSearchService.Instance.AddTourLog(doc);
+                    if (res == true)
+                    {
+                        Console.WriteLine("Updating Tours in Elastic was successful");
+                        vm.Items.Add(log);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error when updating Log in ElasticSearch");
+                    }
+
+                }
             }
         }
 
