@@ -28,5 +28,6 @@ namespace TourPlanner.BL
         public Task<List<Tour>> ImportData(Stream fileStream);
         public void GenerateTourReport(Tour tour, string path);
         public void GenerateSummaryReport(ObservableCollection<Tour> tours, string path);
+        public void CalculateAdditionalAttributes(Tour tour);
     }
 }

@@ -92,6 +92,7 @@ namespace TourPlanner.UI.ViewModels
             TourLog log = new TourLog(Name, relatedTour, Date, Comment, Difficulty, Time, Convert.ToDouble(NewRating));
             bl.AddTourLog(log);
             vm.Items.Add(log);
+            bl.CalculateAdditionalAttributes(relatedTour);
         }
 
         public void CloseWindow()

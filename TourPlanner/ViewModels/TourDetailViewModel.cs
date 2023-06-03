@@ -19,6 +19,9 @@ namespace TourPlanner.UI.ViewModels
         public String EstimatedTimeText { get; set; }
         public TransportType TransportType { get; set; }
 
+        public String PopularityText { get; set; }
+        public String ChildFriendlinessText { get; set; }
+
         public TourDetailViewModel(Tour tour) 
         { 
             this.tour = tour;
@@ -29,6 +32,8 @@ namespace TourPlanner.UI.ViewModels
             DistanceText = $"{tour.Distance} km";
             EstimatedTimeText = $"{tour.EstimatedTime} min";
             TransportType = tour.TransportType;
+            PopularityText = $"{tour.Popularity}";
+            ChildFriendlinessText = $"{tour.ChildFriendliness}";
         }
     }
 }
