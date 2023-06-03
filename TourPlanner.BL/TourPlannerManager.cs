@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Org.BouncyCastle.Utilities.IO;
 using System;
 using System.Collections.ObjectModel;
 using TourPlanner.DAL;
@@ -115,12 +116,13 @@ namespace TourPlanner.BL
                             log.RelatedTour = t;
                             dal.AddTourLog(log);
                         }
+                        
                     }
                     else
                     {
                         t.Logs = new ObservableCollection<TourLog>();
                     }
-                    
+                    CalculateAdditionalAttributes(t);
                 }
             }
 
@@ -135,6 +137,110 @@ namespace TourPlanner.BL
         public void GenerateSummaryReport(ObservableCollection<Tour> tours, string path)
         {
             reportGenerator.GenerateSummaryReport(tours, path);
+        }
+
+        public void CalculateAdditionalAttributes(Tour tour)
+        {
+            if (tour != null)
+            {
+                ObservableCollection<TourLog> logs = GetTourLogs(tour);
+                if(logs != null)
+                {
+                    tour.Popularity = GetPopularity(logs);
+                    tour.ChildFriendliness = GetChildFriendliness(logs);
+                }
+                else
+                {
+                    tour.Popularity = 0;
+                    tour.ChildFriendliness = 0;
+                }
+            }
+
+        }
+
+        private double GetChildFriendliness(ObservableCollection<TourLog> logs)
+        {
+            if(logs.Count == 0)
+            {
+                return 0;
+            }
+            double avgDifficulty = 0;
+            double avgTotalTime = 0;
+            foreach (TourLog log in logs)
+            {
+                avgDifficulty += log.Difficulty;
+                avgTotalTime += log.TotalTime;
+            }
+            avgDifficulty /= logs.Count;
+            avgTotalTime /= logs.Count;
+
+            if(avgDifficulty <= 1.5 && avgTotalTime <= 60)
+            {
+                return 5;
+            }
+            else if(avgDifficulty <= 1.5 && avgTotalTime > 60)
+            {
+                return 4;
+            }
+            else if (avgDifficulty <= 2.5 && avgTotalTime <= 60)
+            {
+                return 4;
+            }
+            else if (avgDifficulty <= 2.5 && avgTotalTime > 60)
+            {
+                return 3;
+            }
+            else if (avgDifficulty <= 3.5 && avgTotalTime <= 60)
+            {
+                return 2;
+            }
+            else if (avgDifficulty <= 3.5 && avgTotalTime > 60)
+            {
+                return 2;
+            }
+            else if (avgDifficulty <= 4.5 && avgTotalTime <= 60)
+            {
+                return 1;
+            }
+            else if (avgDifficulty <= 4.5 && avgTotalTime > 60)
+            {
+                return 0;
+            }
+            else if (avgDifficulty > 4.5)
+            {
+                return 0;
+            }
+
+            return -1;
+        }
+
+        private int GetPopularity(ObservableCollection<TourLog> logs)
+        {
+            if(logs.Count <= 0)
+            {
+                return 0;
+            }
+            else if(logs.Count <= 1)
+            {
+                return 1;
+            }
+            else if(logs.Count <= 3)
+            {
+                return 2;
+            }
+            else if(logs.Count <= 5)
+            {
+                return 3;
+            }
+            else if (logs.Count <= 10)
+            {
+                return 4;
+            }
+            else if (logs.Count > 10)
+            {
+                return 5;
+            }
+            return 0;
         }
     }
 }

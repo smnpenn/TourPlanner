@@ -37,6 +37,12 @@ namespace TourPlanner.Model
 
         [NotMapped]
         public ObservableCollection<TourLog> Logs { get; set; }
+
+        [NotMapped]
+        public int Popularity { get; set; }
+
+        [NotMapped]
+        public double ChildFriendliness { get; set; }
         
         public Tour()
         {
