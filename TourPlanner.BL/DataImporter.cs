@@ -20,8 +20,30 @@ namespace TourPlanner.BL
                 string json = reader.ReadToEnd();
                 List<Tour> data = JsonConvert.DeserializeObject<List<Tour>>(json);
 
+                if(!ValidateData(data))
+                {
+                    throw new InvalidDataException("import file contained invalid data");
+                }
+
                 return data;
             }
+        }
+
+        private bool ValidateData(List<Tour> data)
+        {
+            if(data == null)
+            {
+                return false;
+            }
+
+            foreach (Tour t in data)
+            {
+                if(t.Name == null || t.To == null || t.From == null)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }
