@@ -6,6 +6,9 @@
         xmlns:local="clr-namespace:TourPlanner.UI.Views"
         mc:Ignorable="d"
         Title="MainWindow" Height="500" Width="800" Background="#DCDEDE">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
     <Grid Margin="0,0,0,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250"/>
@@ -18,7 +21,11 @@
         </Grid.RowDefinitions>
 
         <Rectangle Grid.ColumnSpan="3" Fill="#0C5D97"></Rectangle>
+
         <local:MoreOptionsButton Grid.Row="0" Grid.Column="3" x:Name="MoreOptionsButton"></local:MoreOptionsButton>
+        <Grid Grid.Row="0" Grid.Column="1" Margin="0,0,150,0">
+            <TextBox x:Name="SearchTextBox" MinWidth="450" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" FontSize="30" Height="40" VerticalAlignment="Center"/>
+        </Grid>
         <local:SideListBar Grid.Column="0" Grid.Row="1" x:Name="TourListBar"/>
         <Grid Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" MinWidth="500">
             <Grid.RowDefinitions>
@@ -31,13 +38,59 @@
                 <ColumnDefinition Width="160"/>
                 <ColumnDefinition Width="40"/>
             </Grid.ColumnDefinitions>
+            <DataGrid Grid.Row="0" Grid.ColumnSpan="2" ItemsSource="{Binding SearchResults}" AutoGenerateColumns="False" Visibility="{Binding IsDataGridVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
+                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*" />
+                    <DataGridTextColumn Header="From" Binding="{Binding From}" Width="*" />
+                    <DataGridTextColumn Header="To" Binding="{Binding To}" Width="*" />
 
+                    <DataGridTemplateColumn Header="Log Names">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ItemsControl ItemsSource="{Binding Logs}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}" Margin="2"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Logs.Count}" Value="0">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="Log Comments">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ItemsControl ItemsSource="{Binding Logs}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Comment}" Margin="2"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Logs.Count}" Value="0">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
             <Label Grid.Column="0" Grid.Row="0" FontSize="40" Content="{Binding TourTitle}" ></Label>
-            <Button Grid.Row="0" Grid.Column="1" Height="40" Width="40" Background="Transparent" BorderThickness="0" Command="{Binding ShowDetailsCommand}">
+            <Button Grid.Row="0" Grid.Column="1" Height="40" Width="40" Background="Transparent" BorderThickness="0" Command="{Binding ShowDetailsCommand}" Visibility="{Binding IsImageEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Image Source="/ressources/icons/icon_view.png"/>
             </Button>
-            
-            <Image Grid.Row="1" Grid.ColumnSpan="2" Margin="5 5 5 5" Source="{Binding TourImage}"></Image>
+
+            <Image Grid.Row="1" Grid.ColumnSpan="2" Margin="5 5 5 5" Source="{Binding TourImage}" Visibility="{Binding IsImageEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"></Image>
+
             <Button Grid.Row="0" Grid.Column="3" Height="40" Width="40" Background="Transparent" BorderThickness="0" Command="{Binding ShowLogDetailsCommand}">
                 <Image Source="/ressources/icons/icon_view.png"/>
             </Button>

@@ -1,10 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using TourPlanner.Model;
 
 namespace TourPlanner.BL
@@ -22,6 +16,8 @@ namespace TourPlanner.BL
         public void UpdateTourLog(TourLog log);
         public ObservableCollection<Tour> GetTours();
         public ObservableCollection<TourLog> GetTourLogs(Tour tour);
+
+        public List<ElasticTourDocument> Search(string searchtext);
 
         public Task<Tour> GetRoute(Tour tour);
         public void ExportData(ObservableCollection<Tour> tours, string path);
