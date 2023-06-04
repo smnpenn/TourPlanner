@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using TourPlanner.BL;
 using TourPlanner.DAL;
-using TourPlanner.UI.ViewModels;
+using TourPlanner.DAL.ElasticSearch;
 using TourPlanner.Model;
-using System.Collections.ObjectModel;
-using System.Windows.Input;
-using System.DirectoryServices.ActiveDirectory;
-using System.Windows;
 
 namespace TourPlanner.UnitTests
 {
@@ -18,12 +10,14 @@ namespace TourPlanner.UnitTests
     {
         private ITourPlannerManager bl;
         private IDataManager dataManager;
+        private ElasticSearchService _elasticSearchService;
 
         [SetUp]
         public void Setup()
         {
             dataManager = new DataManagerEFM(true);
             bl = new TourPlannerManager(dataManager);
+            _elasticSearchService = new ElasticSearchService();
         }
 
         [Test]
@@ -322,5 +316,173 @@ namespace TourPlanner.UnitTests
             Assert.That(File.Exists(path));
         }
 
+        // ElasticSearch tests
+        [Test]
+        public async Task BusinessLayer_InsertTourDocument()
+        {
+            Tour tour = new Tour("Tour Name Test", "Description TestCase", "Wien", "Villach", TransportType.Car);
+
+
+            await _elasticSearchService.IndexTourDocument(tour);
+
+            ElasticTourDocument expected = new ElasticTourDocument(0, "Tour Name Test", "Description TestCase", "Wien", "Villach", new ObservableCollection<ElasticTourLog>());
+
+            ElasticTourDocument actual = _elasticSearchService.GetElasticTourDocumentById(0);
+
+            Assert.That(expected.Name, Is.EqualTo(actual.Name));
+            Assert.That(expected.Id, Is.EqualTo(actual.Id));
+            Assert.That(expected.Description, Is.EqualTo(actual.Description));
+            Assert.That(expected.From, Is.EqualTo(actual.From));
+            Assert.That(expected.To, Is.EqualTo(actual.To));
+            Assert.That(expected.Logs, Is.EqualTo(actual.Logs));
+
+            _elasticSearchService.DeleteTourDocument("0");
+
+        }
+
+        [Test]
+        public async Task BusinessLayer_InsertTourDocumentLog()
+        {
+            Tour tour = new Tour("Tour Name Test", "Description TestCase", "Wien", "Villach", TransportType.Car);
+
+
+            await _elasticSearchService.IndexTourDocument(tour);
+
+
+            ObservableCollection<ElasticTourLog> logs = new ObservableCollection<ElasticTourLog> { new ElasticTourLog(0, "Test tour log", DateTime.Now, "Test comment", 5, 120, 4) };
+
+            ElasticTourDocument doc = new ElasticTourDocument(0, "Tour Name Test", "Description TestCase", "Wien", "Villach", logs);
+
+            _elasticSearchService.AddTourLog(doc);
+
+            ElasticTourDocument actual = _elasticSearchService.GetElasticTourDocumentById(0);
+
+            Assert.That(doc.Name, Is.EqualTo(actual.Name));
+            Assert.That(doc.Id, Is.EqualTo(actual.Id));
+            Assert.That(doc.Description, Is.EqualTo(actual.Description));
+            Assert.That(doc.From, Is.EqualTo(actual.From));
+            Assert.That(doc.To, Is.EqualTo(actual.To));
+            Assert.That(doc.Logs[0].Name, Is.EqualTo(actual.Logs[0].Name));
+            Assert.That(doc.Logs[0].Comment, Is.EqualTo(actual.Logs[0].Comment));
+            Assert.That(doc.Logs[0].Id, Is.EqualTo(actual.Logs[0].Id));
+            Assert.That(doc.Logs[0].Difficulty, Is.EqualTo(actual.Logs[0].Difficulty));
+            Assert.That(doc.Logs[0].TotalTime, Is.EqualTo(actual.Logs[0].TotalTime));
+            _elasticSearchService.DeleteTourDocument("0");
+
+        }
+
+        [Test]
+        public async Task BusinessLayer_UpdateTourDocument()
+        {
+            Tour tour = new Tour("Tour Name Test", "Description TestCase", "Wien", "Villach", TransportType.Car);
+
+
+            await _elasticSearchService.IndexTourDocument(tour);
+
+            _elasticSearchService.UpdateTour(0, "Tour Name Updated", "Tour Name Description Updated");
+
+
+            ElasticTourDocument doc = new ElasticTourDocument(0, "Tour Name Updated", "Tour Name Description Updated", "Wien", "Villach", new ObservableCollection<ElasticTourLog>());
+
+            ElasticTourDocument actual = _elasticSearchService.GetElasticTourDocumentById(0);
+
+            Assert.That(doc.Name, Is.EqualTo(actual.Name));
+            Assert.That(doc.Description, Is.EqualTo(actual.Description));
+
+            _elasticSearchService.DeleteTourDocument("0");
+
+        }
+
+        [Test]
+        public async Task BusinessLayer_UpdateTourDocumentLog()
+        {
+            Tour tour = new Tour("Tour Name Test", "Description TestCase", "Wien", "Villach", TransportType.Car);
+
+
+            await _elasticSearchService.IndexTourDocument(tour);
+
+            ObservableCollection<ElasticTourLog> logs = new ObservableCollection<ElasticTourLog> { new ElasticTourLog(0, "Test tour log", DateTime.Now, "Test comment", 5, 120, 4) };
+
+            ElasticTourDocument doc = new ElasticTourDocument(0, "Tour Name Test", "Description TestCase", "Wien", "Villach", logs);
+
+            _elasticSearchService.AddTourLog(doc);
+
+            _elasticSearchService.UpdateTourLog(0, 0, "Updated Test tour log", "new comment", 5, 120, DateTime.Now, 4);
+
+            ElasticTourLog newlog = new ElasticTourLog(0, "Updated Test tour log", DateTime.Now, "new comment", 4, 120, 5);
+
+            doc.Logs.RemoveAt(0);
+            doc.Logs.Add(newlog);
+
+            ElasticTourDocument actual = _elasticSearchService.GetElasticTourDocumentById(0);
+
+            Assert.That(doc.Name, Is.EqualTo(actual.Name));
+            Assert.That(doc.Id, Is.EqualTo(actual.Id));
+            Assert.That(doc.Description, Is.EqualTo(actual.Description));
+            Assert.That(doc.From, Is.EqualTo(actual.From));
+            Assert.That(doc.To, Is.EqualTo(actual.To));
+            Assert.That(doc.Logs[0].Name, Is.EqualTo(actual.Logs[0].Name));
+            Assert.That(doc.Logs[0].Comment, Is.EqualTo(actual.Logs[0].Comment));
+            Assert.That(doc.Logs[0].Id, Is.EqualTo(actual.Logs[0].Id));
+            Assert.That(doc.Logs[0].Difficulty, Is.EqualTo(actual.Logs[0].Difficulty));
+            Assert.That(doc.Logs[0].TotalTime, Is.EqualTo(actual.Logs[0].TotalTime));
+
+            _elasticSearchService.DeleteTourDocument("0");
+
+        }
+
+
+        [Test]
+        public async Task BusinessLayer_DeleteTourDocument()
+        {
+            Tour tour = new Tour("Tour Name Test", "Description TestCase", "Wien", "Villach", TransportType.Car);
+            await _elasticSearchService.IndexTourDocument(tour);
+
+            _elasticSearchService.DeleteTourDocument("0");
+
+            var actual = _elasticSearchService.GetElasticTourDocumentById(0);
+
+            Assert.IsNull(actual);
+
+        }
+
+        [Test]
+        public async Task BusinessLayer_DeleteTourLogFromDocument()
+        {
+            Tour tour = new Tour("Tour Name Test", "Description TestCase", "Wien", "Villach", TransportType.Car);
+            await _elasticSearchService.IndexTourDocument(tour);
+
+            ObservableCollection<ElasticTourLog> logs = new ObservableCollection<ElasticTourLog>
+            {
+                new ElasticTourLog(0, "Test tour log", DateTime.Now, "Test comment", 5, 120, 4),
+                new ElasticTourLog(1, "Second tour log", DateTime.Now, "Another comment", 3, 90, 2),
+                // Add more logs as necessary with unique IDs
+            };
+
+            ElasticTourDocument doc = new ElasticTourDocument(0, "Tour Name Test", "Description TestCase", "Wien", "Villach", logs);
+
+            _elasticSearchService.AddTourLog(doc);
+
+            _elasticSearchService.DeleteLogById(0, 0); // Delete the first log with ID 0
+
+            var actual = _elasticSearchService.GetElasticTourDocumentById(0);
+
+            Assert.That(doc.Name, Is.EqualTo(actual.Name));
+            Assert.That(doc.Id, Is.EqualTo(actual.Id));
+            Assert.That(doc.Description, Is.EqualTo(actual.Description));
+            Assert.That(doc.From, Is.EqualTo(actual.From));
+            Assert.That(doc.To, Is.EqualTo(actual.To));
+
+            // Assert that the first log with ID 0 is deleted
+            Assert.That(actual.Logs.Any(log => log.Id == 0), Is.False);
+
+            _elasticSearchService.DeleteTourDocument("0");
+        }
+
+
+
+
+
     }
+
 }

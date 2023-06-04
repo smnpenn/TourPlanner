@@ -70,7 +70,7 @@ namespace TourPlanner.DAL.ElasticSearch
             if (response.Result == Result.Created)
             {
                 Console.WriteLine("Successfully created!");
-                return response.ToString();
+                return "created";
             }
             else
             {
