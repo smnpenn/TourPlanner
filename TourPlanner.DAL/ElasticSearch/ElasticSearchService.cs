@@ -29,7 +29,7 @@ namespace TourPlanner.DAL.ElasticSearch
             var settings = new ConnectionSettings(pool)
                 .CertificateFingerprint("54:44:ec:01:47:37:9d:9f:58:dd:1a:be:54:bf:3b:4c:72:0e:a6:c7:19:67:60:ab:63:19:fc:0f:00:ee:53:ce") // fuck this
                 .BasicAuthentication("elastic", "elastic")
-                .DefaultIndex("testindex-001")
+                .DefaultIndex("tours-v1")
                 .DefaultMappingFor<ElasticTourDocument>(i => i.IndexName("tours-v1"))
                 // .DefaultMappingFor<ElasticTourLogDocument>(i => i.IndexName("tourlogs-v1"))
                 .EnableApiVersioningHeader();
@@ -37,15 +37,34 @@ namespace TourPlanner.DAL.ElasticSearch
 
         }
 
+        // Check connection
 
-        public async Task<string> IndexTourDocument(int doc_id, string name, string description, string from, string to, int index, ObservableCollection<ElasticTourLog> logs)
+        public bool CheckConnection()
         {
+            var pingResponse = _client.Ping();
 
-            var data = new ElasticTourDocument(doc_id, name, description, from, to, logs);
+            if (pingResponse.IsValid)
+            {
+                Console.WriteLine("Successfully connected to Elasticsearch");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Failed to connect to Elasticsearch");
+                return false;
+            }
+        }
+
+        // Index new Tour
+        public async Task<string> IndexTourDocument(Tour tour)
+        {
+            ObservableCollection<ElasticTourLog> logs = new ObservableCollection<ElasticTourLog>();
+
+            var data = new ElasticTourDocument(tour.Id, tour.Name, tour.Description, tour.From, tour.To, logs);
 
             var response = await _client.IndexAsync(
                 data, idx => idx
-                .Id(index)
+                .Id(tour.Id)
             );
 
             if (response.Result == Result.Created)
@@ -60,9 +79,9 @@ namespace TourPlanner.DAL.ElasticSearch
             }
         }
 
+        // Search Function
 
-
-        public List<ElasticTourDocument> FuzzySearchLogs(string givenString)
+        public List<ElasticTourDocument> FuzzySearch(string givenString)
         {
             List<ElasticTourDocument> tourDocs = new List<ElasticTourDocument>();
             var response = _client.Search<ElasticTourDocument>(s => s
@@ -104,6 +123,7 @@ namespace TourPlanner.DAL.ElasticSearch
             return tourDocs;
         }
 
+        // Get TourDocument based on id
         public ElasticTourDocument GetElasticTourDocumentById(int id)
         {
             var response = _client.Get<ElasticTourDocument>(id, g => g.Index("tours-v1"));
@@ -116,6 +136,7 @@ namespace TourPlanner.DAL.ElasticSearch
             return null;
         }
 
+        // add new tourlog to Tour
         public bool AddTourLog(ElasticTourDocument tour)
         {
             var updateResponse = _client.Update<ElasticTourDocument>(tour.Id, u => u
@@ -132,39 +153,142 @@ namespace TourPlanner.DAL.ElasticSearch
             }
         }
 
-        // Update documents
-        public async Task<string> UpdateTourDocument(string id, int doc_id, string name, string description, string from, string to, ObservableCollection<ElasticTourLog> logs)
+        // Update Tour
+        public bool UpdateTour(int tourid, string newName, string newDescription)
         {
-            var updateRequest = new UpdateRequest<ElasticTourDocument, ElasticTourDocument>(id)
+            ElasticTourDocument existingTour = GetElasticTourDocumentById(tourid);
+            if (existingTour != null)
             {
-                Doc = new ElasticTourDocument(doc_id, name, description, from, to, logs)
+                existingTour.Name = newName;
+                existingTour.Description = newDescription;
 
-            };
+                var updateResponse = _client.Update<ElasticTourDocument, object>(existingTour.Id, u => u
+                    .Script(s => s
+                        .Source("ctx._source.name = params.newName; ctx._source.description = params.newDescription")
+                        .Params(p => p
+                            .Add("newName", newName)
+                            .Add("newDescription", newDescription)
+                            )
+                        )
+                    .Refresh(Refresh.True));
 
-            var updateResponse = await _client.UpdateAsync(updateRequest);
-
-            if (updateResponse.IsValid)
-            {
-                return "Document successfully updated";
+                if (updateResponse.IsValid)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
-                return "There was an error updating the document";
+                return false;
             }
         }
 
+        // Update Tour Logs
+        public bool UpdateTourLog(int tourid, int logId, string newName, string newComment, double newRating, int newTotalTime, DateTime newDate, double newDifficulty)
+        {
+            ElasticTourDocument existingTour = GetElasticTourDocumentById(tourid);
+
+            if (existingTour != null)
+            {
+
+                ElasticTourLog exisitingLog = existingTour.Logs.FirstOrDefault(log => log.Id == logId);
+                if (exisitingLog != null)
+                {
+                    exisitingLog.Name = newName;
+                    exisitingLog.Comment = newComment;
+                    exisitingLog.Rating = newRating;
+                    exisitingLog.DateTime = newDate;
+                    exisitingLog.Difficulty = newDifficulty;
+                    exisitingLog.TotalTime = newTotalTime;
+
+                    var updateResponse = _client.Update<ElasticTourDocument>(existingTour.Id, u => u
+                        .Doc(existingTour)
+                        .Refresh(Refresh.True));
+
+                    if (updateResponse.IsValid)
+                    {
+                        Console.WriteLine("Updating tour was successful!");
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+        public bool DeleteLogById(int tourId, int logId)
+        {
+            ElasticTourDocument tourDocument = ElasticSearchService.Instance.GetElasticTourDocumentById(tourId);
+            if (tourDocument == null)
+            {
+                return false;
+            }
+
+            int logIndex = -1;
+            for (int i = 0; i < tourDocument.Logs.Count; i++)
+            {
+                if (tourDocument.Logs[i].Id == logId)
+                {
+                    logIndex = i;
+                    break;
+                }
+            }
+
+            if (logIndex == -1)
+            {
+                // Log with given ID not found
+                return false;
+            }
+
+
+            tourDocument.Logs.RemoveAt(logIndex);
+
+            var updateResponse = _client.Update<ElasticTourDocument>(tourDocument.Id, u => u
+                        .Doc(tourDocument)
+                        .Refresh(Refresh.True));
+
+            if (updateResponse.IsValid)
+            {
+                Console.WriteLine("Updating tour was successful!");
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+
+
         // Delete Documents
-        public string DeleteTourDocument(string id)
+        public bool DeleteTourDocument(string id)
         {
             var deleteResponse = _client.Delete<ElasticTourDocument>(id);
 
             if (deleteResponse.IsValid)
             {
-                return "Document deleted successfully";
+                return true;
             }
             else
             {
-                return "Failed to delete the document";
+                return false;
             }
         }
     }
