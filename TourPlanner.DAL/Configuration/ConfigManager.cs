@@ -1,9 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TourPlanner.DAL.Configuration
 {
@@ -44,5 +39,80 @@ namespace TourPlanner.DAL.Configuration
             }
             return null;
         }
+
+        public string? GetESUser()
+        {
+            string path = AppDomain.CurrentDomain.BaseDirectory + "/config.json";
+            if (File.Exists(path))
+            {
+                var pConfig = JsonConvert.DeserializeObject<Dictionary<string, object>>(File.ReadAllText(path));
+                if (pConfig == null || pConfig["elasticuser"] == null)
+                {
+                    return null;
+                }
+
+                return pConfig["elasticuser"].ToString();
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public string? GetESPassword()
+        {
+            string path = AppDomain.CurrentDomain.BaseDirectory + "/config.json";
+            if (File.Exists(path))
+            {
+                var pConfig = JsonConvert.DeserializeObject<Dictionary<string, object>>(File.ReadAllText(path));
+                if (pConfig == null || pConfig["elasticpassword"] == null)
+                {
+                    return null;
+                }
+
+                return pConfig["elasticpassword"].ToString();
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public string? GetESIndex()
+        {
+            string path = AppDomain.CurrentDomain.BaseDirectory + "/config.json";
+            if (File.Exists(path))
+            {
+                var pConfig = JsonConvert.DeserializeObject<Dictionary<string, object>>(File.ReadAllText(path));
+                if (pConfig == null || pConfig["defaultindex"] == null)
+                {
+                    return null;
+                }
+
+                return pConfig["defaultindex"].ToString();
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public string? GetESFingerprint()
+        {
+            string path = AppDomain.CurrentDomain.BaseDirectory + "/config.json";
+            if (File.Exists(path))
+            {
+                var pConfig = JsonConvert.DeserializeObject<Dictionary<string, object>>(File.ReadAllText(path));
+                if (pConfig == null || pConfig["fingerprint"] == null)
+                {
+                    return null;
+                }
+
+                return pConfig["fingerprint"].ToString();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
     }
 }

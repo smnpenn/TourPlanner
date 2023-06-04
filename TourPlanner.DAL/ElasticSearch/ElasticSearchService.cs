@@ -25,15 +25,27 @@ namespace TourPlanner.DAL.ElasticSearch
         private readonly ElasticClient _client;
         public ElasticSearchService()
         {
-            var pool = new SingleNodeConnectionPool(new Uri("https://localhost:9200"));
-            var settings = new ConnectionSettings(pool)
-                .CertificateFingerprint("54:44:ec:01:47:37:9d:9f:58:dd:1a:be:54:bf:3b:4c:72:0e:a6:c7:19:67:60:ab:63:19:fc:0f:00:ee:53:ce") // fuck this
-                .BasicAuthentication("elastic", "elastic")
-                .DefaultIndex("tours-v1")
-                .DefaultMappingFor<ElasticTourDocument>(i => i.IndexName("tours-v1"))
-                // .DefaultMappingFor<ElasticTourLogDocument>(i => i.IndexName("tourlogs-v1"))
-                .EnableApiVersioningHeader();
-            _client = new ElasticClient(settings);
+            Configuration.IConfigManager configManager = new Configuration.ConfigManager();
+            string? esusername = configManager.GetESUser();
+            string? espassword = configManager.GetESPassword();
+            string? esdefaultindex = configManager.GetESIndex();
+            string? esFinderprint = configManager.GetESFingerprint();
+            if (esusername == null || espassword == null || esdefaultindex == null || esFinderprint == null)
+            {
+                throw new IOException("ES config is missing or invalid.");
+            }
+            else
+            {
+                var pool = new SingleNodeConnectionPool(new Uri("https://localhost:9200"));
+                var settings = new ConnectionSettings(pool)
+                    .CertificateFingerprint(esFinderprint) // fuck this
+                    .BasicAuthentication(esusername, espassword)
+                    .DefaultIndex(esdefaultindex)
+                    .DefaultMappingFor<ElasticTourDocument>(i => i.IndexName(esdefaultindex))
+                    // .DefaultMappingFor<ElasticTourLogDocument>(i => i.IndexName("tourlogs-v1"))
+                    .EnableApiVersioningHeader();
+                _client = new ElasticClient(settings);
+            }
 
         }
 

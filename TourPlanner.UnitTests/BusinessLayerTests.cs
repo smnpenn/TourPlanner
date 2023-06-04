@@ -21,6 +21,13 @@ namespace TourPlanner.UnitTests
         }
 
         [Test]
+        public void BusinessLayer_CheckESConnection()
+        {
+            var res = _elasticSearchService.CheckConnection();
+            Assert.IsTrue(res);
+        }
+
+        [Test]
         public async Task BusinessLayer_CreateValidRoute()
         {
             //Arrange
