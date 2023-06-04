@@ -208,6 +208,11 @@ namespace TourPlanner.BL
             }
         }
 
+        public List<ElasticTourDocument> Search(string searchtext)
+        {
+            return ElasticSearchService.Instance.FuzzySearch(searchtext);
+        }
+
         public async Task<Tour> GetRoute(Tour tour)
         {
             return await apiHandler.GetRoute(tour);
