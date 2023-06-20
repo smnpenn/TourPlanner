@@ -23,7 +23,7 @@ Now we can use the docker-compose file to setup our containers for the applicati
 1.) Run `docker compose up` in the location where the compose file is located.
 
 # Credentials for DBConfig
-When starting the ElasticSearch-Container for the first time, you will get a window which displays the password and the HTTP CA certificate:
+When starting the ElasticSearch-Container (es-node01) for the first time, you will get a window which displays the password and the HTTP CA certificate:
 
 ![image](https://github.com/smnpenn/TourPlanner/assets/80070874/9a0ec9ac-768d-451b-b5d5-29689b1e10ab)
 
