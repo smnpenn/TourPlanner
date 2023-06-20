@@ -37,7 +37,7 @@ These credentials are required so that our application can communicate the Elast
 
 4.) `elasticuser` -> elastic username from ES console in docker
 
-# Setup Mapping Kibana
+# Configuration of the Mapping in Kibana
 We need to setup the mapping in Kibana in order to get the FuzzySearch working correctly.
 
 
