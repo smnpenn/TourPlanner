@@ -42,7 +42,7 @@ You can find them by using the search functionality in docker desktop.
 We need to setup the mapping in Kibana in order to get the FuzzySearch working correctly.
 
 
-1.) Type `localhost:5601` into your browser of choice. Enter you credentials
+1.) Type `localhost:5601` into your browser of choice. Enter your credentials (credentials from the es-node01 console output) 
 
 2.) Navigate to the DevTools in Kibana
 
