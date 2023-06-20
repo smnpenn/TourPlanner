@@ -1,0 +1,7 @@
+@startuml
+class ProjectSetupTests {
+    + ProjectSetup_DatabaseConnection() : void
+    + ProjectSetup_Log4NetConfig() : void
+    + <<async>> ProjectSetup_APIConnection() : Task
+}
+@enduml

@@ -1,0 +1,10 @@
+@startuml
+class DialogService {
+    + ShowDialog(dataContext:object, onDialogClose:Action<T>) : void
+    + CloseDialog(viewModel:BaseViewModel) : void
+    + ShowSaveFileDialog(defaultName:string, ext:string) : string?
+    + ShowOpenFileDialog(ext:string) : Stream?
+    + OpenFileExplorer(filename:string) : void
+}
+DialogService --> "Instance" DialogService
+@enduml

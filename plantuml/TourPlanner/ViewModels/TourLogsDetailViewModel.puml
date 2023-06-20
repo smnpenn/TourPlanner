@@ -1,0 +1,8 @@
+@startuml
+class TourLogsDetailViewModel {
+    + TourLogsDetailViewModel(tourLogs:ObservableCollection<TourLog>)
+}
+class "ObservableCollection`1"<T> {
+}
+TourLogsDetailViewModel --> "Logs<TourLog>" "ObservableCollection`1"
+@enduml

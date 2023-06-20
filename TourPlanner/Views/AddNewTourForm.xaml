@@ -28,6 +28,16 @@
 
             <Button Content="Submit" HorizontalAlignment="Left" Margin="335,241,0,0" Name="Submit" Width="70" Height="23" VerticalAlignment="Top" Command="{Binding AddTourCommand}"/>
             <Button Content="Cancel" Margin="259,241,0,0" Name="Cancel" HorizontalAlignment="Left" Width="70" Height="23" VerticalAlignment="Top" Command="{Binding CloseWindowCommand}"/>
+            <TextBlock Text="{Binding Errors}" Foreground="Red" Margin="-1,211,0,36" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" TextAlignment="Center" >
+                <TextBlock.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </TextBlock.RenderTransform>
+            </TextBlock>
         </Grid>
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -26,6 +27,51 @@ namespace TourPlanner.UI.ViewModels
                 }
             }
         }
+
+        // Input validation
+
+        private string? _errors;
+        public string? Errors
+        {
+            get { return _errors; }
+            set
+            {
+                _errors = value;
+                OnPropertyChanged(nameof(Errors));
+            }
+        }
+
+        private List<string> GetValidationErrors()
+        {
+            List<string> errors = new List<string>();
+
+            if (string.IsNullOrEmpty(Name))
+            {
+                errors.Add("Name cannot be empty.");
+            }
+
+            if (string.IsNullOrEmpty(Comment))
+            {
+                errors.Add("Comment cannot be empty.");
+            }
+            if (NewRating < 1)
+            {
+                errors.Add("Rating cannot be lower than 1 star");
+            }
+            if (Difficulty < 1)
+            {
+                errors.Add("Difficulty must be greater than 0");
+            }
+            if (Time < 1)
+            {
+                errors.Add("Total time must be greater than 0");
+            }
+
+            // Add validation checks for other properties as needed
+
+            return errors;
+        }
+
 
         public string Comment { get; set; }
 
@@ -90,9 +136,14 @@ namespace TourPlanner.UI.ViewModels
         public void AddNewTourLog()
         {
             TourLog log = new TourLog(Name, relatedTour, Date, Comment, Difficulty, Time, Convert.ToDouble(NewRating));
-            bl.AddTourLog(log);
-            vm.Items.Add(log);
-            bl.CalculateAdditionalAttributes(relatedTour);
+            Errors = string.Join(Environment.NewLine, GetValidationErrors());
+            if (string.IsNullOrEmpty(Errors))
+            {
+                bl.AddTourLog(log);
+                vm.Items.Add(log);
+                bl.CalculateAdditionalAttributes(relatedTour);
+            }
+
         }
 
         public void CloseWindow()

@@ -1,0 +1,7 @@
+@startuml
+class BaseViewModel {
+    +  <<event>> PropertyChanged : PropertyChangedEventHandler? 
+    + BaseViewModel()
+}
+INotifyPropertyChanged <|-- BaseViewModel
+@enduml

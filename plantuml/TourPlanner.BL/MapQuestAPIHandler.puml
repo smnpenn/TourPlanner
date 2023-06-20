@@ -1,0 +1,8 @@
+@startuml
+class MapQuestAPIHandler {
+    + MapQuestAPIHandler()
+    + <<async>> GetRoute(tour:Tour) : Task<Tour>
+    + <<async>> GetStaticMap(session:string) : Task<byte[]>
+}
+MapQuestAPIHandler o-> "APIKey" String
+@enduml

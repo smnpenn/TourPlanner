@@ -1,0 +1,5 @@
+@startuml
+class LoggerFactory <<static>> {
+    + {static} GetLogger() : ILoggerWrapper
+}
+@enduml

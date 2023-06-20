@@ -1,0 +1,20 @@
+@startuml
+class MainViewModel {
+    + IsImageEnabled : bool <<get>> <<set>>
+    + IsDataGridVisible : bool <<get>> <<set>>
+    + SearchText : string <<get>> <<set>>
+    + MainViewModel(bl:ITourPlannerManager, tourLogBarVM:TourLogsSideListBarViewModel, tourBarVM:TourSideListBarViewModel)
+    + ShowTourDetailView() : void
+    + ShowTourLogsDetailView() : void
+}
+class "ObservableCollection`1"<T> {
+}
+BaseViewModel <|-- MainViewModel
+MainViewModel --> "TourTitle" String
+MainViewModel --> "TourImage" BitmapImage
+MainViewModel --> "SearchResults<ElasticTourDocument>" "ObservableCollection`1"
+MainViewModel --> "ShowDetailsCommand" ICommand
+MainViewModel --> "ShowLogDetailsCommand" ICommand
+MainViewModel --> "MoreOptionsCommand" ICommand
+MainViewModel --> "SearchCommand" ICommand
+@enduml

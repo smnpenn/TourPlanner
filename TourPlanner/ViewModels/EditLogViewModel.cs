@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using TourPlanner.BL;
 using TourPlanner.Model;
 using TourPlanner.UI.Service;
-using System.Windows;
 
 namespace TourPlanner.UI.ViewModels
 {
@@ -45,6 +43,52 @@ namespace TourPlanner.UI.ViewModels
 
             }
         }
+
+        // Input validation
+
+        private string? _errors;
+        public string? Errors
+        {
+            get { return _errors; }
+            set
+            {
+                _errors = value;
+                OnPropertyChanged(nameof(Errors));
+            }
+        }
+
+        private List<string> GetValidationErrors()
+        {
+            List<string> errors = new List<string>();
+
+            if (string.IsNullOrEmpty(Name))
+            {
+                errors.Add("Name cannot be empty.");
+            }
+
+            if (string.IsNullOrEmpty(Comment))
+            {
+                errors.Add("Comment cannot be empty.");
+            }
+            if (Rating < 1)
+            {
+                errors.Add("Rating cannot be lower than 1 star");
+            }
+            if (Difficulty < 1)
+            {
+                errors.Add("Difficulty must be greater than 0");
+            }
+            if (Time < 1)
+            {
+                errors.Add("Total time must be greater than 0");
+            }
+
+            // Add validation checks for other properties as needed
+
+            return errors;
+        }
+
+
 
         public ObservableCollection<Brush> Stars { get; set; }
 
@@ -92,28 +136,32 @@ namespace TourPlanner.UI.ViewModels
 
         public void UpdateLog()
         {
-            if(currentLog != null)
+            if (currentLog != null)
             {
-                currentLog.Name = Name;
-                currentLog.Comment = Comment;
-                currentLog.DateTime = Date;
-                currentLog.Rating = Rating;
-                currentLog.Difficulty = Difficulty;
-                currentLog.TotalTime = Time;
-
-                int index = vm.Items.IndexOf(vm.Items.Where(X => X.Id == currentLog.Id).First());
-                if (index > -1)
+                Errors = string.Join(Environment.NewLine, GetValidationErrors());
+                if (string.IsNullOrEmpty(Errors))
                 {
-                    vm.Items[index] = currentLog;
-                    bl.UpdateTourLog(currentLog);
+                    currentLog.Name = Name;
+                    currentLog.Comment = Comment;
+                    currentLog.DateTime = Date;
+                    currentLog.Rating = Rating;
+                    currentLog.Difficulty = Difficulty;
+                    currentLog.TotalTime = Time;
 
-                    MessageBox.Show("Update successful");
-                    CloseWindow();
-                }
-                else
-                {
-                    logger.Error("Edit Log: could not update data");
-                    MessageBox.Show("Error while updating data");
+                    int index = vm.Items.IndexOf(vm.Items.Where(X => X.Id == currentLog.Id).First());
+                    if (index > -1)
+                    {
+                        vm.Items[index] = currentLog;
+                        bl.UpdateTourLog(currentLog);
+
+                        MessageBox.Show("Update successful");
+                        CloseWindow();
+                    }
+                    else
+                    {
+                        logger.Error("Edit Log: could not update data");
+                        MessageBox.Show("Error while updating data");
+                    }
                 }
             }
             else

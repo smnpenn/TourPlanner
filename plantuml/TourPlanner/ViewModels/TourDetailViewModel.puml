@@ -1,0 +1,14 @@
+@startuml
+class TourDetailViewModel {
+    + TourDetailViewModel(tour:Tour)
+}
+TourDetailViewModel --> "Name" String
+TourDetailViewModel --> "Description" String
+TourDetailViewModel --> "FromText" String
+TourDetailViewModel --> "ToText" String
+TourDetailViewModel --> "DistanceText" String
+TourDetailViewModel --> "EstimatedTimeText" String
+TourDetailViewModel --> "TransportType" TransportType
+TourDetailViewModel --> "PopularityText" String
+TourDetailViewModel --> "ChildFriendlinessText" String
+@enduml

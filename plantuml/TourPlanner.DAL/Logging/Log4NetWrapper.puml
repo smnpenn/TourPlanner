@@ -1,0 +1,11 @@
+@startuml
+class Log4NetWrapper {
+    + {static} CreateLogger(configPath:string) : Log4NetWrapper
+    + Debug(message:string) : void
+    + Error(message:string) : void
+    + Fatal(message:string) : void
+    + Info(message:string) : void
+    + Warn(message:string) : void
+}
+ILoggerWrapper <|-- Log4NetWrapper
+@enduml

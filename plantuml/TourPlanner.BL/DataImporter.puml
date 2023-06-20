@@ -1,0 +1,6 @@
+@startuml
+class DataImporter {
+    + DataImporter()
+    + ImportData(fileStream:Stream) : List<Tour>
+}
+@enduml

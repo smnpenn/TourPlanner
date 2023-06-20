@@ -1,0 +1,6 @@
+@startuml
+class EditTourForm <<partial>> {
+    + EditTourForm()
+}
+Window <|-- EditTourForm
+@enduml

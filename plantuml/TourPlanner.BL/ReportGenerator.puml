@@ -1,0 +1,7 @@
+@startuml
+class ReportGenerator {
+    + ReportGenerator()
+    + GenerateTourReport(tour:Tour, path:string) : void
+    + GenerateSummaryReport(tours:ObservableCollection<Tour>, path:string) : void
+}
+@enduml

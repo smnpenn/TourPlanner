@@ -8,7 +8,7 @@
         Title="EditTourForm" Height="300" Width="480" ResizeMode="NoResize">
     <Grid Background="#0C5D97">
         <TextBlock Height="36" HorizontalAlignment="Left" Margin="10,10,0,0" Name="textBlockHeading" Text="Edit Tour" VerticalAlignment="Top" Width="160"  FontSize="23" FontStretch="ExtraCondensed" FontWeight="Bold" Foreground="white"/>
-        <Grid Margin="29,65,29,0" Background="#0C5D97" Height="169" VerticalAlignment="Top">
+        <Grid Margin="29,65,29,0" Background="#0C5D97" Height="198" VerticalAlignment="Top">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
@@ -20,6 +20,16 @@
 
             <Button Content="Submit" HorizontalAlignment="Left" Margin="335,132,0,0" Name="Submit" Width="70" Height="23" VerticalAlignment="Top" Command="{Binding EditTourCommand}"/>
             <Button Content="Cancel" Margin="259,132,0,0" Name="Cancel" HorizontalAlignment="Left" Width="70" Height="23" VerticalAlignment="Top" Command="{Binding CloseWindowCommand}"/>
+            <TextBlock Text="{Binding Errors}" Foreground="Red" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" TextAlignment="Center" HorizontalAlignment="Center" Width="422" Height="24" VerticalAlignment="Top" Margin="0,174,0,0" >
+                <TextBlock.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </TextBlock.RenderTransform>
+            </TextBlock>
         </Grid>
     </Grid>
 </Window>

@@ -38,7 +38,7 @@ namespace TourPlanner.DAL.ElasticSearch
             {
                 var pool = new SingleNodeConnectionPool(new Uri("https://localhost:9200"));
                 var settings = new ConnectionSettings(pool)
-                    .CertificateFingerprint(esFinderprint) // fuck this
+                    .CertificateFingerprint(esFinderprint)
                     .BasicAuthentication(esusername, espassword)
                     .DefaultIndex(esdefaultindex)
                     .DefaultMappingFor<ElasticTourDocument>(i => i.IndexName(esdefaultindex))

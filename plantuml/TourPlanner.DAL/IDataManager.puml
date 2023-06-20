@@ -1,0 +1,12 @@
+@startuml
+interface IDataManager {
+    + AddTour(tour:Tour) : void
+    + DeleteTour(tour:Tour) : void
+    + UpdateTour(tour:Tour) : void
+    + AddTourLog(log:TourLog) : void
+    + DeleteTourLog(log:TourLog) : void
+    + UpdateTourLog(log:TourLog) : void
+    + GetTours() : ObservableCollection<Tour>
+    + GetTourLogs(tour:Tour) : ObservableCollection<TourLog>
+}
+@enduml

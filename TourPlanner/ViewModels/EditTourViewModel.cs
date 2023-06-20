@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using TourPlanner.UI.Service;
-using TourPlanner.Model;
-using TourPlanner.BL;
-using System.Diagnostics;
 using System.Windows;
+using System.Windows.Input;
+using TourPlanner.BL;
+using TourPlanner.Model;
+using TourPlanner.UI.Service;
 
 namespace TourPlanner.UI.ViewModels
 {
@@ -24,6 +20,8 @@ namespace TourPlanner.UI.ViewModels
         private DAL.Logging.ILoggerWrapper logger;
         private Tour currentTour;
         private TourSideListBarViewModel vm;
+
+
 
         public EditTourViewModel(Tour tour, ITourPlannerManager bl, TourSideListBarViewModel vm)
         {
@@ -44,32 +42,74 @@ namespace TourPlanner.UI.ViewModels
                 currentTour = tour;
                 Name = currentTour.Name;
 
-                if(currentTour.Description == null)
+                if (currentTour.Description == null)
                     Description = "";
                 else
                     Description = currentTour.Description;
             }
         }
 
+
+        // Input validation
+        private string? _errors;
+        public string? Errors
+        {
+            get { return _errors; }
+            set
+            {
+                _errors = value;
+                OnPropertyChanged(nameof(Errors));
+            }
+        }
+
+        private string GetValidationErrors()
+        {
+            List<string> errors = new List<string>();
+
+            if (string.IsNullOrEmpty(Name))
+            {
+                errors.Add("Name");
+            }
+
+            if (string.IsNullOrEmpty(Description))
+            {
+                errors.Add("Description");
+            }
+
+            if (errors.Count > 0)
+            {
+                string errorFormat = "The following field(s) are empty: {0}";
+                return string.Format(errorFormat, string.Join(", ", errors));
+
+            }
+            // Add validation checks for other properties as needed
+
+            return string.Empty;
+        }
+
         public void EditNewTour()
         {
-            if(currentTour != null)
+            if (currentTour != null)
             {
-                currentTour.Name = Name;
-                currentTour.Description = Description;
-                int index = vm.Items.IndexOf(vm.Items.Where(X => X.Id == currentTour.Id).First());
-                if (index > -1)
+                Errors = GetValidationErrors();
+                if (string.IsNullOrEmpty(Errors))
                 {
-                    vm.Items[index] = currentTour;
-                    bl.UpdateTour(currentTour);
+                    currentTour.Name = Name;
+                    currentTour.Description = Description;
+                    int index = vm.Items.IndexOf(vm.Items.Where(X => X.Id == currentTour.Id).First());
+                    if (index > -1)
+                    {
+                        vm.Items[index] = currentTour;
+                        bl.UpdateTour(currentTour);
 
-                    MessageBox.Show("Update successful");
-                    CloseWindow();
-                }
-                else
-                {
-                    logger.Error("Edit Tour: could not update data");
-                    MessageBox.Show("Error while updating data");
+                        MessageBox.Show("Update successful");
+                        CloseWindow();
+                    }
+                    else
+                    {
+                        logger.Error("Edit Tour: could not update data");
+                        MessageBox.Show("Error while updating data");
+                    }
                 }
             }
             else

@@ -52,6 +52,16 @@
             Background="{Binding Rating, Converter={StaticResource StarColorConverter}, ConverterParameter=5}"
             Command="{Binding UpdateRatingCommand}" CommandParameter="5" />
             </StackPanel>
+            <TextBlock Text="{Binding Errors}" Foreground="Red" Margin="0,260,-1,-13" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="3" TextAlignment="Center" >
+                <TextBlock.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </TextBlock.RenderTransform>
+            </TextBlock>
         </Grid>
     </Grid>
 </Window>

@@ -1,0 +1,14 @@
+@startuml
+class DataManagerMemoryImpl {
+    + DataManagerMemoryImpl()
+    + AddTour(tour:Tour) : void
+    + AddTourLog(log:TourLog) : void
+    + DeleteTour(tour:Tour) : void
+    + DeleteTourLog(log:TourLog) : void
+    + GetTourLogs(tour:Tour) : ObservableCollection<TourLog>
+    + GetTours() : ObservableCollection<Tour>
+    + UpdateTour(tour:Tour) : void
+    + UpdateTourLog(log:TourLog) : void
+}
+IDataManager <|-- DataManagerMemoryImpl
+@enduml

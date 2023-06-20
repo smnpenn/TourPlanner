@@ -1,0 +1,19 @@
+@startuml
+interface ITourPlannerManager {
+    + AddTour(tour:Tour) : void
+    + DeleteTour(tour:Tour) : void
+    + UpdateTour(tour:Tour) : void
+    + AddTourLog(log:TourLog) : void
+    + DeleteTourLog(log:TourLog) : void
+    + UpdateTourLog(log:TourLog) : void
+    + GetTours() : ObservableCollection<Tour>
+    + GetTourLogs(tour:Tour) : ObservableCollection<TourLog>
+    + Search(searchtext:string) : List<ElasticTourDocument>
+    + GetRoute(tour:Tour) : Task<Tour>
+    + ExportData(tours:ObservableCollection<Tour>, path:string) : void
+    + ImportData(fileStream:Stream) : Task<List<Tour>>
+    + GenerateTourReport(tour:Tour, path:string) : void
+    + GenerateSummaryReport(tours:ObservableCollection<Tour>, path:string) : void
+    + CalculateAdditionalAttributes(tour:Tour) : void
+}
+@enduml

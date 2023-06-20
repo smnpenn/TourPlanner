@@ -1,0 +1,12 @@
+@startuml
+class EditTourViewModel {
+    + Name : string <<get>> <<set>>
+    + Description : string <<get>> <<set>>
+    + EditTourViewModel(tour:Tour, bl:ITourPlannerManager, vm:TourSideListBarViewModel)
+    + EditNewTour() : void
+    + CloseWindow() : void
+}
+BaseViewModel <|-- EditTourViewModel
+EditTourViewModel --> "EditTourCommand" ICommand
+EditTourViewModel --> "CloseWindowCommand" ICommand
+@enduml

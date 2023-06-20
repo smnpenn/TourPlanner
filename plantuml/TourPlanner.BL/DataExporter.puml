@@ -1,0 +1,6 @@
+@startuml
+class DataExporter {
+    + DataExporter()
+    + ExportData(data:ObservableCollection<Tour>, path:string) : void
+}
+@enduml

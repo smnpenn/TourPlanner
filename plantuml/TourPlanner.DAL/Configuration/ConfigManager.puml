@@ -1,0 +1,11 @@
+@startuml
+class ConfigManager {
+    + GetDBConfig() : string?
+    + GetAPIKey() : string?
+    + GetESUser() : string?
+    + GetESPassword() : string?
+    + GetESIndex() : string?
+    + GetESFingerprint() : string?
+}
+IConfigManager <|-- ConfigManager
+@enduml

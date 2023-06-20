@@ -1,0 +1,6 @@
+@startuml
+class TourLogsDetailView <<partial>> {
+    + TourLogsDetailView()
+}
+Window <|-- TourLogsDetailView
+@enduml

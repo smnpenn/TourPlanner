@@ -1,0 +1,30 @@
+@startuml
+class BusinessLayerTests {
+    + Setup() : void
+    + BusinessLayer_CheckESConnection() : void
+    + <<async>> BusinessLayer_CreateValidRoute() : Task
+    + <<async>> BusinessLayer_CreateInvalidRoute() : Task
+    + <<async>> BusinessLayer_AddValidTour() : Task
+    + <<async>> BusinessLayer_AddInvalidTour() : Task
+    + <<async>> BusinessLayer_DeleteTour() : Task
+    + <<async>> BusinessLayer_UpdateTour() : Task
+    + <<async>> BusinessLayer_GetTours() : Task
+    + <<async>> BusinessLayer_AddLog() : Task
+    + <<async>> BusinessLayer_AddLog_NonExistingTour() : Task
+    + <<async>> BusinessLayer_DeleteLog() : Task
+    + <<async>> BusinessLayer_UpdateLog() : Task
+    + <<async>> BusinessLayer_GetLogs() : Task
+    + <<async>> BusinessLayer_Export() : Task
+    + <<async>> BusinessLayer_ImportValid() : Task
+    + BusinessLayer_Import_Invalid() : void
+    + <<async>> BusinessLayer_Import_NoLogs_ListGetsInitialized() : Task
+    + <<async>> BusinessLayer_TourReport_FileGetsCreated() : Task
+    + <<async>> BusinessLayer_SummaryReport_FileGetsCreated() : Task
+    + <<async>> BusinessLayer_InsertTourDocument() : Task
+    + <<async>> BusinessLayer_InsertTourDocumentLog() : Task
+    + <<async>> BusinessLayer_UpdateTourDocument() : Task
+    + <<async>> BusinessLayer_UpdateTourDocumentLog() : Task
+    + <<async>> BusinessLayer_DeleteTourDocument() : Task
+    + <<async>> BusinessLayer_DeleteTourLogFromDocument() : Task
+}
+@enduml
