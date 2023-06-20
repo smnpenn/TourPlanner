@@ -1,0 +1,18 @@
+version: '3.3'
+services:
+  postgredb:
+    container_name: tourplanner
+    image: postgis/postgis
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    expose:
+      - 5432
+
+networks:
+  default:
+    name: postgre-service_default
