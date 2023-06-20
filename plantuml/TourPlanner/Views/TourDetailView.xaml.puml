@@ -1,6 +1,0 @@
-@startuml
-class TourDetailView <<partial>> {
-    + TourDetailView()
-}
-Window <|-- TourDetailView
-@enduml

@@ -1,6 +1,0 @@
-@startuml
-class MoreOptionsButton <<partial>> {
-    + MoreOptionsButton()
-}
-UserControl <|-- MoreOptionsButton
-@enduml

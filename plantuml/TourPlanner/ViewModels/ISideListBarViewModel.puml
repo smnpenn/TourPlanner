@@ -1,7 +1,0 @@
-@startuml
-interface ISideListBarViewModel {
-    + AddItem() : void
-    + DeleteItem() : void
-    + EditItem() : void
-}
-@enduml

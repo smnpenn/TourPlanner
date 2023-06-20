@@ -1,6 +1,0 @@
-@startuml
-class SideListBar <<partial>> {
-    + SideListBar()
-}
-UserControl <|-- SideListBar
-@enduml

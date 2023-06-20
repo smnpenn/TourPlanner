@@ -1,9 +1,0 @@
-@startuml
-class TourplannerDBContext {
-}
-class "DbSet`1"<T> {
-}
-DbContext <|-- TourplannerDBContext
-TourplannerDBContext --> "Tours<Tour>" "DbSet`1"
-TourplannerDBContext --> "Logs<TourLog>" "DbSet`1"
-@enduml

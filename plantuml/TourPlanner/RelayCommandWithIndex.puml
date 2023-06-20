@@ -1,9 +1,0 @@
-@startuml
-class RelayCommandIndex {
-    +  <<event>> CanExecuteChanged : EventHandler? 
-    + RelayCommandIndex(execute:Action<int>)
-    + CanExecute(parameter:object?) : bool
-    + Execute(parameter:object?) : void
-}
-ICommand <|-- RelayCommandIndex
-@enduml

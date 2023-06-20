@@ -1,6 +1,0 @@
-@startuml
-class ImportExportButton <<partial>> {
-    + ImportExportButton()
-}
-UserControl <|-- ImportExportButton
-@enduml

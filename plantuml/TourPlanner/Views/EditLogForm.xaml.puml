@@ -1,6 +1,0 @@
-@startuml
-class EditLogForm <<partial>> {
-    + EditLogForm()
-}
-Window <|-- EditLogForm
-@enduml

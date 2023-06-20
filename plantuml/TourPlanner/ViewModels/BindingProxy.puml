@@ -1,7 +1,0 @@
-@startuml
-class BindingProxy {
-    + Data : object <<get>> <<set>>
-}
-Freezable <|-- BindingProxy
-BindingProxy o-> "DataProperty" DependencyProperty
-@enduml

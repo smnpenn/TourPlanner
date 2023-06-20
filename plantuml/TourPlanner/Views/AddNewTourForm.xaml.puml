@@ -1,6 +1,0 @@
-@startuml
-class AddNewTourForm <<partial>> {
-    + AddNewTourForm()
-}
-Window <|-- AddNewTourForm
-@enduml
