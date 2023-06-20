@@ -27,7 +27,7 @@ When starting the ElasticSearch-Container (es-node01) for the first time, you wi
 
 ![image](https://github.com/smnpenn/TourPlanner/assets/80070874/9a0ec9ac-768d-451b-b5d5-29689b1e10ab)
 
-These credentials are required so that our application can communicate the ElasticSearch. You need to add your credentials to the dbconfig.json file. 
+These credentials are required so that our application can communicate with ElasticSearch. You need to add these credentials to the dbconfig.json file. 
 You can find them by using the search functionality in docker desktop. 
 
 1.) `defaultindex` -> change this to tours-v1
